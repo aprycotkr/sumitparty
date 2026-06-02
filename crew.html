@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>크루모집 — 썸잇 (Sumit)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C9A96E;--gold-light:#E8D4A8;--gold-dark:#8A6B3A;--black:#0A0A0A;--dark:#111111;--dark2:#1A1A1A;--dark3:#242424;--white:#FFFFFF;--font-display:'Cormorant Garamond',serif;--font-body:'Montserrat',sans-serif}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);font-weight:300;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(201,169,110,0.1)}
+.nav-logo{font-family:var(--font-display);font-size:1.8rem;font-weight:500;color:var(--gold);letter-spacing:0.15em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--white);text-decoration:none;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;transition:color 0.2s;opacity:0.85}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);opacity:1}
+.nav-menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
+.nav-menu-btn span{display:block;width:24px;height:1px;background:var(--white)}
+.mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-nav.open{display:flex}
+.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-display);font-size:2.5rem;font-weight:300;letter-spacing:0.1em;transition:color 0.2s}
+.mobile-nav a:hover{color:var(--gold)}
+.mobile-nav-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:var(--white);font-size:2rem;cursor:pointer;line-height:1}
+
+/* HERO */
+.crew-hero{min-height:70vh;display:flex;align-items:flex-end;padding:0 3rem 6rem;position:relative;overflow:hidden;border-bottom:1px solid rgba(201,169,110,0.1)}
+.crew-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(201,169,110,0.09) 0%,transparent 55%),var(--black)}
+.crew-hero-content{position:relative;max-width:700px;width:100%}
+.page-label{font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:1.5rem}
+.hero-title{font-family:var(--font-display);font-size:clamp(2.2rem,6vw,6rem);font-weight:300;line-height:1.05;margin-bottom:1.5rem;word-break:keep-all;white-space:normal}
+.hero-title em{font-style:italic;color:var(--gold);display:block}
+.hero-sub{font-size:0.8rem;color:rgba(255,255,255,0.4);line-height:1.9;max-width:500px;font-weight:300}
+
+/* SECTION BASE */
+.section{padding:7rem 3rem}
+.section-label{font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(201,169,110,0.2);max-width:60px}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);font-weight:300;line-height:1.15;margin-bottom:3rem}
+
+/* POSITIONS */
+.roles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(201,169,110,0.1);margin-top:3rem}
+.role-card{background:var(--dark);padding:3rem;transition:background 0.3s}
+.role-card:hover{background:var(--dark2)}
+.role-accent{width:32px;height:2px;background:var(--gold);margin-bottom:1.5rem}
+.role-name{font-family:var(--font-display);font-size:1.8rem;font-weight:400;color:var(--white);margin-bottom:1rem}
+.role-desc{font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.8;font-weight:300;margin-bottom:1.5rem}
+.role-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.role-tag{font-size:0.6rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);padding:0.35rem 0.8rem;border:1px solid rgba(255,255,255,0.12);font-weight:400;transition:all 0.2s}
+.role-tag:hover{border-color:rgba(201,169,110,0.4);color:var(--gold)}
+
+/* BENEFITS */
+.benefits-section{background:var(--dark);padding:7rem 3rem}
+.benefits-list{display:flex;flex-direction:column;gap:0;margin-top:3rem;border-top:1px solid rgba(201,169,110,0.12)}
+.benefit-item{display:flex;align-items:flex-start;gap:2rem;padding:2rem 0;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.2s}
+.benefit-num{font-family:var(--font-display);font-size:1.1rem;color:var(--gold);font-weight:300;min-width:28px;opacity:0.7}
+.benefit-text{font-size:0.82rem;color:rgba(255,255,255,0.65);line-height:1.6;font-weight:300}
+.benefit-text strong{color:var(--white);font-weight:500}
+
+/* QUALIFICATIONS */
+.qual-section{padding:7rem 3rem}
+.qual-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,0.05);margin-top:3rem}
+.qual-item{background:var(--dark);padding:2.5rem;display:flex;align-items:flex-start;gap:1.5rem;transition:background 0.2s}
+.qual-item:hover{background:var(--dark2)}
+.qual-num{font-family:var(--font-display);font-size:1.8rem;font-weight:300;color:var(--gold);line-height:1;min-width:36px}
+.qual-text{font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.7;font-weight:300;padding-top:0.3rem}
+.qual-text strong{color:var(--white);font-weight:500}
+
+/* APPLY FORM */
+.apply-section{background:var(--dark);padding:7rem 3rem}
+.apply-layout{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start}
+.apply-info-title{font-family:var(--font-display);font-size:clamp(2rem,3.5vw,3rem);font-weight:300;line-height:1.2;margin-bottom:1.5rem}
+.apply-info-title em{font-style:italic;color:var(--gold)}
+.apply-info-desc{font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:1.9;font-weight:300;margin-bottom:2rem}
+.apply-contact{padding:1.5rem;border:1px solid rgba(201,169,110,0.2);margin-top:0}
+.apply-contact-label{font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1rem}
+.apply-contact a{display:flex;align-items:center;gap:0.6rem;font-size:0.75rem;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:0.6rem;transition:color 0.2s;font-weight:300}
+.apply-contact a:hover{color:var(--gold)}
+.apply-contact a:last-child{margin-bottom:0}
+
+/* FORM */
+.crew-form{display:flex;flex-direction:column;gap:1.3rem}
+.form-group{display:flex;flex-direction:column;gap:0.5rem}
+.form-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);font-weight:500}
+.form-required{color:var(--gold)}
+.form-input,.form-select,.form-textarea{background:var(--dark3);border:1px solid rgba(255,255,255,0.08);color:var(--white);padding:0.9rem 1rem;font-family:var(--font-body);font-size:0.8rem;font-weight:300;outline:none;transition:border-color 0.2s;width:100%;appearance:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold)}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.15)}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.form-select option{background:var(--dark3)}
+.submit-btn{background:var(--gold);color:var(--black);border:none;padding:1.1rem;font-family:var(--font-body);font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:all 0.3s}
+.submit-btn:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:500;align-items:center;justify-content:center;padding:2rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--dark);border:1px solid rgba(201,169,110,0.25);padding:3rem;max-width:440px;width:100%;text-align:center}
+.modal-icon{font-family:var(--font-display);font-size:3rem;color:var(--gold);margin-bottom:1rem}
+.modal-title{font-family:var(--font-display);font-size:1.8rem;font-weight:300;margin-bottom:1rem}
+.modal-body{font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.9;margin-bottom:2rem}
+.modal-close{background:none;border:1px solid rgba(201,169,110,0.4);color:var(--gold);padding:0.8rem 2.5rem;font-family:var(--font-body);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all 0.2s}
+.modal-close:hover{background:rgba(201,169,110,0.1)}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid rgba(255,255,255,0.06);padding:2.5rem 3rem}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:var(--font-display);font-size:1.5rem;font-weight:500;color:var(--gold);letter-spacing:0.1em}
+.footer-copy{font-size:0.6rem;color:rgba(255,255,255,0.18);letter-spacing:0.1em}
+.footer-legal{display:flex;gap:2rem}
+.footer-legal a{font-size:0.6rem;color:rgba(255,255,255,0.18);text-decoration:none;transition:color 0.2s}
+.footer-legal a:hover{color:rgba(255,255,255,0.5)}
+
+@media(max-width:900px){.apply-layout{grid-template-columns:1fr;gap:3rem}}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}
+  .crew-hero{padding:0 1.2rem 4rem;min-height:60vh}
+  .hero-title{font-size:clamp(2rem,8vw,3rem)}
+  .section,.benefits-section,.qual-section,.apply-section{padding:5rem 1.5rem}
+  .roles-grid{grid-template-columns:1fr}
+  .qual-grid{grid-template-columns:1fr}
+  footer{padding:2rem 1.5rem}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sumit</a>
+  <ul class="nav-links">
+    <li><a href="index.html">홈</a></li>
+    <li><a href="booking.html">파티 신청하기</a></li>
+    <li><a href="reviews.html">후기</a></li>
+    <li><a href="crew.html" class="active">크루모집</a></li>
+  </ul>
+  <button class="nav-menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="toggleMenu()">✕</button>
+  <a href="index.html" onclick="toggleMenu()">홈</a>
+  <a href="booking.html" onclick="toggleMenu()">파티 신청하기</a>
+  <a href="reviews.html" onclick="toggleMenu()">후기</a>
+  <a href="crew.html" onclick="toggleMenu()">크루모집</a>
+</div>
+
+<!-- HERO -->
+<div class="crew-hero">
+  <div class="crew-hero-bg"></div>
+  <div class="crew-hero-content">
+    <p class="page-label">Join the Crew</p>
+    <h1 class="hero-title">부산 최대 솔로파티<em>썸잇 크루 모집</em></h1>
+    <p class="hero-sub">열정 넘치는 크루를 모집합니다.<br>썸잇과 함께 파티를 만들어가요.</p>
+  </div>
+</div>
+
+<!-- POSITIONS -->
+<div class="section">
+  <p class="section-label">Positions</p>
+  <h2 class="section-title">모집 포지션</h2>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-accent"></div>
+      <div class="role-name">파티 크루</div>
+      <p class="role-desc">파티 당일 현장 진행, 게임 MC,<br>분위기 리딩을 담당합니다.</p>
+      <div class="role-tags">
+        <span class="role-tag">현장 진행</span>
+        <span class="role-tag">게임 MC</span>
+        <span class="role-tag">분위기 메이커</span>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-accent"></div>
+      <div class="role-name">포토 크루</div>
+      <p class="role-desc">파티 현장 스냅·영상 촬영 및<br>SNS 콘텐츠 제작을 담당합니다.</p>
+      <div class="role-tags">
+        <span class="role-tag">사진 촬영</span>
+        <span class="role-tag">영상 편집</span>
+        <span class="role-tag">SNS 콘텐츠</span>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-accent"></div>
+      <div class="role-name">홍보 크루</div>
+      <p class="role-desc">인스타그램·블로그 채널 운영 및<br>온라인 홍보를 담당합니다.</p>
+      <div class="role-tags">
+        <span class="role-tag">SNS 운영</span>
+        <span class="role-tag">블로그 후기</span>
+        <span class="role-tag">바이럴 마케팅</span>
+      </div>
+    </div>
+    <div class="role-card" style="background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.15)">
+      <div class="role-accent"></div>
+      <div class="role-name" style="color:rgba(255,255,255,0.3);font-style:italic">추가 모집 예정</div>
+      <p class="role-desc" style="color:rgba(255,255,255,0.2)">전국 지점 확장에 따라 추가 포지션이 공개될 예정입니다.</p>
+      <div class="role-tags">
+        <span class="role-tag" style="opacity:0.4">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BENEFITS -->
+<div class="benefits-section">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-label">Benefits</p>
+    <h2 class="section-title">크루 혜택</h2>
+    <div class="benefits-list">
+      <div class="benefit-item">
+        <span class="benefit-num">①</span>
+        <span class="benefit-text"><strong>파티 무료 참여</strong> — 크루 특별 초대로 썸잇 파티에 무료 참가</span>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-num">②</span>
+        <span class="benefit-text"><strong>역량·포지션별 급여 차등 지급</strong> — 활동 기여도에 따른 합리적인 보상</span>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-num">③</span>
+        <span class="benefit-text"><strong>전국 지점 확장 시 우선 배치</strong> — 썸잇 성장과 함께하는 장기 기회</span>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-num">④</span>
+        <span class="benefit-text"><strong>네트워킹 기회 및 인맥 형성</strong> — 다양한 사람들과 자연스러운 연결</span>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-num">⑤</span>
+        <span class="benefit-text"><strong>썸잇 굿즈 증정</strong> — 공식 크루 굿즈 제공</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUALIFICATIONS -->
+<div class="qual-section">
+  <p class="section-label">Qualifications</p>
+  <h2 class="section-title">이런 분을 찾습니다</h2>
+  <div class="qual-grid">
+    <div class="qual-item">
+      <span class="qual-num">01</span>
+      <span class="qual-text"><strong>외향적이고 에너지 넘치는 분</strong><br>파티 현장에서 분위기를 이끌 수 있는 분</span>
+    </div>
+    <div class="qual-item">
+      <span class="qual-num">02</span>
+      <span class="qual-text"><strong>20대 ~ 30대 솔로</strong> (성별 무관)<br>파티 참가자와 같은 연령대</span>
+    </div>
+    <div class="qual-item">
+      <span class="qual-num">03</span>
+      <span class="qual-text"><strong>SNS 운영 경험 우대</strong> (필수 아님)<br>인스타그램, 블로그 등 운영 경험이 있으면 플러스</span>
+    </div>
+    <div class="qual-item">
+      <span class="qual-num">04</span>
+      <span class="qual-text"><strong>팀워크와 책임감을 중시하는 분</strong><br>약속을 잘 지키고 함께 성장하고 싶은 분</span>
+    </div>
+  </div>
+</div>
+
+<!-- APPLY -->
+<div class="apply-section">
+  <div class="apply-layout">
+    <div>
+      <p class="section-label">Apply</p>
+      <h2 class="apply-info-title">함께<br><em>만들어봐요</em></h2>
+      <p class="apply-info-desc">지원서 작성 후 검토를 거쳐<br>개별 연락드립니다.</p>
+      <div class="apply-contact">
+        <p class="apply-contact-label">문의 채널</p>
+        <a href="https://instagram.com/sum_it.official" target="_blank">
+          <span>📷</span> @sum_it.official
+        </a>
+        <a href="mailto:aprycotkr@naver.com">
+          <span>✉️</span> aprycotkr@naver.com
+        </a>
+      </div>
+    </div>
+    <div class="crew-form">
+      <div class="form-group">
+        <label class="form-label">이름 <span class="form-required">*</span></label>
+        <input type="text" class="form-input" id="crewName" placeholder="홍길동">
+      </div>
+      <div class="form-group">
+        <label class="form-label">연락처 <span class="form-required">*</span></label>
+        <input type="tel" class="form-input" id="crewPhone" placeholder="010-0000-0000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">나이 <span class="form-required">*</span></label>
+        <input type="number" class="form-input" id="crewAge" placeholder="나이 입력" min="1" max="99">
+      </div>
+      <div class="form-group">
+        <label class="form-label">지원 포지션 <span class="form-required">*</span></label>
+        <select class="form-select" id="crewPosition">
+          <option value="" disabled selected>포지션 선택</option>
+          <option value="party">파티 크루</option>
+          <option value="photo">포토 크루</option>
+          <option value="promo">홍보 크루</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">인스타그램 아이디</label>
+        <input type="text" class="form-input" id="crewSns" placeholder="@아이디 (선택)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">자기소개 <span class="form-required">*</span></label>
+        <textarea class="form-textarea" id="crewIntro" placeholder="간단한 자기소개와 지원 동기를 적어주세요"></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitCrew()">지원하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-icon">✦</div>
+    <h2 class="modal-title">지원 완료</h2>
+    <p class="modal-body">
+      지원서가 접수되었습니다.<br>
+      검토 후 <strong>3~5일 내</strong> 개별 연락드립니다.<br><br>
+      문의: @sum_it.official<br>aprycotkr@naver.com
+    </p>
+    <button class="modal-close" onclick="closeModal()">확인</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <div class="footer-logo">Sumit</div>
+    <p class="footer-copy">© 2026 Sumit Party. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="terms.html">이용약관</a>
+      <a href="privacy.html">개인정보처리방침</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
+function submitCrew(){
+  const name=document.getElementById('crewName').value.trim();
+  const phone=document.getElementById('crewPhone').value.trim();
+  const age=document.getElementById('crewAge').value.trim();
+  const pos=document.getElementById('crewPosition').value;
+  const intro=document.getElementById('crewIntro').value.trim();
+  if(!name){alert('이름을 입력해주세요.');return}
+  if(!phone){alert('연락처를 입력해주세요.');return}
+  if(!age){alert('나이를 입력해주세요.');return}
+  if(!pos){alert('지원 포지션을 선택해주세요.');return}
+  if(!intro){alert('자기소개를 작성해주세요.');return}
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  ['crewName','crewPhone','crewAge','crewIntro','crewSns'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('crewPosition').value='';
+}
+</script>
+</body>
+</html>

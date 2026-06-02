@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>썸잇 (Sumit) — 부산 No.1 프리미엄 솔로 파티</title>
+<meta name="description" content="부산 대표 소셜파티 썸잇 | 매주 금토일 진행되는 로테이션 소개팅 파티">
+<meta property="og:title" content="썸잇 (Sumit)">
+<meta property="og:description" content="부산 대표 소셜파티 썸잇 | 매주 금토일 진행되는 로테이션 소개팅 파티">
+<meta property="og:image" content="https://cdn.imweb.me/upload/S2026051851689dbbff8ac/fea3d8186bd16.png">
+<meta property="og:url" content="https://sumitparty.com/">
+<meta name="facebook-domain-verification" content="blurgr5powypwcis3te1kjn7o2479h">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A96E;--gold-light:#E8D4A8;--gold-dark:#8A6B3A;
+  --black:#0A0A0A;--dark:#111111;--dark2:#1A1A1A;--dark3:#242424;
+  --white:#FFFFFF;
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'Montserrat',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);font-weight:300;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 3rem;background:linear-gradient(to bottom,rgba(10,10,10,0.96),transparent);transition:background 0.3s,border 0.3s}
+nav.scrolled{background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(201,169,110,0.08)}
+.nav-logo{font-family:var(--font-display);font-size:1.8rem;font-weight:500;color:var(--gold);letter-spacing:0.15em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--white);text-decoration:none;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;transition:color 0.2s;opacity:0.8}
+.nav-links a:hover{color:var(--gold);opacity:1}
+.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:0.6rem 1.4rem;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;font-family:var(--font-body);font-weight:600;cursor:pointer;transition:all 0.2s;text-decoration:none}
+.nav-cta:hover{background:var(--gold);color:var(--black)}
+.nav-menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
+.nav-menu-btn span{display:block;width:24px;height:1px;background:var(--white)}
+.mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-nav.open{display:flex}
+.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-display);font-size:2.5rem;font-weight:300;letter-spacing:0.1em;transition:color 0.2s}
+.mobile-nav a:hover{color:var(--gold)}
+.mobile-nav-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:var(--white);font-size:2rem;cursor:pointer;line-height:1}
+
+/* ── HERO ── */
+#home{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:20px}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 50% 60%,#1a0a1e 0%,#0d0512 40%,var(--black) 100%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 40% at 50% 100%,rgba(60,10,20,0.5) 0%,transparent 70%)}
+.hero-aurora{position:absolute;inset:0;background:radial-gradient(ellipse 65% 50% at 50% 52%,rgba(201,169,110,0.12) 0%,rgba(150,100,60,0.05) 45%,transparent 70%);animation:aurora 6s ease-in-out infinite alternate;z-index:1}
+@keyframes aurora{0%{opacity:0.5}100%{opacity:1}}
+canvas#starCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
+.hero-content{position:relative;z-index:10;width:100%;max-width:520px;display:flex;flex-direction:column;align-items:center}
+.hero-eyebrow{font-size:0.62rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(201,169,110,0.9);font-weight:600;margin-bottom:1.8rem;opacity:0;animation:fadeUp 0.8s ease forwards 0.2s}
+.hero-logo-wrap{position:relative;width:100%;min-height:90px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;opacity:0;animation:fadeUp 1s ease forwards 0.5s}
+.hero-logo-glow{position:absolute;width:240px;height:240px;background:radial-gradient(circle at center,rgba(201,169,110,0.2) 0%,transparent 65%);animation:logoGlow 3s ease-in-out infinite}
+@keyframes logoGlow{0%,100%{transform:scale(0.9);opacity:0.6}50%{transform:scale(1.1);opacity:1}}
+.hero-logo{width:260px;max-width:85vw;height:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 24px rgba(201,169,110,0.5)) brightness(1.1);animation:floatLogo 4s ease-in-out infinite}
+@keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease forwards 0.9s}
+.hero-btn{display:inline-block;padding:0.95rem 2.5rem;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;transition:all 0.3s;font-family:var(--font-body)}
+.hero-btn:hover{background:var(--gold);color:var(--black);transform:translateY(-2px)}
+.hero-btn.solid{background:var(--gold);color:var(--black)}
+.hero-btn.solid:hover{background:var(--gold-light)}
+.hero-scroll{position:absolute;bottom:2rem;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:10;opacity:0;animation:fadeUp 0.8s ease forwards 1.3s}
+.hero-scroll span{font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+.scroll-line{width:1px;height:28px;background:linear-gradient(to bottom,rgba(201,169,110,0.8),transparent);animation:scrollAnim 2s ease-in-out infinite}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── TICKER ── */
+.ticker{background:var(--gold);padding:0.7rem 0;overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-flex;animation:ticker 22s linear infinite}
+.ticker-item{font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--black);font-weight:700;padding:0 2rem}
+.ticker-dot{color:rgba(0,0,0,0.35);padding:0 0.3rem;font-size:0.62rem}
+
+/* ── BOOKING BANNER ── */
+.booking-banner{display:flex;text-decoration:none;position:relative;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;min-height:260px;align-items:flex-end}
+.booking-banner-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0e0818 0%,#1a0d2e 40%,#0a0a0a 100%)}
+.booking-banner-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(201,169,110,0.08) 0%,transparent 60%)}
+.booking-banner-bg::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.booking-banner-tag{position:absolute;top:20px;right:20px;background:rgba(201,169,110,0.15);border:1px solid rgba(201,169,110,0.5);color:var(--gold);font-size:0.6rem;font-weight:600;padding:6px 14px;letter-spacing:0.2em;text-transform:uppercase;font-family:var(--font-body)}
+.booking-banner-content{position:relative;z-index:1;padding:2.5rem 2.5rem 2.8rem;width:100%}
+.booking-banner-location{font-size:0.6rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.6rem}
+.booking-banner-title{font-family:var(--font-display);font-size:clamp(2rem,6vw,3.5rem);font-weight:300;color:var(--white);margin:0 0 0.3rem;line-height:1.1}
+.booking-banner-sub{font-size:0.72rem;color:rgba(255,255,255,0.45);margin:0 0 2rem;letter-spacing:0.1em;font-weight:300}
+.booking-banner-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--white);color:var(--black);font-size:0.7rem;font-weight:700;padding:0.9rem 2.2rem;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--font-body);animation:pulseCta 2s ease-in-out infinite}
+@keyframes pulseCta{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.35)}50%{box-shadow:0 0 0 10px rgba(255,255,255,0)}}
+
+/* ── SECTION BASE ── */
+.section{padding:7rem 3rem}
+.container{max-width:1200px;margin:0 auto}
+.section-label{font-size:0.58rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(201,169,110,0.2);max-width:60px}
+.section-title{font-family:var(--font-display);font-size:clamp(2.2rem,4.5vw,4rem);font-weight:300;line-height:1.1;margin-bottom:1rem}
+
+/* ── ABOUT ── */
+#about{background:var(--dark)}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start}
+.about-desc{font-size:0.78rem;color:rgba(255,255,255,0.42);line-height:2;font-weight:300;margin-bottom:2.5rem}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(201,169,110,0.1);margin-top:0}
+.about-stat{background:var(--dark);padding:1.5rem}
+.about-stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:0.25rem}
+.about-stat-label{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:500}
+.about-details{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.05)}
+.about-detail-item{background:var(--dark);padding:1.6rem 2rem;display:flex;align-items:flex-start;gap:1.5rem;transition:background 0.2s}
+.about-detail-item:hover{background:var(--dark2)}
+.about-detail-num{font-family:var(--font-display);font-size:1.3rem;color:rgba(201,169,110,0.6);font-style:italic;min-width:28px;line-height:1}
+.about-detail-key{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.25rem}
+.about-detail-val{font-size:0.8rem;color:rgba(255,255,255,0.65);font-weight:300}
+
+/* ── PRICING ── */
+#pricing{background:var(--black)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.1);margin-top:4rem}
+.price-card{background:var(--dark);padding:2.8rem 2.2rem;transition:background 0.2s}
+.price-card:hover{background:var(--dark2)}
+.price-card.featured{background:rgba(201,169,110,0.05);border:2px solid rgba(201,169,110,0.25)}
+.price-badge{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1rem}
+.price-name{font-family:var(--font-display);font-size:1.5rem;font-weight:400;color:var(--white);margin-bottom:0.3rem}
+.price-desc{font-size:0.62rem;color:rgba(255,255,255,0.28);letter-spacing:0.08em;margin-bottom:2rem;font-weight:300}
+.price-divider{height:1px;background:rgba(201,169,110,0.12);margin-bottom:1.8rem}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem}
+.price-gender{font-size:0.65rem;color:rgba(255,255,255,0.38);font-weight:300}
+.price-amount{font-family:var(--font-display);font-size:1.7rem;font-weight:300;color:var(--white)}
+.price-amount sup{font-size:0.7rem;font-family:var(--font-body);color:rgba(255,255,255,0.35);font-weight:300;vertical-align:super}
+.price-card.featured .price-amount{color:var(--gold)}
+.price-note{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.05);font-size:0.62rem;color:rgba(255,255,255,0.25);line-height:1.7;font-weight:300}
+.price-note em{color:var(--gold);font-style:normal}
+.price-cta{display:block;text-align:center;margin-top:2rem;padding:0.75rem;border:1px solid rgba(201,169,110,0.3);color:var(--gold);text-decoration:none;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;transition:all 0.2s}
+.price-cta:hover{background:var(--gold);color:var(--black)}
+
+/* ── SCHEDULE ── */
+#schedule{background:var(--dark)}
+.sc-times{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.08);margin-top:4rem;margin-bottom:4rem}
+.sc-time-col{background:var(--dark);padding:2.5rem 2rem;text-align:center;transition:background 0.2s}
+.sc-time-col:hover{background:var(--dark2)}
+.sc-day-name{font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.8rem}
+.sc-time-range{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:300;color:var(--white);line-height:1;margin-bottom:0}
+.sc-tl-title{font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:2.5rem}
+.sc-tl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.sc-tl-col{}
+.sc-tl-day{font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:600;margin-bottom:1rem}
+.sc-tl-row{display:flex;align-items:center;gap:1rem;padding:0.85rem 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.sc-tl-row:last-child{border-bottom:none}
+.sc-tl-time{font-size:0.85rem;font-weight:600;color:var(--gold);min-width:44px;letter-spacing:0.02em}
+.sc-tl-desc{font-size:0.72rem;color:rgba(255,255,255,0.45);line-height:1.5;font-weight:300}
+
+/* ── STATS ── */
+#stats{background:var(--black);padding:5rem 0;border-top:1px solid rgba(201,169,110,0.07);border-bottom:1px solid rgba(201,169,110,0.07)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-item{padding:3rem 2rem;text-align:center;border-right:1px solid rgba(201,169,110,0.07)}
+.stat-item:last-child{border-right:none}
+.stat-number{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;color:var(--white);line-height:1;margin-bottom:0.5rem}
+.stat-label-top{font-size:0.52rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:600;margin-bottom:0.5rem}
+.stat-label-ko{font-size:0.68rem;color:rgba(255,255,255,0.35);font-weight:300}
+
+/* ── REVIEWS ── */
+#reviews{background:var(--dark)}
+.reviews-intro{font-size:0.78rem;color:rgba(255,255,255,0.35);line-height:1.9;max-width:480px;margin-bottom:3.5rem;font-weight:300}
+.reviews-list{display:flex;flex-direction:column;gap:0;border-top:0.5px solid rgba(255,255,255,0.07)}
+.review-item{display:flex;align-items:center;gap:1.5rem;padding:1.5rem 0;border-bottom:0.5px solid rgba(255,255,255,0.07);text-decoration:none;transition:background 0.2s}
+.review-item:hover .review-item-title{color:var(--gold-light)}
+.review-thumb{width:72px;height:72px;object-fit:cover;flex-shrink:0;background:var(--dark3);filter:brightness(0.85)}
+.review-source{font-size:0.55rem;color:var(--gold);font-weight:600;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.3rem}
+.review-item-title{font-size:0.82rem;font-weight:400;color:rgba(255,255,255,0.82);margin:0 0 0.3rem;line-height:1.5;transition:color 0.2s;font-family:var(--font-body)}
+.review-item-desc{font-size:0.68rem;color:rgba(255,255,255,0.32);line-height:1.6;font-weight:300}
+.review-arrow{margin-left:auto;color:rgba(255,255,255,0.15);font-size:1.2rem;flex-shrink:0;transition:color 0.2s}
+.review-item:hover .review-arrow{color:var(--gold)}
+.review-more-btn{display:inline-block;margin-top:2.5rem;font-size:0.62rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:500;transition:opacity 0.2s;padding:0.8rem 2rem;border:1px solid rgba(201,169,110,0.3)}
+.review-more-btn:hover{background:rgba(201,169,110,0.05);opacity:1}
+
+/* ── CTA ── */
+#cta{padding:10rem 0;background:var(--black);text-align:center;position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,169,110,0.07) 0%,transparent 65%)}
+.cta-content{position:relative;z-index:1}
+.cta-title{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,5rem);font-weight:300;line-height:1.2;margin-bottom:1.5rem}
+.cta-title em{font-style:italic;color:var(--gold)}
+.cta-sub{font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:3rem}
+.cta-btn{display:inline-block;padding:1.1rem 4rem;background:var(--gold);color:var(--black);text-decoration:none;font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;font-weight:700;transition:all 0.3s}
+.cta-btn:hover{background:var(--gold-light);transform:translateY(-2px)}
+
+/* ── FOOTER ── */
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);padding:4rem 3rem 2rem}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:4rem;max-width:1200px;margin:0 auto 3.5rem}
+.footer-brand{font-family:var(--font-display);font-size:2rem;font-weight:500;color:var(--gold);letter-spacing:0.1em;margin-bottom:1rem}
+.footer-tagline{font-size:0.72rem;color:rgba(255,255,255,0.28);line-height:1.9;font-weight:300;font-style:italic;font-family:var(--font-display);word-spacing:normal;letter-spacing:0.01em}
+.footer-heading{font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1.3rem}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:0.7rem}
+.footer-links a{color:rgba(255,255,255,0.38);text-decoration:none;font-size:0.72rem;transition:color 0.2s;font-weight:300}
+.footer-links a:hover{color:var(--gold)}
+.footer-info{font-size:0.68rem;color:rgba(255,255,255,0.22);line-height:2.2;font-weight:300}
+.footer-info a{color:var(--gold);text-decoration:none}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1200px;margin:0 auto}
+.footer-copy{font-size:0.58rem;color:rgba(255,255,255,0.15);letter-spacing:0.1em}
+.footer-legal{display:flex;gap:2rem}
+.footer-legal a{font-size:0.58rem;color:rgba(255,255,255,0.15);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s}
+.footer-legal a:hover{color:rgba(255,255,255,0.4)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .about-layout{grid-template-columns:1fr;gap:3rem}
+  .pricing-grid{grid-template-columns:1fr}
+  .sc-tl-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(201,169,110,0.07);padding:2rem}
+  .stat-item:nth-child(odd){border-right:1px solid rgba(201,169,110,0.07)}
+  .footer-grid{grid-template-columns:1fr;gap:2.5rem}
+}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .nav-menu-btn{display:flex}
+  .section{padding:5rem 1.5rem}
+  .sc-times{grid-template-columns:1fr}
+  .booking-banner-content{padding:1.5rem}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+  footer{padding:3rem 1.5rem 2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">Sumit</a>
+  <ul class="nav-links">
+    <li><a href="#home">홈</a></li>
+    <li><a href="booking.html">파티 신청하기</a></li>
+    <li><a href="reviews.html">후기</a></li>
+    <li><a href="crew.html">크루모집</a></li>
+  </ul>
+  <a href="booking.html" class="nav-cta">Book Tickets</a>
+  <button class="nav-menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="toggleMenu()">✕</button>
+  <a href="#home" onclick="toggleMenu()">홈</a>
+  <a href="booking.html" onclick="toggleMenu()">파티 신청하기</a>
+  <a href="reviews.html" onclick="toggleMenu()">후기</a>
+  <a href="crew.html" onclick="toggleMenu()">크루모집</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-aurora"></div>
+  <canvas id="starCanvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Busan No.1 Premium Solo Party</p>
+    <div class="hero-logo-wrap">
+      <div class="hero-logo-glow"></div>
+      <img class="hero-logo" src="https://drive.google.com/thumbnail?id=1s_B2wsqsgUIHMWG9RFDhaG5tXerxOlyY&sz=w2000" alt="Sumit Logo">
+    </div>
+    <div class="hero-btns">
+      <a href="booking.html" class="hero-btn solid">신청하기</a>
+      <a href="#about" class="hero-btn">더 알아보기</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack">
+    <span class="ticker-item">Busan No.1 Premium Solo Party</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">부산 No.1 프리미엄 솔로 파티</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">로테이션 소개팅 파티</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">매주 금·토·일 운영</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">외모 승인제 · 90~07년생</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">최대 110명 정원</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Busan No.1 Premium Solo Party</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">부산 No.1 프리미엄 솔로 파티</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">로테이션 소개팅 파티</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">매주 금·토·일 운영</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">외모 승인제 · 90~07년생</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">최대 110명 정원</span><span class="ticker-dot">✦</span>
+  </div>
+</div>
+
+<!-- BOOKING BANNER -->
+<a href="booking.html" class="booking-banner">
+  <div class="booking-banner-bg"></div>
+  <div class="booking-banner-tag">탭하여 신청</div>
+  <div class="booking-banner-content">
+    <p class="booking-banner-location">부산 부경대점</p>
+    <p class="booking-banner-title">솔로파티 썸잇</p>
+    <p class="booking-banner-sub">매주 금·토·일 운영</p>
+    <span class="booking-banner-btn">신청하기 →</span>
+  </div>
+</a>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section container">
+    <div class="about-layout">
+      <div>
+        <p class="section-label">About Sumit</p>
+        <h2 class="section-title">낯선 만남이<br>가장 설레는 순간</h2>
+        <p class="about-desc">썸잇은 부산에서 가장 많은 사람들이 찾는 프리미엄 솔로 파티입니다. 로테이션 소개팅 방식으로 자연스럽고 부담 없이 새로운 사람을 만날 수 있습니다.</p>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="about-stat-num" id="statApplicants">0+</div>
+            <div class="about-stat-label">누적 신청자</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num" id="statParticipants">0+</div>
+            <div class="about-stat-label">누적 참여자</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-details">
+        <div class="about-detail-item">
+          <div class="about-detail-num">①</div>
+          <div><p class="about-detail-key">참가 연령</p><p class="about-detail-val">90~07년생 · 남녀 동일</p></div>
+        </div>
+        <div class="about-detail-item">
+          <div class="about-detail-num">②</div>
+          <div><p class="about-detail-key">심사 방식</p><p class="about-detail-val">외모 승인제 운영</p></div>
+        </div>
+        <div class="about-detail-item">
+          <div class="about-detail-num">③</div>
+          <div><p class="about-detail-key">최대 정원</p><p class="about-detail-val">회당 최대 110명</p></div>
+        </div>
+        <div class="about-detail-item">
+          <div class="about-detail-num">④</div>
+          <div><p class="about-detail-key">현장 추가</p><p class="about-detail-val">당일 현장에서 +25,000원</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section container">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-title">티켓 가격</h2>
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <p class="price-badge">✦ 추천</p>
+        <p class="price-name">1부 + 2부</p>
+        <p class="price-desc">설렘 컨텐츠부터 도파민 컨텐츠까지</p>
+        <div class="price-divider"></div>
+        <div class="price-row"><span class="price-gender">남성</span><span class="price-amount">59,900<sup>원</sup></span></div>
+        <div class="price-row"><span class="price-gender">여성</span><span class="price-amount">49,900<sup>원</sup></span></div>
+        <p class="price-note">첫인상 게임·로테이션 자리이동부터<br><em>익명라디오·자리뺏기</em>까지 모두 참가</p>
+        <a href="booking.html" class="price-cta">신청하기</a>
+      </div>
+      <div class="price-card">
+        <p class="price-badge">1부만</p>
+        <p class="price-name">설렘 컨텐츠</p>
+        <p class="price-desc">어색함을 녹이는 1부만 참가</p>
+        <div class="price-divider"></div>
+        <div class="price-row"><span class="price-gender">남성</span><span class="price-amount">43,000<sup>원</sup></span></div>
+        <div class="price-row"><span class="price-gender">여성</span><span class="price-amount">39,000<sup>원</sup></span></div>
+        <p class="price-note">타인이 보는 첫인상·이미지 게임<br>로테이션 자리이동·이상형 찾기</p>
+        <a href="booking.html" class="price-cta">신청하기</a>
+      </div>
+      <div class="price-card">
+        <p class="price-badge">2부만</p>
+        <p class="price-name">도파민 컨텐츠</p>
+        <p class="price-desc">달아오르는 분위기의 2부만 참가</p>
+        <div class="price-divider"></div>
+        <div class="price-row"><span class="price-gender">남성</span><span class="price-amount">40,000<sup>원</sup></span></div>
+        <div class="price-row"><span class="price-gender">여성</span><span class="price-amount">37,000<sup>원</sup></span></div>
+        <p class="price-note">설렘폭발 익명라디오·매력 포인트 적기<br>자리뺏기 등 도파민 가득한 파티</p>
+        <a href="booking.html" class="price-cta">신청하기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="section container">
+    <p class="section-label">Schedule</p>
+    <h2 class="section-title">파티 일정</h2>
+    <div class="sc-times">
+      <div class="sc-time-col"><div class="sc-day-name">Friday</div><div class="sc-time-range">20:00 – 23:30</div></div>
+      <div class="sc-time-col"><div class="sc-day-name">Saturday</div><div class="sc-time-range">19:00 – 23:00</div></div>
+      <div class="sc-time-col"><div class="sc-day-name">Sunday</div><div class="sc-time-range">19:00 – 22:00</div></div>
+    </div>
+    <p class="sc-tl-title">Party Timeline</p>
+    <div class="sc-tl-grid">
+      <div class="sc-tl-col">
+        <div class="sc-tl-day">Friday</div>
+        <div class="sc-tl-row"><span class="sc-tl-time">20:00</span><span class="sc-tl-desc">1부 로테이션 소개팅 시작</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">21:50</span><span class="sc-tl-desc">2부 파티 시작</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">23:30</span><span class="sc-tl-desc">파티 종료</span></div>
+      </div>
+      <div class="sc-tl-col">
+        <div class="sc-tl-day">Saturday</div>
+        <div class="sc-tl-row"><span class="sc-tl-time">19:00</span><span class="sc-tl-desc">1부 로테이션 소개팅 시작</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">20:50</span><span class="sc-tl-desc">2부 파티 시작</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">23:00</span><span class="sc-tl-desc">파티 종료</span></div>
+      </div>
+      <div class="sc-tl-col">
+        <div class="sc-tl-day">Sunday</div>
+        <div class="sc-tl-row"><span class="sc-tl-time">19:00</span><span class="sc-tl-desc">1부 로테이션 소개팅 시작</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">20:30</span><span class="sc-tl-desc">2부 파티 시작</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">22:00</span><span class="sc-tl-desc">파티 종료</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-label-top">Total Applicants</div>
+        <div class="stat-number" id="num1">0</div>
+        <div class="stat-label-ko">누적 신청자</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label-top">Total Participants</div>
+        <div class="stat-number" id="num2">0</div>
+        <div class="stat-label-ko">누적 참여자</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label-top">Max Capacity</div>
+        <div class="stat-number">110</div>
+        <div class="stat-label-ko">회당 최대 정원</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label-top">Weekly</div>
+        <div class="stat-number">3</div>
+        <div class="stat-label-ko">매주 운영 횟수</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section container">
+    <p class="section-label">Real Reviews</p>
+    <h2 class="section-title">실제 방문객들의<br>솔직한 후기</h2>
+    <p class="reviews-intro">썸잇을 직접 경험한 분들의 리얼 후기입니다.<br>기대 반 걱정 반으로 오셨다가 단골이 되신 분들의 솔직한 이야기.</p>
+    <div class="reviews-list">
+      <a href="https://blog.naver.com/574826/224273425521" target="_blank" class="review-item">
+        <img class="review-thumb" src="https://drive.google.com/thumbnail?id=1Gmo8w3BJhd6EYQorwnkbeDJidzUMFX8j&sz=w200" alt="">
+        <div style="flex:1;min-width:0"><div class="review-source">블로그 후기 · 부산 부경대점</div><div class="review-item-title">부산 솔로파티 썸잇 부경대점 내돈내산 솔직 후기</div><div class="review-item-desc">기대 반 걱정 반으로 갔는데 생각보다 훨씬 괜찮았어요.</div></div>
+        <span class="review-arrow">›</span>
+      </a>
+      <a href="https://blog.naver.com/lesong1009/224288154458" target="_blank" class="review-item">
+        <img class="review-thumb" src="https://drive.google.com/thumbnail?id=119oiWM8T_Vt4Y4bNtMO_7TfJQ5gyQkWc&sz=w200" alt="">
+        <div style="flex:1;min-width:0"><div class="review-source">블로그 후기 · 부산 부경대점</div><div class="review-item-title">부산 로테이션소개팅 썸잇 방문 찐후기 (솔직하게 씁니다)</div><div class="review-item-desc">소개팅 앱이 지겨워서 오프라인으로 나와봤어요. 분위기도 좋고 자연스러웠어요.</div></div>
+        <span class="review-arrow">›</span>
+      </a>
+      <a href="https://blog.naver.com/lesong1009/224288154458" target="_blank" class="review-item">
+        <img class="review-thumb" src="https://drive.google.com/thumbnail?id=1dlm6Jb1DMhvUcGy7i9eZ_KQ3dOzxEHaT&sz=w200" alt="">
+        <div style="flex:1;min-width:0"><div class="review-source">블로그 후기 · 부산 부경대점</div><div class="review-item-title">불토에 혼자 부산 솔로파티 나가봤습니다 — 리얼후기</div><div class="review-item-desc">결론부터 말하면 생각보다 괜찮았고, 다음 달에도 또 갈 예정입니다.</div></div>
+        <span class="review-arrow">›</span>
+      </a>
+      <a href="https://blog.naver.com/sos559340/224285845081" target="_blank" class="review-item">
+        <img class="review-thumb" src="https://drive.google.com/thumbnail?id=1JSsmKgpi3KiUsW-x8mxpfdq5LNa3P2kW&sz=w200" alt="">
+        <div style="flex:1;min-width:0"><div class="review-source">블로그 후기 · 부산 부경대점</div><div class="review-item-title">썸잇 부경대점 처음 가본 후기 (어색함 vs 실제 현장)</div><div class="review-item-desc">망설였는데 막상 가보니 스태프분들이 잘 이끌어줘서 편했어요.</div></div>
+        <span class="review-arrow">›</span>
+      </a>
+      <a href="https://blog.naver.com/chanwj/224266432639" target="_blank" class="review-item">
+        <img class="review-thumb" src="https://drive.google.com/thumbnail?id=1E0L7HbyajAiAk1nQ8fw8dKK649Lnb9vK&sz=w200" alt="">
+        <div style="flex:1;min-width:0"><div class="review-source">블로그 후기 · 부산 부경대점</div><div class="review-item-title">부산 부경대 솔로파티 썸잇, 참가 전 알아두면 좋은 것들</div><div class="review-item-desc">예약부터 당일 진행까지 모든 과정을 솔직하게 정리했어요.</div></div>
+        <span class="review-arrow">›</span>
+      </a>
+    </div>
+    <a href="reviews.html" class="review-more-btn">리얼 후기 더보기 →</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-bg"></div>
+  <div class="container" style="padding:0 3rem">
+    <div class="cta-content">
+      <h2 class="cta-title">낯선 만남이<br><em>가장 설레는 순간</em>이 되는 곳</h2>
+      <p class="cta-sub">분위기와 대화, 그리고 끌림이 자연스럽게 이어집니다</p>
+      <a href="booking.html" class="cta-btn">지금 신청하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Sumit</div>
+      <p class="footer-tagline">낯선 만남이 가장 설레는 순간이 되는 곳.<br>분위기와 대화, 그리고 끌림이 자연스럽게 이어집니다.</p>
+    </div>
+    <div>
+      <p class="footer-heading">Navigation</p>
+      <ul class="footer-links">
+        <li><a href="#home">홈</a></li>
+        <li><a href="booking.html">파티 신청하기</a></li>
+        <li><a href="reviews.html">후기</a></li>
+        <li><a href="crew.html">크루모집</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">고객 센터</p>
+      <div class="footer-info">
+        <p>상호: 투민 | 대표자: 김경민</p>
+        <p>사업자등록번호: 793-02-03419</p>
+        <p>부산광역시 수영구 무학로 9번길 15-1</p>
+        <p style="margin-top:0.6rem">인스타그램: <a href="https://instagram.com/sum_it.official" target="_blank">@sum_it.official</a></p>
+        <p>이메일: aprycotkr@naver.com</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Sumit Party. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="terms.html">이용약관</a>
+      <a href="privacy.html">개인정보처리방침</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* NAV */
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>50));
+function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
+
+/* STAR CANVAS */
+const canvas=document.getElementById('starCanvas');
+const ctx=canvas.getContext('2d');
+let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight});
+const stars=Array.from({length:50},()=>({x:Math.random()*W,y:Math.random()*H,size:Math.random()*1.2,op:Math.random(),spd:0.003+Math.random()*0.007}));
+(function animate(){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>{
+    s.op+=s.spd;
+    if(s.op>1||s.op<0)s.spd=-s.spd;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${Math.abs(s.op)})`;ctx.fill();
+  });
+  requestAnimationFrame(animate);
+})();
+
+/* STATS COUNTER */
+function animateCount(el,target,duration,suffix){
+  const start=performance.now();
+  (function update(now){
+    const p=Math.min((now-start)/duration,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(ease*target).toLocaleString()+suffix;
+    if(p<1)requestAnimationFrame(update);
+    else el.textContent=target.toLocaleString()+suffix;
+  })(start);
+}
+const statsObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      animateCount(document.getElementById('num1'),30000,2000,'+');
+      animateCount(document.getElementById('num2'),10000,2000,'+');
+      animateCount(document.getElementById('statApplicants'),30000,2000,'+');
+      animateCount(document.getElementById('statParticipants'),10000,2000,'+');
+      statsObs.disconnect();
+    }
+  });
+},{threshold:0.3});
+statsObs.observe(document.getElementById('stats'));
+</script>
+</body>
+</html>
