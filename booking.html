@@ -59,6 +59,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .cal-cell.party::after{display:none}
 .cal-cell.party:hover{background:rgba(201,169,110,0.15);color:var(--gold)}
 .cal-badge{font-size:0.45rem;font-weight:700;letter-spacing:0.05em;padding:1px 5px;border-radius:3px;background:rgba(201,169,110,0.25);color:var(--gold);border:1px solid rgba(201,169,110,0.4);line-height:1.4;text-align:center}
+.cal-badge-soon{background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.4);animation:urgentPulse 1.5s ease-in-out infinite}
+@keyframes urgentPulse{0%,100%{opacity:1}50%{opacity:0.5}}
 .cal-cell.selected{background:var(--gold);color:var(--black);font-weight:600}
 .cal-cell.selected .cal-badge{background:rgba(0,0,0,0.25);color:var(--black)}
 .cal-cell.today{border:1px solid rgba(201,169,110,0.4)}
@@ -248,7 +250,12 @@ function renderCalendar(){
     if(isPast){ cell.classList.add('past'); cell.textContent=d; }
     else if(PARTY_DAYS.includes(dow)){
       cell.classList.add('party');
-      cell.innerHTML=`<span>${d}</span><span class="cal-badge">부산</span>`;
+      // 오늘로부터 3일 이내면 마감임박 표시
+      const diffDays = Math.ceil((date - new Date(today.getFullYear(),today.getMonth(),today.getDate())) / (1000*60*60*24));
+      const isSoon = diffDays <= 3;
+      cell.innerHTML = isSoon
+        ? `<span>${d}</span><span class="cal-badge cal-badge-soon">마감임박</span>`
+        : `<span>${d}</span><span class="cal-badge">부산</span>`;
       cell.onclick=()=>selectDate(currentYear,currentMonth,d,dow);
     } else { cell.textContent=d; }
     if(d===today.getDate()&&currentMonth===today.getMonth()&&currentYear===today.getFullYear()) cell.classList.add('today');
