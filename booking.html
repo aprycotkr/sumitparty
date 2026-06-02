@@ -55,11 +55,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .cal-days-header span.party-day{color:var(--gold)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
 .cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:400;cursor:pointer;position:relative;transition:all 0.2s;border-radius:2px;color:rgba(255,255,255,0.5)}
-.cal-cell.party{color:var(--white);font-weight:500}
-.cal-cell.party::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:3px;height:3px;background:var(--gold);border-radius:50%}
+.cal-cell.party{color:var(--white);font-weight:500;flex-direction:column;gap:2px;aspect-ratio:auto;padding:6px 2px}
+.cal-cell.party::after{display:none}
 .cal-cell.party:hover{background:rgba(201,169,110,0.15);color:var(--gold)}
+.cal-badge{font-size:0.45rem;font-weight:700;letter-spacing:0.05em;padding:1px 5px;border-radius:3px;background:rgba(201,169,110,0.25);color:var(--gold);border:1px solid rgba(201,169,110,0.4);line-height:1.4;text-align:center}
 .cal-cell.selected{background:var(--gold);color:var(--black);font-weight:600}
-.cal-cell.selected::after{display:none}
+.cal-cell.selected .cal-badge{background:rgba(0,0,0,0.25);color:var(--black)}
 .cal-cell.today{border:1px solid rgba(201,169,110,0.4)}
 .cal-cell.past{opacity:0.2;cursor:not-allowed;pointer-events:none}
 
@@ -200,9 +201,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     </div>
     <div class="cal-grid" id="calGrid"></div>
 
-    <div class="slots-section" id="slotsSection">
-      <div class="no-date">날짜를 선택하시면<br>파티 일정이 표시됩니다</div>
-    </div>
+    <div class="slots-section" id="slotsSection" style="display:none"></div>
   </div>
 
   <!-- RIGHT -->
@@ -210,102 +209,50 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <p class="order-title">신청 정보</p>
     <div class="approval-badge">✦ 외모 승인제 운영</div>
     <div class="order-summary" id="orderSummary">
-      <p class="order-summary-empty">날짜와 티켓 종류를<br>선택해주세요</p>
+      <p class="order-summary-empty">날짜를 선택해주세요</p>
     </div>
-
-    <div class="form-group">
-      <label class="form-label">이름 <span class="form-required">*</span></label>
-      <input type="text" class="form-input" id="inputName" placeholder="홍길동">
-    </div>
-    <div class="form-group">
-      <label class="form-label">성별 <span class="form-required">*</span></label>
-      <div class="gender-row">
-        <div class="gender-btn" id="genderM" onclick="selectGender('남성')">남성</div>
-        <div class="gender-btn" id="genderF" onclick="selectGender('여성')">여성</div>
-      </div>
-    </div>
-
-    <div class="price-table" id="priceTable" style="display:none">
-      <div class="price-row">
-        <span class="price-key">티켓</span>
-        <span class="price-val" id="priceTicket">-</span>
-      </div>
-      <div class="price-row price-total">
-        <span class="price-key">예상 금액</span>
-        <span class="price-val" id="priceTotal">-</span>
-      </div>
-    </div>
-
-    <button class="submit-btn" id="submitBtn" onclick="submitBooking()">신청서 작성하기 →</button>
+    <button class="submit-btn" id="submitBtn" onclick="submitBooking()">파티 상세보기 →</button>
     <p class="form-notice">
-      날짜·티켓·성별 선택 후 신청서 작성 페이지로 이동합니다.<br>
-      사진 업로드 후 외모 심사를 거쳐 합격 안내드립니다.<br>
+      날짜 선택 후 파티 상세 페이지에서 신청하세요.<br>
+      사진 업로드 및 외모 심사 후 합격 안내드립니다.<br>
       문의: aprycotkr@naver.com
     </p>
   </div>
 </div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-icon">✦</div>
-    <h2 class="modal-title">신청 완료</h2>
-    <p class="modal-body">
-      신청이 접수되었습니다.<br>
-      외모 승인제 심사 후 개별 안내드립니다.<br>
-      승인 시 아래 계좌로 <strong>24시간 내</strong> 입금해주세요.
-    </p>
-    <div class="modal-account">
-      <p class="modal-account-label">입금 계좌</p>
-      <div class="modal-account-info">
-        <p>은행: <strong>국민은행</strong></p>
-        <p>계좌번호: <strong>111102-04-277139</strong></p>
-        <p>예금주: <strong>투민(김경민)</strong></p>
-        <p>입금금액: <strong id="modalAmount">-</strong></p>
-        <p>입금자명: <strong id="modalDepositor">-</strong></p>
-      </div>
-    </div>
-    <button class="modal-close" onclick="closeModal()">확인</button>
-  </div>
-</div>
 
 <script>
-// 티켓 가격 (성별별)
-const TICKET_PRICES = {
-  '1+2부': { '남성': 59900, '여성': 49900, label: '1부 + 2부', desc: '설렘 컨텐츠부터 도파민 컨텐츠까지' },
-  '1부만': { '남성': 43000, '여성': 39000, label: '1부만 (설렘 컨텐츠)', desc: '첫인상·이미지게임·로테이션 자리이동·이상형찾기' },
-  '2부만': { '남성': 40000, '여성': 37000, label: '2부만 (도파민 컨텐츠)', desc: '익명라디오·매력포인트 적기·자리뺏기' },
-};
 const PARTY_DAYS = [0,5,6];
 let currentYear, currentMonth;
-let selectedDate=null, selectedTicket=null, selectedGender=null;
+let selectedDate = null;
 
 function init(){
   const now=new Date();
-  currentYear=now.getFullYear();currentMonth=now.getMonth();
+  currentYear=now.getFullYear(); currentMonth=now.getMonth();
   renderCalendar();
 }
 
 function renderCalendar(){
   const months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
   document.getElementById('calMonth').textContent=currentYear+'년 '+months[currentMonth];
-  const grid=document.getElementById('calGrid');grid.innerHTML='';
+  const grid=document.getElementById('calGrid'); grid.innerHTML='';
   const firstDay=new Date(currentYear,currentMonth,1).getDay();
   const daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();
   const today=new Date();
   for(let i=0;i<firstDay;i++){const e=document.createElement('div');e.className='cal-cell';grid.appendChild(e)}
   for(let d=1;d<=daysInMonth;d++){
-    const cell=document.createElement('div');cell.className='cal-cell';cell.textContent=d;
+    const cell=document.createElement('div'); cell.className='cal-cell';
     const date=new Date(currentYear,currentMonth,d);
     const dow=date.getDay();
     const isPast=date<new Date(today.getFullYear(),today.getMonth(),today.getDate());
-    if(isPast){cell.classList.add('past')}
+    if(isPast){ cell.classList.add('past'); cell.textContent=d; }
     else if(PARTY_DAYS.includes(dow)){
       cell.classList.add('party');
+      cell.innerHTML=`<span>${d}</span><span class="cal-badge">부산</span>`;
       cell.onclick=()=>selectDate(currentYear,currentMonth,d,dow);
-    }
-    if(d===today.getDate()&&currentMonth===today.getMonth()&&currentYear===today.getFullYear())cell.classList.add('today');
-    if(selectedDate&&selectedDate.year===currentYear&&selectedDate.month===currentMonth&&selectedDate.day===d)cell.classList.add('selected');
+    } else { cell.textContent=d; }
+    if(d===today.getDate()&&currentMonth===today.getMonth()&&currentYear===today.getFullYear()) cell.classList.add('today');
+    if(selectedDate&&selectedDate.year===currentYear&&selectedDate.month===currentMonth&&selectedDate.day===d) cell.classList.add('selected');
     grid.appendChild(cell);
   }
 }
@@ -318,90 +265,24 @@ function changeMonth(dir){
 }
 
 function selectDate(year,month,day,dow){
-  selectedDate={year,month,day,dow};selectedTicket=null;
-  renderCalendar();renderTickets();updateOrderSummary();
-  document.getElementById('priceTable').style.display='none';
-  document.getElementById('extraSection').style.display='none';
-}
-
-function renderTickets(){
+  selectedDate={year,month,day,dow};
+  renderCalendar();
+  // 오른쪽 요약 업데이트
   const dayNames=['일','월','화','수','목','금','토'];
-  const dateStr=`${selectedDate.year}년 ${selectedDate.month+1}월 ${selectedDate.day}일 (${dayNames[selectedDate.dow]})`;
-  const section=document.getElementById('slotsSection');
-  section.innerHTML=`<p class="slots-title">${dateStr} — 티켓 선택</p><div class="ticket-types" id="ticketTypes"></div>`;
-  const container=document.getElementById('ticketTypes');
-  Object.entries(TICKET_PRICES).forEach(([key,val])=>{
-    const card=document.createElement('div');
-    card.className='ticket-card';card.id='ticket-'+key;
-    card.innerHTML=`
-      <div>
-        <div class="ticket-name">${val.label}</div>
-        <div class="ticket-desc">${val.desc}</div>
-      </div>
-      <div class="ticket-prices">
-        <div class="ticket-price-row">남 <span>${val['남성'].toLocaleString()}원</span></div>
-        <div class="ticket-price-row">여 <span>${val['여성'].toLocaleString()}원</span></div>
-      </div>`;
-    card.onclick=()=>selectTicket(key);
-    container.appendChild(card);
-  });
-}
-
-function selectTicket(key){
-  selectedTicket=key;
-  document.querySelectorAll('.ticket-card').forEach(c=>c.classList.remove('selected'));
-  document.getElementById('ticket-'+key).classList.add('selected');
-  updateOrderSummary();updatePrice();
-}
-
-function updateOrderSummary(){
   const el=document.getElementById('orderSummary');
-  if(!selectedDate){el.innerHTML='<p class="order-summary-empty">날짜와 티켓 종류를<br>선택해주세요</p>';return}
-  const dayNames=['일','월','화','수','목','금','토'];
   el.innerHTML=`
-    <div class="order-date">${selectedDate.year}년 ${selectedDate.month+1}월 ${selectedDate.day}일 (${dayNames[selectedDate.dow]})</div>
-    <div class="order-slot-info">${selectedTicket?TICKET_PRICES[selectedTicket].label:'티켓 종류를 선택해주세요'}</div>`;
-}
-
-function updatePrice(){
-  const pt=document.getElementById('priceTable');
-  if(!selectedTicket||!selectedGender){pt.style.display='none';return}
-  const basePrice=TICKET_PRICES[selectedTicket][selectedGender];
-  pt.style.display='block';
-  document.getElementById('priceTicket').textContent=basePrice.toLocaleString()+'원';
-  document.getElementById('priceTotal').textContent=basePrice.toLocaleString()+'원';
-}
-
-function selectGender(g){
-  selectedGender=g;
-  document.getElementById('genderM').classList.toggle('selected',g==='남성');
-  document.getElementById('genderF').classList.toggle('selected',g==='여성');
-  updatePrice();
+    <div class="order-date">${year}년 ${month+1}월 ${day}일 (${dayNames[dow]})</div>
+    <div class="order-slot-info">부산 부경대점 · 탭하여 상세보기</div>`;
 }
 
 function submitBooking(){
-  if(!selectedDate||!selectedTicket){alert('날짜와 티켓을 선택해주세요.');return}
-  if(!selectedGender){alert('성별을 선택해주세요.');return}
-  // 날짜, 티켓, 성별을 파라미터로 apply.html로 이동
+  if(!selectedDate){alert('날짜를 선택해주세요.');return}
   const dateStr=`${selectedDate.year}-${String(selectedDate.month+1).padStart(2,'0')}-${String(selectedDate.day).padStart(2,'0')}`;
-  const params=new URLSearchParams({date:dateStr,ticket:selectedTicket,gender:selectedGender});
-  window.location.href=`apply.html?${params.toString()}`;
-}
-
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('open');
-  ['inputName','inputPhone','inputAge','inputDepositor'].forEach(id=>document.getElementById(id).value='');
-  selectedGender=null;selectedTicket=null;
-  document.getElementById('genderM').classList.remove('selected');
-  document.getElementById('genderF').classList.remove('selected');
-  document.getElementById('extraCheck').checked=false;
-  document.getElementById('priceTable').style.display='none';
-  document.getElementById('extraSection').style.display='none';
-  updateOrderSummary();
+  window.location.href=`party.html?date=${dateStr}`;
 }
 
 function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
 init();
 </script>
 </body>
-</html> 
+</html>

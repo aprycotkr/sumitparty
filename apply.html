@@ -339,12 +339,12 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
   <button class="btn-primary" onclick="step4Next()">다음으로</button>
 </div>
 
-<!-- STEP 5: 약관 동의 -->
+<!-- STEP 5: 약관 동의 + 계좌 입력 -->
 <div id="s5" class="card" style="display:none">
   <button class="btn-back" onclick="goStep(4)">← 뒤로</button>
   <div class="step-label">Step 5 / 5</div>
-  <h2 class="step-title">마지막 단계</h2>
-  <p class="step-desc">약관에 동의하시면 신청이 완료됩니다.</p>
+  <h2 class="step-title">마지막 단계입니다!</h2>
+  <p class="step-desc">약관 동의 후 입금하시면 신청이 완료됩니다.</p>
 
   <div class="terms-list">
     <div class="term-item" onclick="toggleTerm(0)">
@@ -371,25 +371,65 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
   </div>
   <div class="err" id="termErr" style="margin-top:8px"></div>
 
-  <button class="btn-primary" id="submitBtn" onclick="submitForm()">신청서 제출하기 →</button>
+  <!-- 입금 계좌 안내 -->
+  <div style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:1.1rem 1.2rem;margin-top:1.3rem">
+    <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.8rem">🏦 입금 계좌 안내</div>
+    <div style="display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.78rem;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <span style="color:rgba(255,255,255,0.4)">은행</span><span style="font-weight:500">국민은행</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.78rem;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <span style="color:rgba(255,255,255,0.4)">계좌번호</span><span style="font-weight:600;letter-spacing:0.05em">111102-04-277139</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.78rem;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <span style="color:rgba(255,255,255,0.4)">예금주</span><span style="font-weight:500">투민(김경민)</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.78rem;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <span style="color:rgba(255,255,255,0.4)">권종</span><span id="previewTicket" style="font-weight:500">-</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.85rem">
+      <span style="color:rgba(255,255,255,0.4)">입금 금액</span>
+      <span id="previewPrice" style="font-weight:700;color:var(--gold);font-size:1rem">-</span>
+    </div>
+  </div>
+
+  <div style="font-size:0.65rem;color:rgba(255,255,255,0.3);line-height:1.8;margin-top:0.8rem;padding:0 0.2rem">
+    ✅ 신청서 제출 후 위 계좌로 입금하셔야 신청이 완료됩니다.<br>
+    입금자명은 신청하신 이름으로 보내주세요.
+  </div>
+
+  <button class="btn-primary" id="submitBtn" onclick="submitForm()" style="margin-top:1.2rem">신청서 제출하기 →</button>
 </div>
 
 <!-- COMPLETE -->
 <div id="sc" class="card" style="display:none">
   <div class="complete-wrap">
-    <div class="complete-icon">✦</div>
-    <h2 class="complete-title">신청 완료</h2>
-    <p class="complete-desc">신청서가 접수되었습니다.<br>운영팀 검토 후 합격 여부를 개별 안내드립니다.</p>
-    <p class="complete-desc" style="color:rgba(201,169,110,0.7);font-weight:500">합격 안내는 인스타그램 DM 또는<br>문자로 발송됩니다.</p>
-    <div class="complete-info">
-      <div class="complete-info-title">신청 정보 확인</div>
+    <div class="complete-icon">✅</div>
+    <h2 class="complete-title">신청서가 접수되었습니다</h2>
+    <p class="complete-desc" style="color:var(--gold);font-weight:500;font-size:0.78rem;margin-bottom:1.2rem">입금 완료 후 외모 심사가 진행됩니다</p>
+
+    <div class="complete-info" style="text-align:left;margin-bottom:1rem">
+      <div class="complete-info-title">📋 신청 정보 확인</div>
       <div class="complete-info-row"><span>이름</span><span id="cName">-</span></div>
       <div class="complete-info-row"><span>권종</span><span id="cTicket">-</span></div>
       <div class="complete-info-row"><span>성별</span><span id="cGender">-</span></div>
-      <div class="complete-info-row"><span>참가비</span><span id="cPrice">-</span></div>
+      <div class="complete-info-row"><span>참가비</span><span id="cPrice" style="color:var(--gold);font-weight:600">-</span></div>
     </div>
-    <a id="payBtn" href="#" class="btn-primary" style="margin-top:1.5rem">💳 결제하러 가기</a>
-    <a href="index.html" class="btn-secondary">홈으로 돌아가기</a>
+
+    <div class="complete-info" style="text-align:left;margin-bottom:1rem">
+      <div class="complete-info-title">🏦 입금 계좌 안내</div>
+      <div class="complete-info-row"><span>은행</span><span>국민은행</span></div>
+      <div class="complete-info-row"><span>계좌번호</span><span style="font-weight:600;letter-spacing:0.05em">111102-04-277139</span></div>
+      <div class="complete-info-row"><span>예금주</span><span>투민(김경민)</span></div>
+      <div class="complete-info-row"><span>입금 금액</span><span id="cPrice2" style="color:var(--gold);font-weight:600">-</span></div>
+    </div>
+
+    <div style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:1rem 1.1rem;font-size:0.68rem;color:rgba(255,255,255,0.5);line-height:1.9;text-align:left;margin-bottom:1.5rem">
+      ⚠️ <strong style="color:rgba(255,255,255,0.7)">입금자명은 신청하신 이름으로 해주세요.</strong><br>
+      입금 확인 후 외모 심사를 진행하며,<br>
+      결과는 <strong style="color:rgba(255,255,255,0.7)">문자 또는 인스타그램 DM</strong>으로 개별 안내드립니다.
+    </div>
+
+    <a href="index.html" class="btn-primary" style="text-decoration:none">홈으로 돌아가기</a>
   </div>
 </div>
 
@@ -433,9 +473,11 @@ const fd = {
 };
 const terms = [false, false, false];
 
-// URL 파라미터에서 날짜 가져오기
+// URL 파라미터에서 날짜/티켓 가져오기
 (function() {
-  const p = new URLSearchParams(window.location.search).get('date');
+  const params = new URLSearchParams(window.location.search);
+  const p = params.get('date');
+  const t = params.get('ticket');
   if (p) {
     fd.date = p;
     const parts = p.split('-');
@@ -447,6 +489,14 @@ const terms = [false, false, false];
         document.getElementById('formSubtitle').textContent = `썸잇 솔로파티 ${txt} — 부산 부경대점`;
       }
     }
+  }
+  // 티켓 미리 선택
+  if (t && ['1+2부','1부만','2부만'].includes(t)) {
+    fd.ticket = t;
+    document.querySelectorAll('.ticket-opt').forEach(el => {
+      const isMatch = el.getAttribute('onclick')?.includes(`'${t}'`);
+      el.classList.toggle('sel', isMatch);
+    });
   }
 })();
 
@@ -519,6 +569,10 @@ function step3Next() {
 function step4Next() {
   if (!fd.photoUrl) { document.getElementById('photoErr').textContent = '사진을 업로드해주세요.'; return; }
   document.getElementById('photoErr').textContent = '';
+  // step5 미리보기 채우기
+  const price = CONFIG.PRICES[fd.ticket]?.[fd.gender];
+  document.getElementById('previewTicket').textContent = fd.ticket;
+  document.getElementById('previewPrice').textContent = price ? price.toLocaleString() + '원' : '-';
   goStep(5);
 }
 
@@ -638,11 +692,12 @@ async function submitForm() {
 
   // 완료 화면
   const price = CONFIG.PRICES[fd.ticket]?.[fd.gender];
+  const priceText = price ? price.toLocaleString() + '원' : '-';
   document.getElementById('cName').textContent = fd.name;
   document.getElementById('cTicket').textContent = fd.ticket;
   document.getElementById('cGender').textContent = fd.gender;
-  document.getElementById('cPrice').textContent = price ? price.toLocaleString() + '원' : '-';
-  document.getElementById('payBtn').href = CONFIG.PAYMENT_URLS[fd.ticket] || '#';
+  document.getElementById('cPrice').textContent = priceText;
+  document.getElementById('cPrice2').textContent = priceText;
 
   goStep(6);
 }
