@@ -20,11 +20,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links a:hover,.nav-links a.active{color:var(--gold);opacity:1}
 .nav-menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
 .nav-menu-btn span{display:block;width:24px;height:1px;background:var(--white)}
-.mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:200;flex-direction:column;justify-content:flex-start;padding:5.5rem 2rem 2rem}
 .mobile-nav.open{display:flex}
-.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-display);font-size:2.5rem;font-weight:300;letter-spacing:0.1em;transition:color 0.2s}
+.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-body);font-size:1.15rem;font-weight:400;letter-spacing:0.08em;padding:1.3rem 0.5rem;border-bottom:1px solid rgba(201,169,110,0.12);transition:color 0.2s}
+.mobile-nav a:first-of-type{color:var(--gold)}
 .mobile-nav a:hover{color:var(--gold)}
-.mobile-nav-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:var(--white);font-size:2rem;cursor:pointer;line-height:1}
+.mobile-nav .mobile-cta{margin-top:2.5rem;background:var(--gold);color:var(--black);text-align:center;font-family:var(--font-body);font-size:0.95rem;font-weight:600;letter-spacing:0.05em;padding:1.2rem;border:none;border-radius:14px}
+.mobile-nav .mobile-cta:hover{background:var(--gold-light);color:var(--black)}
+.mobile-nav-close{position:absolute;top:1.5rem;right:1.8rem;background:none;border:none;color:var(--white);font-size:1.6rem;cursor:pointer;line-height:1}
 
 /* HERO */
 .crew-hero{min-height:70vh;display:flex;align-items:flex-end;padding:0 3rem 6rem;position:relative;overflow:hidden;border-bottom:1px solid rgba(201,169,110,0.1)}
@@ -157,6 +160,7 @@ fbq("track","PageView");
   <a href="booking.html" onclick="toggleMenu()">파티 신청하기</a>
   <a href="reviews.html" onclick="toggleMenu()">후기</a>
   <a href="crew.html" onclick="toggleMenu()">크루모집</a>
+  <a href="booking.html" class="mobile-cta" onclick="toggleMenu()">지금 파티 신청하기</a>
 </div>
 
 <!-- HERO -->

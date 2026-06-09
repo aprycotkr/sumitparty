@@ -25,11 +25,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links a:hover,.nav-links a.active{color:var(--gold);opacity:1}
 .nav-menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
 .nav-menu-btn span{display:block;width:24px;height:1px;background:var(--white)}
-.mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:200;flex-direction:column;justify-content:flex-start;padding:5.5rem 2rem 2rem}
 .mobile-nav.open{display:flex}
-.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-display);font-size:2.5rem;font-weight:300;letter-spacing:0.1em;transition:color 0.2s}
+.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-body);font-size:1.15rem;font-weight:400;letter-spacing:0.08em;padding:1.3rem 0.5rem;border-bottom:1px solid rgba(201,169,110,0.12);transition:color 0.2s}
+.mobile-nav a:first-of-type{color:var(--gold)}
 .mobile-nav a:hover{color:var(--gold)}
-.mobile-nav-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:var(--white);font-size:2rem;cursor:pointer;line-height:1}
+.mobile-nav .mobile-cta{margin-top:2.5rem;background:var(--gold);color:var(--black);text-align:center;font-family:var(--font-body);font-size:0.95rem;font-weight:600;letter-spacing:0.05em;padding:1.2rem;border:none;border-radius:14px}
+.mobile-nav .mobile-cta:hover{background:var(--gold-light);color:var(--black)}
+.mobile-nav-close{position:absolute;top:1.5rem;right:1.8rem;background:none;border:none;color:var(--white);font-size:1.6rem;cursor:pointer;line-height:1}
 .page-header{padding:10rem 3rem 4rem;border-bottom:1px solid rgba(201,169,110,0.1)}
 .page-label{font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:1rem}
 .page-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:300;line-height:1.1}
@@ -136,7 +139,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .age-notice{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;line-height:1.5}
 
 @media(max-width:900px){.booking-layout{grid-template-columns:1fr}.booking-right{position:static;max-height:none}}
-@media(max-width:600px){nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}.page-header{padding:8rem 1.5rem 3rem}.booking-left,.booking-right{padding:2rem 1.5rem}.info-banner{grid-template-columns:1fr 1fr}.ticket-card{grid-template-columns:1fr;gap:0.8rem}.ticket-prices{text-align:left}}
+@media(max-width:600px){nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}.page-header{padding:6rem 1.5rem 1.5rem}.page-title{font-size:1.8rem}.booking-left,.booking-right{padding:1.2rem 1.2rem}.info-banner{grid-template-columns:1fr 1fr}.info-item{padding:0.9rem 1rem}.ticket-card{grid-template-columns:1fr;gap:0.8rem}.ticket-prices{text-align:left}.cal-header{margin-bottom:1rem}.cal-month{font-size:1.2rem}.cal-grid{gap:1px}.cal-cell{font-size:0.72rem}.cal-cell.party{padding:4px 1px;gap:1px}.cal-badge{font-size:0.4rem;padding:1px 3px}.cal-days-header span{padding:0.3rem 0;font-size:0.55rem}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -170,6 +173,7 @@ fbq("track","PageView");
   <a href="booking.html" onclick="toggleMenu()">파티 신청하기</a>
   <a href="reviews.html" onclick="toggleMenu()">후기</a>
   <a href="crew.html" onclick="toggleMenu()">크루모집</a>
+  <a href="booking.html" class="mobile-cta" onclick="toggleMenu()">지금 파티 신청하기</a>
 </div>
 
 <div class="page-header">
