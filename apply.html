@@ -192,6 +192,18 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
   .date-grid select:first-child{grid-column:1/-1}
 }
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,"script","https://connect.facebook.net/en_US/fbevents.js");
+fbq("init","821379504055811");
+fbq("track","PageView");
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=821379504055811&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 
@@ -538,7 +550,7 @@ function step1Next() {
     document.getElementById('phoneErr').textContent = '올바른 휴대폰 번호를 입력해주세요.'; return;
   }
   document.getElementById('phoneErr').textContent = '';
-  fd.phone = v; goStep(2);
+  fd.phone = v; fbq("track","InitiateCheckout"); goStep(2);
 }
 
 // STEP 2
@@ -699,6 +711,7 @@ async function submitForm() {
   document.getElementById('cPrice').textContent = priceText;
   document.getElementById('cPrice2').textContent = priceText;
 
+  fbq("track","Lead");
   goStep(6);
 }
 </script>
