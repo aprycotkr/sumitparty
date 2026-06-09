@@ -357,13 +357,34 @@ function submitCrew(){
   const phone=document.getElementById('crewPhone').value.trim();
   const age=document.getElementById('crewAge').value.trim();
   const pos=document.getElementById('crewPosition').value;
+  const sns=document.getElementById('crewSns').value.trim();
   const intro=document.getElementById('crewIntro').value.trim();
   if(!name){alert('이름을 입력해주세요.');return}
   if(!phone){alert('연락처를 입력해주세요.');return}
   if(!age){alert('나이를 입력해주세요.');return}
   if(!pos){alert('지원 포지션을 선택해주세요.');return}
   if(!intro){alert('자기소개를 작성해주세요.');return}
-  document.getElementById('modalOverlay').classList.add('open');
+
+  const posKo={party:'파티 크루',photo:'포토 크루',promo:'홍보 크루'}[pos]||pos;
+
+  const btn=document.querySelector('.submit-btn');
+  btn.disabled=true; btn.textContent='제출 중...';
+
+  const payload={
+    type:'crew',
+    name:name, phone:phone, age:age,
+    position:posKo, sns:sns||'-', intro:intro,
+    submitTime:new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})
+  };
+
+  fetch('https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec',{
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify(payload)
+  }).catch(()=>{}).finally(()=>{
+    btn.disabled=false; btn.textContent='지원하기';
+    document.getElementById('modalOverlay').classList.add('open');
+  });
 }
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('open');

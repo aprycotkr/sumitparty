@@ -447,9 +447,9 @@ fbq("track","PageView");
         <div class="stat-label-ko">회당 최대 정원</div>
       </div>
       <div class="stat-item">
-        <div class="stat-label-top">Weekly</div>
-        <div class="stat-number">3</div>
-        <div class="stat-label-ko">매주 운영 횟수</div>
+        <div class="stat-label-top">Matched Couples</div>
+        <div class="stat-number" id="num3">0</div>
+        <div class="stat-label-ko">누적 커플 매칭</div>
       </div>
     </div>
   </div>
@@ -565,6 +565,7 @@ const stars=Array.from({length:50},()=>({x:Math.random()*W,y:Math.random()*H,siz
 
 /* STATS COUNTER */
 function animateCount(el,target,duration,suffix){
+  if(!el)return;
   const start=performance.now();
   (function update(now){
     const p=Math.min((now-start)/duration,1);
@@ -574,20 +575,42 @@ function animateCount(el,target,duration,suffix){
     else el.textContent=target.toLocaleString()+suffix;
   })(start);
 }
-let statsAnimated=false;
-const statsObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting&&!statsAnimated){
-      statsAnimated=true;
-      animateCount(document.getElementById('num1'),30000,2000,'+');
-      animateCount(document.getElementById('num2'),10000,2000,'+');
-      animateCount(document.getElementById('statApplicants'),30000,2000,'+');
-      animateCount(document.getElementById('statParticipants'),10000,2000,'+');
-      statsObs.disconnect();
-    }
-  });
-},{threshold:0.3});
-statsObs.observe(document.getElementById('stats'));
+
+// 공통 카운터 트리거 헬퍼: 대상 섹션이 보이면 1회 실행
+function observeCount(sectionEl, runFn){
+  if(!sectionEl)return;
+  let done=false;
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting&&!done){
+        done=true;
+        runFn();
+        obs.disconnect();
+      }
+    });
+  },{threshold:0.15});
+  obs.observe(sectionEl);
+  // 이미 화면에 보이는 상태면 즉시 실행 (관찰 누락 방지)
+  const rect=sectionEl.getBoundingClientRect();
+  if(rect.top<window.innerHeight&&rect.bottom>0&&!done){
+    done=true;
+    runFn();
+    obs.disconnect();
+  }
+}
+
+// About 섹션 카운터 (statApplicants / statParticipants)
+observeCount(document.querySelector('.about-stats'),()=>{
+  animateCount(document.getElementById('statApplicants'),30000,2000,'+');
+  animateCount(document.getElementById('statParticipants'),10000,2000,'+');
+});
+
+// Stats 섹션 카운터 (num1 / num2 / num3)
+observeCount(document.getElementById('stats'),()=>{
+  animateCount(document.getElementById('num1'),30000,2000,'+');
+  animateCount(document.getElementById('num2'),10000,2000,'+');
+  animateCount(document.getElementById('num3'),300,2000,'+');
+});
 </script>
 </body>
 </html>
