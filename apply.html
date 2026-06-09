@@ -682,8 +682,10 @@ async function submitForm() {
   }, 300);
 
   // Google Sheets 전송
+  const submitPrice = CONFIG.PRICES[fd.ticket]?.[fd.gender];
   const payload = {
     ...fd,
+    price: submitPrice || '',
     submitTime: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
   };
 
