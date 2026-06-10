@@ -159,14 +159,27 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
   <div class="complete-wrap">
     <div class="complete-icon">✅</div>
     <h2 class="complete-title">등록이 완료되었습니다</h2>
-    <p class="complete-desc">초대해주신 분께 입금 안내를 받으신 후<br>입금해주시면 참가가 확정됩니다.</p>
+    <p class="complete-desc">아래 계좌로 입금하시면 참가가 확정됩니다.</p>
     <div class="complete-info">
       <div class="complete-info-title">등록 정보</div>
       <div class="complete-info-row"><span>이름</span><span id="cName">-</span></div>
       <div class="complete-info-row"><span>파티 날짜</span><span id="cDate">-</span></div>
       <div class="complete-info-row"><span>참가비</span><span id="cPrice" style="color:var(--gold);font-weight:600">-</span></div>
     </div>
-    <a href="index.html" class="btn-primary" style="text-decoration:none;margin-top:1.5rem">홈으로 돌아가기</a>
+    <div class="complete-info" style="margin-top:1rem">
+      <div class="complete-info-title">🏦 입금 계좌 안내</div>
+      <div class="complete-info-row"><span>은행</span><span>국민은행</span></div>
+      <div class="complete-info-row"><span>계좌번호</span><span style="font-weight:600;letter-spacing:0.05em">111102-04-277139</span></div>
+      <div class="complete-info-row"><span>예금주</span><span>김경민</span></div>
+      <div class="complete-info-row"><span>입금자명</span><span style="color:var(--gold)">신청하신 이름으로</span></div>
+    </div>
+    <button type="button" onclick="copyAccount()" style="width:100%;background:var(--gold);color:var(--black);border:none;border-radius:10px;padding:0.95rem;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;margin-top:1rem;transition:background 0.2s" id="copyBtn">계좌번호 복사하기</button>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:1rem 1.1rem;margin-top:1rem;font-size:0.68rem;color:rgba(255,255,255,0.4);line-height:1.9;text-align:left">
+      ✅ 입금자명은 신청하신 이름으로 보내주세요.<br>
+      입금 후 초대해주신 분께 입금 완료 사실을 꼭 알려주세요.<br>
+      확인 후 참가 확정 안내가 발송됩니다.
+    </div>
+    <a href="index.html" class="btn-primary" style="text-decoration:none;margin-top:1rem;background:transparent;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4)">홈으로 돌아가기</a>
   </div>
 </div>
 
@@ -266,6 +279,33 @@ async function submitGuest() {
   document.getElementById('formCard').style.display = 'none';
   document.getElementById('completeCard').style.display = 'block';
   window.scrollTo(0, 0);
+}
+
+function copyAccount() {
+  const btn = document.getElementById('copyBtn');
+  const done = () => {
+    btn.textContent = '✓ 복사되었습니다';
+    btn.style.background = '#4CAF50';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = '계좌번호 복사하기';
+      btn.style.background = 'var(--gold)';
+      btn.style.color = 'var(--black)';
+    }, 2000);
+  };
+  const num = '11110204277139';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(num).then(done).catch(() => fallbackCopy(num, done));
+  } else {
+    fallbackCopy(num, done);
+  }
+}
+function fallbackCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(ta);
 }
 </script>
 </body>
