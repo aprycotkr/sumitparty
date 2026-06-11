@@ -473,6 +473,16 @@ const CONFIG = {
 };
 /* ══════════════════════════════ */
 
+// 날짜별 성별 마감 상태
+let dateStatusMap = {};
+(async function(){
+  try {
+    const res = await fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=getDateStatus');
+    const json = await res.json();
+    if(json.result === 'success') dateStatusMap = json.data || {};
+  } catch(e) {}
+})();
+
 // 폼 데이터
 const fd = {
   phone: '', ticket: '1+2부', name: '', gender: '',
@@ -556,6 +566,15 @@ function step2Next() {
   if (!nm) { document.getElementById('nameErr').textContent = '이름을 입력해주세요.'; return; }
   document.getElementById('nameErr').textContent = '';
   if (!fd.gender) { document.getElementById('genderErr').textContent = '성별을 선택해주세요.'; return; }
+  // 해당 날짜 성별 마감 체크
+  if (fd.date && dateStatusMap[fd.date]) {
+    const st = dateStatusMap[fd.date];
+    const genderKey = fd.gender === '남성' ? 'male' : 'female';
+    if (st[genderKey] === '마감') {
+      document.getElementById('genderErr').textContent = '죄송합니다. 해당 날짜는 ' + fd.gender + ' 마감되었습니다.';
+      return;
+    }
+  }
   document.getElementById('genderErr').textContent = '';
   const by = document.getElementById('byear').value;
   const bm = document.getElementById('bmonth').value;

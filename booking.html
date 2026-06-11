@@ -65,6 +65,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .cal-cell.party:hover{background:rgba(201,169,110,0.15);color:var(--gold)}
 .cal-badge{font-size:0.45rem;font-weight:700;letter-spacing:0.05em;padding:1px 5px;border-radius:3px;background:rgba(201,169,110,0.25);color:var(--gold);border:1px solid rgba(201,169,110,0.4);line-height:1.4;text-align:center}
 .cal-badge-soon{background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.4);animation:urgentPulse 1.5s ease-in-out infinite}
+.cal-badge-male{background:rgba(99,102,241,0.2);color:#818cf8;border:1px solid rgba(99,102,241,0.4)}
+.cal-badge-female{background:rgba(244,114,182,0.2);color:#f472b6;border:1px solid rgba(244,114,182,0.4)}
+.cal-badge-closed{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.1)}
 @keyframes urgentPulse{0%,100%{opacity:1}50%{opacity:0.5}}
 .cal-cell.selected{background:var(--gold);color:var(--black);font-weight:600}
 .cal-cell.selected .cal-badge{background:rgba(0,0,0,0.25);color:var(--black)}
@@ -243,12 +246,19 @@ fbq("track","PageView");
 
 <script>
 const PARTY_DAYS = [0,5,6];
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec';
 let currentYear, currentMonth;
 let selectedDate = null;
+let dateStatusMap = {};
 
-function init(){
+async function init(){
   const now=new Date();
   currentYear=now.getFullYear(); currentMonth=now.getMonth();
+  try {
+    const res = await fetch(GAS_URL + '?action=getDateStatus');
+    const json = await res.json();
+    if(json.result === 'success') dateStatusMap = json.data || {};
+  } catch(e) {}
   renderCalendar();
 }
 
@@ -268,14 +278,31 @@ function renderCalendar(){
     if(isPast){ cell.classList.add('past'); cell.textContent=d; }
     else if(PARTY_DAYS.includes(dow)){
       cell.classList.add('party');
-      // 오늘로부터 3일 이내면 마감임박 표시
+      const dateStr=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const st = dateStatusMap[dateStr] || {};
+      const maleSt = st.male || '정상';
+      const femaleSt = st.female || '정상';
+      const bothClosed = maleSt==='마감' && femaleSt==='마감';
       const diffDays = Math.ceil((date - new Date(today.getFullYear(),today.getMonth(),today.getDate())) / (1000*60*60*24));
-      const isSoon = diffDays <= 3;
-      cell.innerHTML = isSoon
-        ? `<span>${d}</span><span class="cal-badge cal-badge-soon">마감임박</span>`
-        : `<span>${d}</span><span class="cal-badge">부산</span>`;
-      cell.onclick=()=>selectDate(currentYear,currentMonth,d,dow);
-      cell.ondblclick=()=>{selectDate(currentYear,currentMonth,d,dow);const dateStr=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;window.location.href=`party.html?date=${dateStr}`;};
+
+      if(bothClosed){
+        cell.classList.add('past');
+        cell.innerHTML=`<span>${d}</span><span class="cal-badge cal-badge-closed">마감</span>`;
+      } else {
+        let badge;
+        if(maleSt==='마감' && femaleSt!=='마감'){
+          badge=`<span class="cal-badge cal-badge-male">남마감</span>`;
+        } else if(femaleSt==='마감' && maleSt!=='마감'){
+          badge=`<span class="cal-badge cal-badge-female">여마감</span>`;
+        } else if(maleSt==='마감임박'||femaleSt==='마감임박'||diffDays<=3){
+          badge=`<span class="cal-badge cal-badge-soon">마감임박</span>`;
+        } else {
+          badge=`<span class="cal-badge">부산</span>`;
+        }
+        cell.innerHTML=`<span>${d}</span>${badge}`;
+        cell.onclick=()=>selectDate(currentYear,currentMonth,d,dow);
+        cell.ondblclick=()=>{selectDate(currentYear,currentMonth,d,dow);window.location.href=`party.html?date=${dateStr}`;};
+      }
     } else { cell.textContent=d; }
     if(d===today.getDate()&&currentMonth===today.getMonth()&&currentYear===today.getFullYear()) cell.classList.add('today');
     if(selectedDate&&selectedDate.year===currentYear&&selectedDate.month===currentMonth&&selectedDate.day===d) cell.classList.add('selected');
