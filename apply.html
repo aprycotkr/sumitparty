@@ -193,14 +193,7 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
   .date-grid select:first-child{grid-column:1/-1}
 }
 
-/* ── PAYMENT METHOD ── */
-.pay-btn{padding:1rem 1.1rem;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:var(--dark2);cursor:pointer;transition:all 0.2s;text-align:center}
-.pay-btn.sel{border-color:var(--gold);background:rgba(201,169,110,0.06)}
-.pay-btn-title{font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.6);transition:color 0.2s}
-.pay-btn.sel .pay-btn-title{color:var(--gold)}
-.pay-btn-sub{font-size:0.62rem;color:rgba(255,255,255,0.25);margin-top:4px;font-weight:300}
 </style>
-<script src="https://pay.naver.com/sdk/js/naverpay.min.js"></script>
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -392,23 +385,8 @@ fbq("track","PageView");
   </div>
   <div class="err" id="termErr" style="margin-top:8px"></div>
 
-  <!-- 결제 수단 선택 -->
-  <div style="margin-top:1.5rem">
-    <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.8rem">결제 수단</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div class="pay-btn sel" id="pm_bank" onclick="selPayMethod('bank')">
-        <div class="pay-btn-title">🏦 계좌이체</div>
-        <div class="pay-btn-sub">국민은행 직접 입금</div>
-      </div>
-      <div class="pay-btn" id="pm_naver" onclick="selPayMethod('naver')">
-        <div class="pay-btn-title">💚 네이버페이</div>
-        <div class="pay-btn-sub">간편결제 · 바로 완료</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 입금 계좌 안내 (계좌이체 선택 시) -->
-  <div id="bankInfoSection" style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:1.1rem 1.2rem;margin-top:1.3rem">
+  <!-- 입금 계좌 안내 -->
+  <div style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:1.1rem 1.2rem;margin-top:1.3rem">
     <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.8rem">🏦 입금 계좌 안내</div>
     <div style="display:flex;justify-content:space-between;padding:0.45rem 0;font-size:0.78rem;border-bottom:1px solid rgba(255,255,255,0.06)">
       <span style="color:rgba(255,255,255,0.4)">은행</span><span style="font-weight:500">국민은행</span>
@@ -428,7 +406,7 @@ fbq("track","PageView");
     </div>
   </div>
 
-  <div id="bankNotice" style="font-size:0.65rem;color:rgba(255,255,255,0.3);line-height:1.8;margin-top:0.8rem;padding:0 0.2rem">
+  <div style="font-size:0.65rem;color:rgba(255,255,255,0.3);line-height:1.8;margin-top:0.8rem;padding:0 0.2rem">
     ✅ 신청서 제출 후 위 계좌로 입금하셔야 신청이 완료됩니다.<br>
     입금자명은 신청하신 이름으로 보내주세요.
   </div>
@@ -451,34 +429,20 @@ fbq("track","PageView");
       <div class="complete-info-row"><span>참가비</span><span id="cPrice" style="color:var(--gold);font-weight:600">-</span></div>
     </div>
 
-    <!-- 계좌이체 완료 안내 -->
-    <div id="bankCompleteSection">
-      <div class="complete-info" style="text-align:left;margin-bottom:1rem">
-        <div class="complete-info-title">🏦 입금 계좌 안내</div>
-        <div class="complete-info-row"><span>은행</span><span>국민은행</span></div>
-        <div class="complete-info-row"><span>계좌번호</span><span style="font-weight:600;letter-spacing:0.05em">111102-04-277139</span></div>
-        <div class="complete-info-row"><span>예금주</span><span>김경민</span></div>
-        <div class="complete-info-row"><span>입금 금액</span><span id="cPrice2" style="color:var(--gold);font-weight:600">-</span></div>
-      </div>
-      <button type="button" id="copyAccountBtn" onclick="copyAccount()" style="width:100%;background:var(--gold);color:var(--black);border:none;border-radius:10px;padding:0.95rem;font-family:var(--font-body);font-size:0.82rem;font-weight:600;letter-spacing:0.03em;cursor:pointer;margin-bottom:1.5rem;transition:background 0.2s">계좌번호 복사하기</button>
-      <div style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:1rem 1.1rem;font-size:0.68rem;color:rgba(255,255,255,0.5);line-height:1.9;text-align:left;margin-bottom:1.5rem">
-        ⚠️ <strong style="color:rgba(255,255,255,0.7)">입금자명은 신청하신 이름으로 해주세요.</strong><br>
-        입금 확인 후 프로필 검토를 진행하며,<br>
-        결과는 <strong style="color:rgba(255,255,255,0.7)">문자 또는 인스타그램 DM</strong>으로 개별 안내드립니다.
-      </div>
+    <div class="complete-info" style="text-align:left;margin-bottom:1rem">
+      <div class="complete-info-title">🏦 입금 계좌 안내</div>
+      <div class="complete-info-row"><span>은행</span><span>국민은행</span></div>
+      <div class="complete-info-row"><span>계좌번호</span><span style="font-weight:600;letter-spacing:0.05em">111102-04-277139</span></div>
+      <div class="complete-info-row"><span>예금주</span><span>김경민</span></div>
+      <div class="complete-info-row"><span>입금 금액</span><span id="cPrice2" style="color:var(--gold);font-weight:600">-</span></div>
     </div>
 
-    <!-- 네이버페이 완료 안내 -->
-    <div id="npayCompleteSection" style="display:none">
-      <div class="complete-info" style="text-align:left;margin-bottom:1rem">
-        <div class="complete-info-title">💚 네이버페이 결제 완료</div>
-        <div class="complete-info-row"><span>결제 금액</span><span id="cPrice2" style="color:var(--gold);font-weight:600">-</span></div>
-        <div class="complete-info-row"><span>결제 수단</span><span style="color:var(--gold);font-weight:500">네이버페이</span></div>
-      </div>
-      <div style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:1rem 1.1rem;font-size:0.68rem;color:rgba(255,255,255,0.5);line-height:1.9;text-align:left;margin-bottom:1.5rem">
-        ✅ 결제가 완료되었습니다.<br>
-        프로필 검토 후 결과는 <strong style="color:rgba(255,255,255,0.7)">문자</strong>로 개별 안내드립니다.
-      </div>
+    <button type="button" id="copyAccountBtn" onclick="copyAccount()" style="width:100%;background:var(--gold);color:var(--black);border:none;border-radius:10px;padding:0.95rem;font-family:var(--font-body);font-size:0.82rem;font-weight:600;letter-spacing:0.03em;cursor:pointer;margin-bottom:1.5rem;transition:background 0.2s">계좌번호 복사하기</button>
+
+    <div style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:1rem 1.1rem;font-size:0.68rem;color:rgba(255,255,255,0.5);line-height:1.9;text-align:left;margin-bottom:1.5rem">
+      ⚠️ <strong style="color:rgba(255,255,255,0.7)">입금자명은 신청하신 이름으로 해주세요.</strong><br>
+      입금 확인 후 프로필 검토를 진행하며,<br>
+      결과는 <strong style="color:rgba(255,255,255,0.7)">문자 또는 인스타그램 DM</strong>으로 개별 안내드립니다.
     </div>
 
     <a href="index.html" class="btn-primary" style="text-decoration:none">홈으로 돌아가기</a>
@@ -500,9 +464,6 @@ const CONFIG = {
   // Google Apps Script 배포 URL
   GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec',
 
-  // 네이버페이 버튼 인증키 (파트너센터 > 개발정보 > 버튼 인증키)
-  NAVER_PAY_CLIENT_ID: 'B7100297-4DB7-47E5-B94C-9875F343AB6F',
-
   // 권종별 가격
   PRICES: {
     '1+2부': { '남성': 59900, '여성': 49900 },
@@ -511,57 +472,6 @@ const CONFIG = {
   }
 };
 /* ══════════════════════════════ */
-
-// ── 네이버페이 결제 완료 후 돌아온 경우 처리 ──────────
-(function() {
-  const p = new URLSearchParams(window.location.search);
-  const resultCode = p.get('resultCode');
-  if (!resultCode) return;
-
-  // 스텝 화면 즉시 숨김 (깜빡임 방지)
-  ['s1','s2','s3','s4','s5'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-  const pw = document.getElementById('progressWrap');
-  if (pw) pw.style.display = 'none';
-
-  const saved = JSON.parse(sessionStorage.getItem('sumit_pending') || 'null');
-  sessionStorage.removeItem('sumit_pending');
-
-  if (resultCode !== 'Success' || !saved) {
-    document.addEventListener('DOMContentLoaded', function() {
-      alert('결제가 취소되었거나 실패하였습니다. 다시 시도해주세요.');
-      window.location.href = 'apply.html';
-    });
-    return;
-  }
-
-  const paymentId = p.get('paymentId') || '';
-  const merchantPayKey = p.get('merchantPayKey') || saved.merchantPayKey || '';
-
-  // GAS에 결제 완료 데이터 전송
-  fetch(CONFIG.GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ ...saved, paymentMethod: 'naverpay', paymentId, merchantPayKey })
-  }).catch(() => {});
-
-  // 완료 화면 표시
-  document.addEventListener('DOMContentLoaded', function() {
-    const price = saved.price ? Number(saved.price).toLocaleString() + '원' : '-';
-    document.getElementById('cName').textContent = saved.name || '-';
-    document.getElementById('cTicket').textContent = saved.ticket || '-';
-    document.getElementById('cGender').textContent = saved.gender || '-';
-    document.getElementById('cPrice').textContent = price;
-    document.getElementById('cPrice2').textContent = price;
-    document.getElementById('bankCompleteSection').style.display = 'none';
-    document.getElementById('npayCompleteSection').style.display = '';
-    document.getElementById('sc').style.display = 'block';
-    fbq('track', 'Lead');
-  });
-})();
 
 // 폼 데이터
 const fd = {
@@ -714,44 +624,6 @@ function selGender(el, g) {
   el.classList.add('sel'); fd.gender = g;
 }
 
-// 결제 수단 선택
-let payMethod = 'bank';
-function selPayMethod(m) {
-  payMethod = m;
-  document.getElementById('pm_bank').classList.toggle('sel', m === 'bank');
-  document.getElementById('pm_naver').classList.toggle('sel', m === 'naver');
-  document.getElementById('bankInfoSection').style.display = m === 'bank' ? '' : 'none';
-  document.getElementById('bankNotice').style.display = m === 'bank' ? '' : 'none';
-  document.getElementById('submitBtn').textContent = m === 'bank' ? '신청서 제출하기 →' : '네이버페이로 결제하기 →';
-}
-
-// 네이버페이 결제창 열기
-function openNaverPay() {
-  const price = CONFIG.PRICES[fd.ticket]?.[fd.gender];
-  if (!price) { alert('가격 정보를 확인할 수 없습니다.'); return; }
-
-  const merchantPayKey = 'sumit-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-
-  sessionStorage.setItem('sumit_pending', JSON.stringify({
-    phone: fd.phone, ticket: fd.ticket, name: fd.name, gender: fd.gender,
-    byear: fd.byear, bmonth: fd.bmonth, bday: fd.bday,
-    insta: fd.insta, photoUrl: fd.photoUrl, date: fd.date,
-    price, merchantPayKey,
-    submitTime: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
-  }));
-
-  const oPay = Naver.Pay.create({ mode: 'production', clientId: CONFIG.NAVER_PAY_CLIENT_ID });
-  oPay.open({
-    merchantPayKey,
-    productName: '썸잇 솔로파티 ' + fd.ticket + ' (' + (fd.gender === '남성' ? '남' : '여') + ')',
-    productCount: '1',
-    totalPayAmount: String(price),
-    taxScopeAmount: String(price),
-    taxExScopeAmount: '0',
-    returnUrl: 'https://sumitparty.com/apply.html'
-  });
-}
-
 // 약관 토글
 function toggleTerm(i) {
   terms[i] = !terms[i];
@@ -844,11 +716,6 @@ async function submitForm() {
     document.getElementById('termErr').textContent = '모든 약관에 동의해주세요.'; return;
   }
   document.getElementById('termErr').textContent = '';
-
-  if (payMethod === 'naver') {
-    openNaverPay();
-    return;
-  }
 
   // 로딩 시작
   document.getElementById('loadingOverlay').classList.add('show');
