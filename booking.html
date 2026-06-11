@@ -254,12 +254,13 @@ let dateStatusMap = {};
 async function init(){
   const now=new Date();
   currentYear=now.getFullYear(); currentMonth=now.getMonth();
+  renderCalendar(); // 즉시 렌더링
   try {
     const res = await fetch(GAS_URL + '?action=getDateStatus');
     const json = await res.json();
     if(json.result === 'success') dateStatusMap = json.data || {};
+    renderCalendar(); // 상태 데이터 받은 후 재렌더링
   } catch(e) {}
-  renderCalendar();
 }
 
 function renderCalendar(){
