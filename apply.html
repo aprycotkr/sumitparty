@@ -213,7 +213,6 @@ fbq("track","PageView");
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=821379504055811&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -473,14 +472,6 @@ fbq("track","PageView");
       </a>
     </div>
 
-    <!-- 공유 -->
-    <div style="margin-bottom:1.5rem">
-      <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);font-weight:600;margin-bottom:0.8rem;text-align:center">친구랑 같이 신청하기</div>
-      <button onclick="shareKakao()" class="share-btn share-kakao">
-        <img src="icon-kakao.png" style="width:20px;height:20px;object-fit:contain" alt="">
-        카카오톡으로 공유하기
-      </button>
-    </div>
 
     <a href="index.html" class="btn-secondary" style="text-decoration:none;display:block;text-align:center">홈으로 돌아가기</a>
   </div>
@@ -852,61 +843,6 @@ function fallbackCopy(text, cb) {
   document.body.removeChild(ta);
 }
 
-// Kakao 초기화
-(function() {
-  if (window.Kakao && !Kakao.isInitialized()) {
-    Kakao.init('5a0ca93caf19ada046e5d80e3fc4597a');
-  }
-})();
-
-function shareKakao() {
-  if (!window.Kakao || !Kakao.isInitialized()) {
-    alert('잠시 후 다시 시도해주세요.');
-    return;
-  }
-  Kakao.Share.sendDefault({
-    objectType: 'feed',
-    content: {
-      title: '썸잇 솔로파티 같이 가요!',
-      description: '부산 No.1 프리미엄 솔로파티 — 나 신청했는데 같이 가지 않을래요?',
-      imageUrl: 'https://sumitparty.com/og-image.png',
-      link: {
-        mobileWebUrl: 'https://sumitparty.com',
-        webUrl: 'https://sumitparty.com',
-      },
-    },
-    buttons: [{
-      title: '파티 신청하기',
-      link: {
-        mobileWebUrl: 'https://sumitparty.com/booking.html',
-        webUrl: 'https://sumitparty.com/booking.html',
-      },
-    }],
-  });
-}
-
-async function shareDM(btn) {
-  const origHTML = btn.innerHTML;
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: '썸잇 솔로파티',
-        text: '부산 No.1 프리미엄 솔로파티 썸잇 같이 가요!',
-        url: 'https://sumitparty.com',
-      });
-    } catch(err) {}
-  } else {
-    const link = 'https://sumitparty.com';
-    try {
-      if (navigator.clipboard) await navigator.clipboard.writeText(link);
-      else fallbackCopy(link, () => {});
-    } catch(err) {
-      fallbackCopy(link, () => {});
-    }
-    btn.textContent = '✓ 링크 복사됨';
-    setTimeout(() => { btn.innerHTML = origHTML; }, 2000);
-  }
-}
 </script>
 
 <!--
