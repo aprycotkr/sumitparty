@@ -186,6 +186,13 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
 .loading-pct{font-size:0.7rem;color:var(--gold);font-weight:500}
 .loading-desc{font-size:0.65rem;color:rgba(255,255,255,0.25);margin-top:0.5rem;font-weight:300}
 
+/* ── SHARE ── */
+.share-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:0.85rem;border:none;border-radius:10px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:all 0.2s;letter-spacing:0.02em;width:100%}
+.share-kakao{background:#FEE500;color:#3C1E1E}
+.share-kakao:hover{background:#FFD600}
+.share-dm{background:var(--dark2);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.12)}
+.share-dm:hover{border-color:rgba(255,255,255,0.3);color:var(--white)}
+
 /* ── MOBILE ── */
 @media(max-width:520px){
   .card{border-radius:0;border-left:none;border-right:none;margin:0}
@@ -206,6 +213,7 @@ fbq("track","PageView");
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=821379504055811&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -445,7 +453,36 @@ fbq("track","PageView");
       결과는 <strong style="color:rgba(255,255,255,0.7)">문자 또는 인스타그램 DM</strong>으로 개별 안내드립니다.
     </div>
 
-    <a href="index.html" class="btn-primary" style="text-decoration:none">홈으로 돌아가기</a>
+    <!-- 다음 단계 안내 -->
+    <div style="background:var(--dark2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.2rem;font-size:0.72rem;color:rgba(255,255,255,0.45);line-height:2.2;text-align:left;margin-bottom:1rem">
+      <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.7rem">📋 다음 단계 안내</div>
+      <div>1. 위 계좌로 참가비 입금 <span style="color:rgba(255,255,255,0.6)">(입금자명: 신청 이름)</span></div>
+      <div>2. 입금 확인 후 운영팀 프로필 검토 진행</div>
+      <div>3. 합격 시 <span style="color:rgba(255,255,255,0.6)">파티 장소 상세 주소</span> 개별 안내</div>
+      <div>4. <span style="color:#f87171">24시간 내 미입금 시 자동취소</span>됩니다</div>
+    </div>
+
+    <!-- 문의 -->
+    <div style="text-align:center;margin-bottom:1.2rem;padding:0.8rem 0;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)">
+      <p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:0.6rem">문의하기</p>
+      <a href="https://instagram.com/sum_it.official" target="_blank"
+         style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;color:rgba(255,255,255,0.55);font-size:0.75rem;font-weight:400;letter-spacing:0.03em;transition:color 0.2s"
+         onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">
+        <img src="icon-insta.png" style="width:18px;height:18px;object-fit:contain" alt="">
+        @sum_it.official
+      </a>
+    </div>
+
+    <!-- 공유 -->
+    <div style="margin-bottom:1.5rem">
+      <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);font-weight:600;margin-bottom:0.8rem;text-align:center">친구랑 같이 신청하기</div>
+      <button onclick="shareKakao()" class="share-btn share-kakao">
+        <img src="icon-kakao.png" style="width:20px;height:20px;object-fit:contain" alt="">
+        카카오톡으로 공유하기
+      </button>
+    </div>
+
+    <a href="index.html" class="btn-secondary" style="text-decoration:none;display:block;text-align:center">홈으로 돌아가기</a>
   </div>
 </div>
 
@@ -813,6 +850,62 @@ function fallbackCopy(text, cb) {
   ta.focus(); ta.select();
   try { document.execCommand('copy'); cb(); } catch (e) {}
   document.body.removeChild(ta);
+}
+
+// Kakao 초기화
+(function() {
+  if (window.Kakao && !Kakao.isInitialized()) {
+    Kakao.init('5a0ca93caf19ada046e5d80e3fc4597a');
+  }
+})();
+
+function shareKakao() {
+  if (!window.Kakao || !Kakao.isInitialized()) {
+    alert('잠시 후 다시 시도해주세요.');
+    return;
+  }
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: '썸잇 솔로파티 같이 가요!',
+      description: '부산 No.1 프리미엄 솔로파티 — 나 신청했는데 같이 가지 않을래요?',
+      imageUrl: 'https://sumitparty.com/og-image.png',
+      link: {
+        mobileWebUrl: 'https://sumitparty.com',
+        webUrl: 'https://sumitparty.com',
+      },
+    },
+    buttons: [{
+      title: '파티 신청하기',
+      link: {
+        mobileWebUrl: 'https://sumitparty.com/booking.html',
+        webUrl: 'https://sumitparty.com/booking.html',
+      },
+    }],
+  });
+}
+
+async function shareDM(btn) {
+  const origHTML = btn.innerHTML;
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: '썸잇 솔로파티',
+        text: '부산 No.1 프리미엄 솔로파티 썸잇 같이 가요!',
+        url: 'https://sumitparty.com',
+      });
+    } catch(err) {}
+  } else {
+    const link = 'https://sumitparty.com';
+    try {
+      if (navigator.clipboard) await navigator.clipboard.writeText(link);
+      else fallbackCopy(link, () => {});
+    } catch(err) {
+      fallbackCopy(link, () => {});
+    }
+    btn.textContent = '✓ 링크 복사됨';
+    setTimeout(() => { btn.innerHTML = origHTML; }, 2000);
+  }
 }
 </script>
 

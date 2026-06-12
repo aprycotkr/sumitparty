@@ -207,6 +207,28 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .footer-legal a{font-size:0.58rem;color:rgba(255,255,255,0.15);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s}
 .footer-legal a:hover{color:rgba(255,255,255,0.4)}
 
+/* ── GALLERY ── */
+#gallery{background:var(--black)}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:3.5rem}
+.gallery-item{position:relative;overflow:hidden;aspect-ratio:3/4}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease,filter 0.3s ease;filter:brightness(0.82)}
+.gallery-item:hover img{transform:scale(1.05);filter:brightness(1)}
+.gallery-item:first-child{grid-row:span 2;aspect-ratio:auto}
+@media(max-width:768px){.gallery-grid{grid-template-columns:1fr 1fr}.gallery-item:first-child{grid-row:span 1;aspect-ratio:3/4}}
+
+/* ── FAQ ── */
+#faq{background:var(--dark)}
+.faq-list{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.05);margin-top:3.5rem}
+.faq-item{background:var(--dark);overflow:hidden}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;cursor:pointer;transition:background 0.2s;gap:1rem}
+.faq-q:hover{background:var(--dark2)}
+.faq-q-text{font-size:0.82rem;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.5}
+.faq-icon{color:var(--gold);font-size:1.3rem;flex-shrink:0;transition:transform 0.3s;line-height:1;font-weight:300}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height 0.35s ease}
+.faq-item.open .faq-answer{max-height:200px}
+.faq-a-text{padding:0 2rem 1.5rem;font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.9;font-weight:300;border-top:1px solid rgba(255,255,255,0.05);padding-top:1.2rem}
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -501,6 +523,89 @@ fbq("track","PageView");
   </div>
 </section>
 
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section container">
+    <p class="section-label">Gallery</p>
+    <h2 class="section-title">파티 현장</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="gallery/KakaoTalk_20260317_165016989_02.jpg" alt="썸잇 파티 현장">
+      </div>
+      <div class="gallery-item">
+        <img src="gallery/KakaoTalk_20260317_165016989_02%20%281%29.png" alt="썸잇 파티 현장">
+      </div>
+      <div class="gallery-item">
+        <img src="gallery/KakaoTalk_20260420_183411097.png" alt="썸잇 파티 현장">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section container">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">자주 묻는 질문</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">처음인데 혼자 가도 되나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-a-text">네, 혼자 오시는 분들이 대부분입니다. 로테이션 방식으로 진행되어 오히려 여러 사람과 자연스럽게 대화할 수 있어요. 스태프가 처음부터 함께 안내해드리니 걱정 마세요.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">외모 승인 기준이 뭔가요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-a-text">자기관리를 하고 깔끔한 인상의 분들을 선발합니다. 특정 수치보다는 제출한 사진을 기반으로 전반적인 분위기와 첫인상을 기준으로 검토합니다.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">합격 결과는 얼마나 걸리나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-a-text">입금 확인 후 운영팀 검토를 거쳐 순차적으로 문자 또는 인스타그램 DM으로 개별 안내드립니다. 합격 시 파티 장소 상세 주소도 함께 안내됩니다.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">환불 규정이 어떻게 되나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-a-text">노쇼 및 당일 취소는 환불이 불가합니다. 자세한 환불 규정은 <a href="terms.html" style="color:var(--gold)">이용약관</a>을 확인해주세요.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">복장 규정이 있나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-a-text">별도의 드레스코드는 없지만, 깔끔한 캐주얼을 권장합니다. 슬리퍼나 운동복 등은 자제해주세요.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">현장에서 추가 신청이 가능한가요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-a-text">당일 현장에서 +25,000원으로 추가 신청이 가능합니다. 단, 정원 초과 시 불가할 수 있으니 미리 온라인으로 신청하시는 걸 권장합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section id="cta">
   <div class="cta-bg"></div>
@@ -620,6 +725,14 @@ observeCount(document.getElementById('stats'),()=>{
   animateCount(document.getElementById('num2'),10000,2000,'+');
   animateCount(document.getElementById('num3'),300,2000,'+');
 });
+
+/* FAQ 토글 */
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
 </script>
 </body>
 </html>
