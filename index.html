@@ -734,5 +734,18 @@ function toggleFaq(el) {
   if (!isOpen) item.classList.add('open');
 }
 </script>
+<script src="common.js"></script>
+<script>
+// 달력 캐시 미리 채우기 — booking.html 진입 시 즉시 표시되도록
+(async function(){
+  try {
+    const res = await fetch(GAS_URL + '?action=getDateStatus');
+    const json = await res.json();
+    if(json.result === 'success'){
+      localStorage.setItem('sumit_dateStatus', JSON.stringify(json.data || {}));
+    }
+  } catch(e){}
+})();
+</script>
 </body>
 </html>
