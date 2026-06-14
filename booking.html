@@ -73,6 +73,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .cal-cell.selected .cal-badge{background:rgba(0,0,0,0.25);color:var(--black)}
 .cal-cell.today{border:1px solid rgba(201,169,110,0.4)}
 .cal-cell.past{opacity:0.2;cursor:not-allowed;pointer-events:none}
+.cal-loading-msg{grid-column:1/-1;text-align:center;padding:2.5rem 1rem;color:rgba(255,255,255,0.3);font-size:0.72rem;letter-spacing:0.15em}
 
 /* TICKET TYPE */
 .slots-section{margin-top:3rem}
@@ -254,13 +255,13 @@ let dateStatusMap = {};
 async function init(){
   const now=new Date();
   currentYear=now.getFullYear(); currentMonth=now.getMonth();
-  renderCalendar(); // 즉시 렌더링
+  renderCalendar(); // 즉시 렌더링 (기본 배지로)
   try {
     const res = await fetch(GAS_URL + '?action=getDateStatus');
     const json = await res.json();
     if(json.result === 'success') dateStatusMap = json.data || {};
-    renderCalendar(); // 상태 데이터 받은 후 재렌더링
   } catch(e) {}
+  renderCalendar(); // GAS 데이터 반영하여 배지 업데이트
 }
 
 function renderCalendar(){
