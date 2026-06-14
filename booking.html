@@ -255,13 +255,22 @@ let dateStatusMap = {};
 async function init(){
   const now=new Date();
   currentYear=now.getFullYear(); currentMonth=now.getMonth();
-  renderCalendar(); // 즉시 렌더링 (기본 배지로)
+
+  // 캐시된 데이터 있으면 즉시 사용 → 배지 바로 표시
+  const cached = localStorage.getItem('sumit_dateStatus');
+  if(cached) try { dateStatusMap = JSON.parse(cached); } catch(e){}
+  renderCalendar();
+
+  // 백그라운드에서 최신 데이터 fetch → 변경 있으면 조용히 업데이트
   try {
     const res = await fetch(GAS_URL + '?action=getDateStatus');
     const json = await res.json();
-    if(json.result === 'success') dateStatusMap = json.data || {};
+    if(json.result === 'success'){
+      dateStatusMap = json.data || {};
+      localStorage.setItem('sumit_dateStatus', JSON.stringify(dateStatusMap));
+      renderCalendar();
+    }
   } catch(e) {}
-  renderCalendar(); // GAS 데이터 반영하여 배지 업데이트
 }
 
 function renderCalendar(){
