@@ -261,7 +261,7 @@ fbq("track","PageView");
         <div class="info-row"><span>참가 연령</span><span class="iv">90~07년생 (남녀 동일)</span></div>
         <div class="info-row"><span>정원</span><span class="iv">최대 110명</span></div>
         <div class="info-row"><span>심사 방식</span><span class="iv gold">외모 승인제</span></div>
-        <button class="apply-btn-main" onclick="goApply()">✍️ 신청서 작성하기</button>
+        <button class="apply-btn-main" onclick="goApply()">파티 참가 신청</button>
         <p class="price-guide">신청 후 운영진 검토를 거쳐 개별 합격 안내가 발송됩니다.</p>
       </div>
     </div>
@@ -298,7 +298,7 @@ fbq("track","PageView");
         ✔ 조기 마감 가능<br>
         ✔ 선착순 진행
       </div>
-      <button class="card-apply-btn" onclick="goApply()">✍️ 신청서 작성하기</button>
+      <button class="card-apply-btn" onclick="goApply()">파티 참가 신청</button>
       <p class="card-guide">신청 후 순차적으로 확정 안내됩니다.</p>
     </div>
   </div>
@@ -312,11 +312,21 @@ fbq("track","PageView");
       <div class="floating-title" id="floatingTitle">썸잇 솔로파티 — 부산 부경대점</div>
       <div class="floating-sub" id="floatingSub">날짜 · 시간</div>
     </div>
-    <button class="floating-btn" onclick="goApply()">신청하기</button>
+    <button class="floating-btn" onclick="goApply()">파티 참가 신청</button>
   </div>
 </div>
 
 <script>
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec';
+let _partyDateStatusMap = {};
+const _partyStatusReady = (async function(){
+  try {
+    const res = await fetch(GAS_URL + '?action=getDateStatus');
+    const json = await res.json();
+    if(json.result === 'success') _partyDateStatusMap = json.data || {};
+  } catch(e) {}
+})();
+
 (function(){
   const params = new URLSearchParams(window.location.search);
   const dateParam = params.get('date');
@@ -347,9 +357,19 @@ fbq("track","PageView");
   }
 })();
 
-function goApply(){
+async function goApply(){
   const params = new URLSearchParams(window.location.search);
   const date = params.get('date') || '';
+
+  // 마감 상태 fetch 완료까지 대기 후 확인
+  await _partyStatusReady;
+  if(date && _partyDateStatusMap[date]){
+    const st = _partyDateStatusMap[date];
+    if(st.male === '마감' && st.female === '마감'){
+      alert('죄송합니다. 해당 날짜는 마감되었습니다.');
+      return;
+    }
+  }
   window.location.href = `apply.html?date=${date}`;
 }
 </script>

@@ -331,12 +331,27 @@ function changeMonth(dir){
 function selectDate(year,month,day,dow){
   selectedDate={year,month,day,dow};
   renderCalendar();
-  // 오른쪽 요약 업데이트
   const dayNames=['일','월','화','수','목','금','토'];
+  const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  const st = dateStatusMap[dateStr] || {};
+  const mL = st.maleLeft;
+  const fL = st.femaleLeft;
+
+  let seatsHtml = '';
+  const hasMale   = mL !== '' && mL !== null && mL !== undefined;
+  const hasFemale = fL !== '' && fL !== null && fL !== undefined;
+  if (hasMale || hasFemale) {
+    const parts = [];
+    if (hasMale)   parts.push(`<span style="color:#f87171;font-weight:600">남성 잔여 ${mL}석</span>`);
+    if (hasFemale) parts.push(`<span style="color:#f472b6;font-weight:600">여성 잔여 ${fL}석</span>`);
+    seatsHtml = `<div style="margin-top:0.6rem;font-size:0.68rem;display:flex;gap:0.8rem">${parts.join('')}</div>`;
+  }
+
   const el=document.getElementById('orderSummary');
   el.innerHTML=`
     <div class="order-date">${year}년 ${month+1}월 ${day}일 (${dayNames[dow]})</div>
-    <div class="order-slot-info">부산 부경대점 · 탭하여 상세보기</div>`;
+    <div class="order-slot-info">부산 부경대점 · 탭하여 상세보기</div>
+    ${seatsHtml}`;
 }
 
 function submitBooking(){
