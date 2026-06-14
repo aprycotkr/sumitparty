@@ -54,13 +54,14 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
 .field{margin-bottom:1.3rem}
 .field label{display:block;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:0.5rem}
 .field label .req{color:var(--gold)}
-.field input[type=text],.field input[type=tel]{
+.field input[type=text],.field input[type=tel],.field input[type=date]{
   width:100%;padding:0.85rem 1rem;
   background:var(--dark2);border:1px solid rgba(255,255,255,0.1);
   border-radius:8px;font-size:0.85rem;color:var(--white);
   outline:none;font-family:var(--font-body);font-weight:300;
   transition:border-color 0.2s
 }
+.field input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.7);cursor:pointer}
 .field input:focus{border-color:var(--gold)}
 .field input::placeholder{color:rgba(255,255,255,0.2)}
 .field select{
@@ -86,8 +87,6 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
 }
 .gender-btn.sel{border-color:var(--gold);background:rgba(201,169,110,0.08);color:var(--gold)}
 
-/* ── DATE SELECT ── */
-.date-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px}
 
 /* ── TICKET OPTIONS ── */
 .ticket-list{display:flex;flex-direction:column;gap:8px}
@@ -196,8 +195,6 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
 /* ── MOBILE ── */
 @media(max-width:520px){
   .card{border-radius:0;border-left:none;border-right:none;margin:0}
-  .date-grid{grid-template-columns:1fr 1fr;gap:6px}
-  .date-grid select:first-child{grid-column:1/-1}
 }
 
 </style>
@@ -251,11 +248,11 @@ fbq("track","PageView");
   <h2 class="step-title">연락처 확인</h2>
   <p class="step-desc">중복 신청 방지 및 합격 안내를 위해 사용됩니다.</p>
   <div class="field">
-    <label>휴대폰 번호 <span class="req">*</span></label>
-    <input type="tel" id="phone" placeholder="01012345678" maxlength="11">
-    <div class="err" id="phoneErr"></div>
+    <label for="phone">휴대폰 번호 <span class="req">*</span></label>
+    <input type="tel" id="phone" placeholder="01012345678" maxlength="11" aria-describedby="phoneErr">
+    <div class="err" id="phoneErr" role="alert"></div>
   </div>
-  <button class="btn-primary" onclick="step1Next()">다음으로</button>
+  <button class="btn-primary" onclick="step1Next()" aria-label="다음 단계로 이동">다음으로</button>
 </div>
 
 <!-- STEP 2: 기본정보 -->
@@ -291,27 +288,23 @@ fbq("track","PageView");
   </div>
 
   <div class="field">
-    <label>이름 (실명) <span class="req">*</span></label>
-    <input type="text" id="name" placeholder="홍길동">
-    <div class="err" id="nameErr"></div>
+    <label for="name">이름 (실명) <span class="req">*</span></label>
+    <input type="text" id="name" placeholder="홍길동" aria-describedby="nameErr">
+    <div class="err" id="nameErr" role="alert"></div>
   </div>
 
   <div class="field">
     <label>성별 <span class="req">*</span></label>
-    <div class="gender-grid">
-      <button class="gender-btn" onclick="selGender(this,'남성')">남성</button>
-      <button class="gender-btn" onclick="selGender(this,'여성')">여성</button>
+    <div class="gender-grid" role="group" aria-label="성별 선택">
+      <button class="gender-btn" onclick="selGender(this,'남성')" aria-pressed="false">남성</button>
+      <button class="gender-btn" onclick="selGender(this,'여성')" aria-pressed="false">여성</button>
     </div>
-    <div class="err" id="genderErr"></div>
+    <div class="err" id="genderErr" role="alert"></div>
   </div>
 
   <div class="field">
-    <label>생년월일 <span class="req">*</span></label>
-    <div class="date-grid">
-      <select id="byear"><option value="">년도</option></select>
-      <select id="bmonth"><option value="">월</option></select>
-      <select id="bday"><option value="">일</option></select>
-    </div>
+    <label for="bdate">생년월일 <span class="req">*</span></label>
+    <input type="date" id="bdate" min="1990-01-01" max="2007-12-31" aria-label="생년월일">
     <div class="err" id="bdayErr"></div>
   </div>
 
@@ -326,10 +319,10 @@ fbq("track","PageView");
   <p class="step-desc">합격 후 연락 및 프로필 확인에 사용됩니다.</p>
 
   <div class="field">
-    <label>인스타그램 아이디 <span class="req">*</span></label>
+    <label for="insta">인스타그램 아이디 <span class="req">*</span></label>
     <div class="insta-wrap">
-      <span class="insta-at">@</span>
-      <input type="text" id="insta" placeholder="instagram_id" oninput="this.value=this.value.replace(/[^a-zA-Z0-9._]/g,'')">
+      <span class="insta-at" aria-hidden="true">@</span>
+      <input type="text" id="insta" placeholder="instagram_id" oninput="this.value=this.value.replace(/[^a-zA-Z0-9._]/g,'')" aria-label="인스타그램 아이디 (@제외)">
     </div>
     <div class="field-hint">영문, 숫자, 밑줄(_), 마침표(.)만 입력 가능합니다.</div>
     <div class="err" id="instaErr"></div>
@@ -483,6 +476,7 @@ fbq("track","PageView");
 
 </div><!-- /container -->
 
+<script src="common.js"></script>
 <script>
 /* ══════════════════════════════
    ⚙️  설정 — 이 부분만 수정하세요
@@ -494,7 +488,7 @@ const CONFIG = {
   CLOUDINARY_UPLOAD_PRESET: 'sumit_apply',
 
   // Google Apps Script 배포 URL
-  GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec',
+  GOOGLE_SCRIPT_URL: GAS_URL,
 
   // 권종별 가격
   PRICES: {
@@ -551,24 +545,6 @@ const terms = [false, false, false];
   }
 })();
 
-// 생년 셀렉트 채우기 (90~07년생)
-(function() {
-  const byear = document.getElementById('byear');
-  const bmonth = document.getElementById('bmonth');
-  const bday = document.getElementById('bday');
-  for (let y = 2007; y >= 1990; y--) {
-    const o = document.createElement('option');
-    o.value = y; o.textContent = y + '년'; byear.appendChild(o);
-  }
-  for (let m = 1; m <= 12; m++) {
-    const o = document.createElement('option');
-    o.value = m; o.textContent = m + '월'; bmonth.appendChild(o);
-  }
-  for (let d = 1; d <= 31; d++) {
-    const o = document.createElement('option');
-    o.value = d; o.textContent = d + '일'; bday.appendChild(o);
-  }
-})();
 
 // 스텝 이동
 function goStep(n) {
@@ -617,12 +593,11 @@ async function step2Next() {
     }
   }
   document.getElementById('genderErr').textContent = '';
-  const by = document.getElementById('byear').value;
-  const bm = document.getElementById('bmonth').value;
-  const bd = document.getElementById('bday').value;
-  if (!by || !bm || !bd) { document.getElementById('bdayErr').textContent = '생년월일을 모두 선택해주세요.'; return; }
+  const bdate = document.getElementById('bdate').value;
+  if (!bdate) { document.getElementById('bdayErr').textContent = '생년월일을 선택해주세요.'; return; }
   document.getElementById('bdayErr').textContent = '';
-  fd.name = nm; fd.byear = by; fd.bmonth = bm; fd.bday = bd;
+  const [by, bm, bd] = bdate.split('-');
+  fd.name = nm; fd.byear = by; fd.bmonth = String(parseInt(bm)); fd.bday = String(parseInt(bd));
   goStep(3);
 }
 
@@ -680,8 +655,8 @@ function selTicket(el, t) {
 
 // 성별 선택
 function selGender(el, g) {
-  document.querySelectorAll('.gender-btn').forEach(x => x.classList.remove('sel'));
-  el.classList.add('sel'); fd.gender = g;
+  document.querySelectorAll('.gender-btn').forEach(x => { x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
+  el.classList.add('sel'); el.setAttribute('aria-pressed','true'); fd.gender = g;
 }
 
 // 약관 토글
@@ -797,16 +772,27 @@ async function submitForm() {
     submitTime: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
   };
 
+  let submitOk = true;
   try {
     await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
       method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
-  } catch (e) { /* no-cors 모드에서 에러는 무시 */ }
+  } catch (e) {
+    submitOk = false;
+  }
+
+  clearInterval(interval);
+
+  if (!submitOk) {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    document.getElementById('submitBtn').disabled = false;
+    alert('네트워크 오류가 발생했습니다.\n인터넷 연결을 확인 후 다시 시도해주세요.');
+    return;
+  }
 
   // 완료
-  clearInterval(interval);
   document.getElementById('progBar').style.width = '100%';
   document.getElementById('progPct').textContent = '100%';
   await new Promise(r => setTimeout(r, 500));
