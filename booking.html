@@ -256,21 +256,23 @@ async function init(){
   const now=new Date();
   currentYear=now.getFullYear(); currentMonth=now.getMonth();
 
-  // 캐시된 데이터 있으면 즉시 사용 → 배지 바로 표시
   const cached = localStorage.getItem('sumit_dateStatus');
-  if(cached) try { dateStatusMap = JSON.parse(cached); } catch(e){}
-  renderCalendar();
+  const hasCache = !!cached;
+  if(hasCache){ try{ dateStatusMap = JSON.parse(cached); }catch(e){} renderCalendar(); }
+  else{ document.getElementById('calGrid').innerHTML='<div class="cal-loading-msg">날짜 정보 불러오는 중...</div>'; }
 
-  // 백그라운드에서 최신 데이터 fetch → 변경 있으면 조용히 업데이트
   try {
     const res = await fetch(GAS_URL + '?action=getDateStatus');
     const json = await res.json();
     if(json.result === 'success'){
-      dateStatusMap = json.data || {};
-      localStorage.setItem('sumit_dateStatus', JSON.stringify(dateStatusMap));
-      renderCalendar();
+      const newStr = JSON.stringify(json.data || {});
+      if(newStr !== cached){
+        dateStatusMap = json.data || {};
+        localStorage.setItem('sumit_dateStatus', newStr);
+        renderCalendar();
+      }
     }
-  } catch(e) {}
+  } catch(e){ if(!hasCache) renderCalendar(); }
 }
 
 function renderCalendar(){
