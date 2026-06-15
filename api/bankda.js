@@ -1,0 +1,33 @@
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec';
+
+export default async function handler(req, res) {
+  const type = req.query.type || '';
+
+  try {
+    let gasRes;
+
+    if (req.method === 'GET') {
+      gasRes = await fetch(`${GAS_URL}?type=${type}`, {
+        redirect: 'follow'
+      });
+    } else {
+      const body = await new Promise((resolve) => {
+        let data = '';
+        req.on('data', chunk => data += chunk);
+        req.on('end', () => resolve(data));
+      });
+      gasRes = await fetch(`${GAS_URL}?type=${type}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body,
+        redirect: 'follow'
+      });
+    }
+
+    const json = await gasRes.json();
+    res.status(200).json(json);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
