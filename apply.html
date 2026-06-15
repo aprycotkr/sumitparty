@@ -28,7 +28,14 @@
   --font-body:'Montserrat',sans-serif;
 }
 html,body{width:100%;min-height:100%;-webkit-text-size-adjust:none}
-body{background:var(--black);font-family:var(--font-body);font-weight:300;color:var(--white);padding-bottom:max(40px,40vh)}
+body{background:var(--black);font-family:var(--font-body);font-weight:300;color:var(--white);padding-bottom:0}
+.apply-footer{padding:2rem 1.5rem 2.5rem;border-top:1px solid rgba(255,255,255,0.06);margin-top:1rem}
+.apply-footer-info{font-size:0.58rem;color:rgba(255,255,255,0.18);line-height:2.1;text-align:center;margin-bottom:1.2rem;word-break:keep-all}
+.apply-footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.apply-footer-copy{font-size:0.55rem;color:rgba(255,255,255,0.12);letter-spacing:0.08em}
+.apply-footer-legal{display:flex;gap:1.5rem}
+.apply-footer-legal a{font-size:0.55rem;color:rgba(255,255,255,0.2);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s}
+.apply-footer-legal a:hover{color:rgba(255,255,255,0.5)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
 
 /* ── HEADER ── */
@@ -476,6 +483,21 @@ fbq("track","PageView");
 </div>
 
 </div><!-- /container -->
+
+<footer class="apply-footer">
+  <div class="apply-footer-info">
+    상호: 썸잇 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 793-02-03419<br>
+    부산광역시 수영구 무학로 9번길 15-1<br>
+    인스타그램: @sum_it.official &nbsp;|&nbsp; 이메일: aprycotkr@naver.com
+  </div>
+  <div class="apply-footer-bottom">
+    <span class="apply-footer-copy">© 2026 Sumit Party. All rights reserved.</span>
+    <div class="apply-footer-legal">
+      <a href="terms.html">이용약관</a>
+      <a href="privacy.html">개인정보처리방침</a>
+    </div>
+  </div>
+</footer>
 
 <script src="common.js"></script>
 <script>
