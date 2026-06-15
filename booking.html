@@ -145,7 +145,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .age-notice{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;line-height:1.5}
 
 @media(max-width:900px){.booking-layout{grid-template-columns:1fr}.booking-right{position:static;max-height:none}}
-@media(max-width:600px){nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}.page-header{padding:6rem 1.5rem 1.5rem}.page-title{font-size:1.8rem}.booking-left,.booking-right{padding:1.2rem 1.2rem}.info-banner{grid-template-columns:1fr 1fr}.info-item{padding:0.9rem 1rem}.ticket-card{grid-template-columns:1fr;gap:0.8rem}.ticket-prices{text-align:left}.cal-header{margin-bottom:1rem}.cal-month{font-size:1.2rem}.cal-grid{gap:1px}.cal-cell{font-size:0.72rem}.cal-cell.party{padding:4px 1px;gap:1px}.cal-badge{font-size:0.4rem;padding:1px 3px}.cal-days-header span{padding:0.3rem 0;font-size:0.55rem}}
+@media(max-width:600px){nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}.page-header{padding:6rem 1.5rem 1.5rem}.page-title{font-size:1.8rem}.booking-left,.booking-right{padding:1.2rem 1.2rem}.info-banner{grid-template-columns:1fr 1fr}.info-item{padding:0.9rem 1rem}.ticket-card{grid-template-columns:1fr;gap:0.8rem}.ticket-prices{text-align:left}.cal-header{margin-bottom:1rem}.cal-month{font-size:1.2rem}.cal-grid{gap:1px}.cal-cell{font-size:0.72rem}.cal-cell.party{padding:4px 1px;gap:1px}.cal-badge{font-size:0.55rem;padding:1px 4px}.cal-days-header span{padding:0.3rem 0;font-size:0.55rem}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -353,6 +353,7 @@ function selectDate(year,month,day,dow){
     <div class="order-date">${year}년 ${month+1}월 ${day}일 (${dayNames[dow]})</div>
     <div class="order-slot-info">부산 부경대점 · 탭하여 상세보기</div>
     ${seatsHtml}`;
+  if(typeof fbq!=='undefined') fbq("track","AddToCart",{content_name:"파티 날짜 선택",content_category:"파티",currency:"KRW",value:0});
 }
 
 function submitBooking(){

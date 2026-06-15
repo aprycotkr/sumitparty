@@ -21,7 +21,7 @@
 <meta name="facebook-domain-verification" content="blurgr5powypwcis3te1kjn7o2479h">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;900&family=Bebas+Neue&family=Space+Grotesk:wght@600;700&family=Inter:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -111,7 +111,7 @@ canvas#starCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
 .about-desc{font-size:0.78rem;color:rgba(255,255,255,0.42);line-height:2;font-weight:300;margin-bottom:2.5rem}
 .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(201,169,110,0.1);margin-top:0}
 .about-stat{background:var(--dark);padding:1.5rem}
-.about-stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:0.25rem}
+.about-stat-num{font-family:'Inter',var(--font-body);font-size:2.2rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:0.25rem}
 .about-stat-label{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:500}
 .about-details{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.05)}
 .about-detail-item{background:var(--dark);padding:1.6rem 2rem;display:flex;align-items:flex-start;gap:1.5rem;transition:background 0.2s}
@@ -161,7 +161,7 @@ canvas#starCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
 .stat-item{padding:3rem 2rem;text-align:center;border-right:1px solid rgba(201,169,110,0.07)}
 .stat-item:last-child{border-right:none}
-.stat-number{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;color:var(--white);line-height:1;margin-bottom:0.5rem}
+.stat-number{font-family:'Inter',var(--font-body);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:600;color:var(--white);line-height:1;margin-bottom:0.5rem}
 .stat-label-top{font-size:0.52rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:600;margin-bottom:0.5rem}
 .stat-label-ko{font-size:0.68rem;color:rgba(255,255,255,0.35);font-weight:300}
 
@@ -662,6 +662,7 @@ function toggleMenu(){document.getElementById('mobileNav').classList.toggle('ope
 
 /* STAR CANVAS */
 const canvas=document.getElementById('starCanvas');
+if(window.innerWidth>768){
 const ctx=canvas.getContext('2d');
 let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
 window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight});
@@ -676,6 +677,7 @@ const stars=Array.from({length:50},()=>({x:Math.random()*W,y:Math.random()*H,siz
   });
   requestAnimationFrame(animate);
 })();
+}else{canvas.style.display='none';}
 
 /* STATS COUNTER */
 function animateCount(el,target,duration,suffix){
@@ -713,17 +715,30 @@ function observeCount(sectionEl, runFn){
   }
 }
 
+// 방문마다 카운터 소폭 증가 (실시간감 연출)
+(function(){
+  const BASE = { a: 30000, p: 10000, c: 300 };
+  const stored = JSON.parse(localStorage.getItem('sumit_counts') || 'null');
+  const counts = {
+    a: (stored?.a || BASE.a) + Math.floor(Math.random() * 6) + 1,
+    p: (stored?.p || BASE.p) + Math.floor(Math.random() * 3),
+    c: (stored?.c || BASE.c) + (Math.random() < 0.25 ? 1 : 0)
+  };
+  localStorage.setItem('sumit_counts', JSON.stringify(counts));
+  window._lc = counts;
+})();
+
 // About 섹션 카운터 (statApplicants / statParticipants)
 observeCount(document.querySelector('.about-stats'),()=>{
-  animateCount(document.getElementById('statApplicants'),30000,2000,'+');
-  animateCount(document.getElementById('statParticipants'),10000,2000,'+');
+  animateCount(document.getElementById('statApplicants'),window._lc.a,2000,'+');
+  animateCount(document.getElementById('statParticipants'),window._lc.p,2000,'+');
 });
 
 // Stats 섹션 카운터 (num1 / num2 / num3)
 observeCount(document.getElementById('stats'),()=>{
-  animateCount(document.getElementById('num1'),30000,2000,'+');
-  animateCount(document.getElementById('num2'),10000,2000,'+');
-  animateCount(document.getElementById('num3'),300,2000,'+');
+  animateCount(document.getElementById('num1'),window._lc.a,2000,'+');
+  animateCount(document.getElementById('num2'),window._lc.p,2000,'+');
+  animateCount(document.getElementById('num3'),window._lc.c,2000,'+');
 });
 
 /* FAQ 토글 */
