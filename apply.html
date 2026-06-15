@@ -28,7 +28,7 @@
   --font-body:'Montserrat',sans-serif;
 }
 html,body{width:100%;min-height:100%;-webkit-text-size-adjust:none}
-body{background:var(--black);font-family:var(--font-body);font-weight:300;color:var(--white);padding-bottom:40px}
+body{background:var(--black);font-family:var(--font-body);font-weight:300;color:var(--white);padding-bottom:max(40px,40vh)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
 
 /* ── HEADER ── */
@@ -881,10 +881,21 @@ function fallbackCopy(text, cb) {
 // 안드로이드/인스타그램 인앱브라우저 키보드 가림 방지
 document.addEventListener('focusin', function(e) {
   var el = e.target;
-  if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-    setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
-    setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 650);
-  }
+  if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') return;
+  setTimeout(function() {
+    var rect = el.getBoundingClientRect();
+    var visibleH = window.innerHeight * 0.5; // 키보드가 약 50% 차지한다고 가정
+    if (rect.bottom > visibleH) {
+      window.scrollBy({ top: rect.bottom - visibleH + 24, behavior: 'smooth' });
+    }
+  }, 400);
+  setTimeout(function() {
+    var rect = el.getBoundingClientRect();
+    var visibleH = window.innerHeight * 0.5;
+    if (rect.bottom > visibleH) {
+      window.scrollBy({ top: rect.bottom - visibleH + 24, behavior: 'smooth' });
+    }
+  }, 750);
 });
 
 </script>
