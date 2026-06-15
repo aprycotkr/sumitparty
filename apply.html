@@ -54,15 +54,13 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
 .field{margin-bottom:1.3rem}
 .field label{display:block;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:0.5rem}
 .field label .req{color:var(--gold)}
-.field input[type=text],.field input[type=tel],.field input[type=date]{
+.field input[type=text],.field input[type=tel]{
   width:100%;padding:0.85rem 1rem;
   background:var(--dark2);border:1px solid rgba(255,255,255,0.1);
   border-radius:8px;font-size:0.85rem;color:var(--white);
   outline:none;font-family:var(--font-body);font-weight:300;
   transition:border-color 0.2s
 }
-.field input[type=date]{box-sizing:border-box;min-width:0;max-width:100%}
-.field input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.7);cursor:pointer}
 .field input:focus{border-color:var(--gold)}
 .field input::placeholder{color:rgba(255,255,255,0.2)}
 .field select{
@@ -196,7 +194,6 @@ body{background:var(--black);font-family:var(--font-body);font-weight:300;color:
 /* ── MOBILE ── */
 @media(max-width:520px){
   .card{border-radius:0;border-left:none;border-right:none;margin:0}
-  .field input[type=date]{-webkit-appearance:none;appearance:none;width:100%;min-width:0}
 }
 
 </style>
@@ -306,7 +303,8 @@ fbq("track","PageView");
 
   <div class="field">
     <label for="bdate">생년월일 <span class="req">*</span></label>
-    <input type="date" id="bdate" min="1990-01-01" max="2007-12-31" aria-label="생년월일">
+    <input type="tel" id="bdate" placeholder="19980523" maxlength="10" oninput="formatBdate(this)" aria-label="생년월일 8자리 입력" autocomplete="bday" inputmode="numeric">
+    <div class="field-hint">생년월일 8자리 입력 · 예) 19980523</div>
     <div class="err" id="bdayErr"></div>
   </div>
 
@@ -413,7 +411,8 @@ fbq("track","PageView");
     입금자명은 신청하신 이름으로 보내주세요.
   </div>
 
-  <button class="btn-primary" id="submitBtn" onclick="submitForm()" style="margin-top:1.2rem">신청서 제출하기 →</button>
+  <div style="text-align:center;font-size:0.65rem;color:#f87171;margin-top:1.2rem;margin-bottom:0.5rem;font-weight:500">⏰ 제출 후 24시간 내 미입금 시 자동취소됩니다</div>
+  <button class="btn-primary" id="submitBtn" onclick="submitForm()" style="margin-top:0">신청서 제출하기 →</button>
 </div>
 
 <!-- COMPLETE -->
@@ -524,6 +523,7 @@ const terms = [false, false, false];
 (function() {
   const params = new URLSearchParams(window.location.search);
   const p = params.get('date');
+  if (!p) { window.location.href = 'booking.html'; return; }
   const t = params.get('ticket');
   if (p) {
     fd.date = p;
@@ -595,11 +595,15 @@ async function step2Next() {
     }
   }
   document.getElementById('genderErr').textContent = '';
-  const bdate = document.getElementById('bdate').value;
-  if (!bdate) { document.getElementById('bdayErr').textContent = '생년월일을 선택해주세요.'; return; }
+  const bdateRaw = document.getElementById('bdate').value.replace(/\./g, '');
+  if (bdateRaw.length !== 8) { document.getElementById('bdayErr').textContent = '생년월일 8자리를 입력해주세요. (예: 19980523)'; return; }
+  const by = bdateRaw.slice(0,4), bm = bdateRaw.slice(4,6), bd = bdateRaw.slice(6,8);
+  const yr = parseInt(by), mo = parseInt(bm), dy = parseInt(bd);
+  if (yr < 1990 || yr > 2007 || mo < 1 || mo > 12 || dy < 1 || dy > 31) {
+    document.getElementById('bdayErr').textContent = '올바른 생년월일을 입력해주세요.'; return;
+  }
   document.getElementById('bdayErr').textContent = '';
-  const [by, bm, bd] = bdate.split('-');
-  fd.name = nm; fd.byear = by; fd.bmonth = String(parseInt(bm)); fd.bday = String(parseInt(bd));
+  fd.name = nm; fd.byear = by; fd.bmonth = String(mo); fd.bday = String(dy);
   goStep(3);
 }
 
@@ -656,6 +660,13 @@ function selTicket(el, t) {
 }
 
 // 성별 선택
+function formatBdate(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 8);
+  if (v.length > 6) v = v.slice(0,4) + '.' + v.slice(4,6) + '.' + v.slice(6);
+  else if (v.length > 4) v = v.slice(0,4) + '.' + v.slice(4);
+  el.value = v;
+}
+
 function selGender(el, g) {
   document.querySelectorAll('.gender-btn').forEach(x => { x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
   el.classList.add('sel'); el.setAttribute('aria-pressed','true'); fd.gender = g;
@@ -702,6 +713,7 @@ function handlePhoto(input) {
       fd.photoSelected = true;
       fd.uploading = true;
       fd.photoUrl = '';
+      document.getElementById('photoText').innerHTML = '<strong style="color:var(--gold)">⏳ 업로드 중...</strong><br>잠시만 기다려주세요';
 
       // Cloudinary 업로드
       canvas.toBlob(async blob => {
@@ -720,6 +732,7 @@ function handlePhoto(input) {
             fd.photoUrl = data.secure_url;
             fd.uploading = false;
             document.getElementById('photoErr').textContent = '';
+            document.getElementById('photoText').innerHTML = '<strong style="color:var(--gold)">✓ 업로드 완료</strong><br>다시 클릭하면 변경할 수 있습니다';
             // 사용자가 이미 "다음"을 눌러 대기 중이었다면 자동 진행
             if (fd.pendingNext) {
               fd.pendingNext = false;
