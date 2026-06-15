@@ -110,7 +110,7 @@ canvas#starCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
 .about-layout{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start}
 .about-desc{font-size:0.78rem;color:rgba(255,255,255,0.42);line-height:2;font-weight:300;margin-bottom:2.5rem}
 .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(201,169,110,0.1);margin-top:0}
-.about-stat{background:var(--dark);padding:1.5rem}
+.about-stat{background:var(--dark);padding:1.5rem;display:flex;flex-direction:column;align-items:flex-start}
 .about-stat-num{font-family:'Inter',var(--font-body);font-size:1.8rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:0.25rem;white-space:nowrap}
 .about-stat-label{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:500}
 .about-details{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.05)}
@@ -677,13 +677,14 @@ const stars=Array.from({length:50},()=>({x:Math.random()*W,y:Math.random()*H,siz
 /* STATS COUNTER */
 function animateCount(el,target,duration,suffix){
   if(!el)return;
+  const fmt=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');
   const start=performance.now();
   (function update(now){
     const p=Math.min((now-start)/duration,1);
     const ease=1-Math.pow(1-p,3);
-    el.textContent=Math.floor(ease*target).toLocaleString()+suffix;
+    el.textContent=fmt(Math.floor(ease*target))+suffix;
     if(p<1)requestAnimationFrame(update);
-    else el.textContent=target.toLocaleString()+suffix;
+    else el.textContent=fmt(target)+suffix;
   })(start);
 }
 
