@@ -1,5 +1,11 @@
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec';
 
+export const config = {
+  api: {
+    bodyParser: true,
+  },
+};
+
 export default async function handler(req, res) {
   const type = req.query.type || '';
 
@@ -11,11 +17,7 @@ export default async function handler(req, res) {
         redirect: 'follow'
       });
     } else {
-      const body = await new Promise((resolve) => {
-        let data = '';
-        req.on('data', chunk => data += chunk);
-        req.on('end', () => resolve(data));
-      });
+      const body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
       gasRes = await fetch(`${GAS_URL}?type=${type}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -24,8 +26,14 @@ export default async function handler(req, res) {
       });
     }
 
-    const json = await gasRes.json();
-    res.status(200).json(json);
+    const text = await gasRes.text();
+    
+    try {
+      const json = JSON.parse(text);
+      res.status(200).json(json);
+    } catch {
+      res.status(200).send(text);
+    }
 
   } catch (err) {
     res.status(500).json({ error: err.message });
