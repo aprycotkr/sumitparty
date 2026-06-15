@@ -257,9 +257,8 @@ async function init(){
   currentYear=now.getFullYear(); currentMonth=now.getMonth();
 
   const cached = localStorage.getItem('sumit_dateStatus');
-  const hasCache = !!cached;
-  if(hasCache){ try{ dateStatusMap = JSON.parse(cached); }catch(e){} renderCalendar(); }
-  else{ document.getElementById('calGrid').innerHTML='<div class="cal-loading-msg">날짜 정보 불러오는 중...</div>'; }
+  if(cached){ try{ dateStatusMap = JSON.parse(cached); }catch(e){} }
+  renderCalendar();
 
   try {
     const res = await fetch(GAS_URL + '?action=getDateStatus');
@@ -272,7 +271,7 @@ async function init(){
         renderCalendar();
       }
     }
-  } catch(e){ if(!hasCache) renderCalendar(); }
+  } catch(e){}
 }
 
 function renderCalendar(){

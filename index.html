@@ -736,8 +736,8 @@ function toggleFaq(el) {
 </script>
 <script src="common.js"></script>
 <script>
-// 달력 캐시 미리 채우기 — booking.html 진입 시 즉시 표시되도록
-(async function(){
+// 달력 캐시 미리 채우기
+const _cacheReady = (async function(){
   try {
     const res = await fetch(GAS_URL + '?action=getDateStatus');
     const json = await res.json();
@@ -746,6 +746,16 @@ function toggleFaq(el) {
     }
   } catch(e){}
 })();
+
+// booking.html 링크 클릭 시 캐시 완료 후 이동 (최대 2.5초 대기)
+document.querySelectorAll('a[href*="booking.html"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    const href = this.href;
+    Promise.race([_cacheReady, new Promise(function(r){ setTimeout(r, 2500); })])
+      .then(function(){ window.location.href = href; });
+  });
+});
 </script>
 </body>
 </html>
