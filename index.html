@@ -158,10 +158,10 @@ canvas#starCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
 
 /* ── STATS ── */
 #stats{background:var(--black);padding:5rem 0;border-top:1px solid rgba(201,169,110,0.07);border-bottom:1px solid rgba(201,169,110,0.07)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr)}
 .stat-item{padding:3rem 2rem;text-align:center;border-right:1px solid rgba(201,169,110,0.07)}
 .stat-item:last-child{border-right:none}
-.stat-number{font-family:'Inter',var(--font-body);font-size:clamp(2rem,4vw,3.5rem);font-weight:600;color:var(--white);line-height:1;margin-bottom:0.5rem}
+.stat-number{font-family:'Inter',var(--font-body);font-size:clamp(2rem,4vw,3.5rem);font-weight:600;color:var(--white);line-height:1;margin-bottom:0.5rem;white-space:nowrap}
 .stat-label-top{font-size:0.52rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:600;margin-bottom:0.5rem}
 .stat-label-ko{font-size:0.68rem;color:rgba(255,255,255,0.35);font-weight:300}
 
@@ -238,7 +238,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   .about-layout{grid-template-columns:1fr;gap:3rem}
   .pricing-grid{grid-template-columns:1fr}
   .sc-tl-grid{grid-template-columns:1fr}
-  .stats-grid{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
   .stat-item{border-right:none;border-bottom:1px solid rgba(201,169,110,0.07);padding:2rem}
   .stat-item:nth-child(odd){border-right:1px solid rgba(201,169,110,0.07)}
   .footer-grid{grid-template-columns:1fr;gap:2.5rem}
@@ -463,24 +463,19 @@ fbq("track","PageView");
   <div class="container">
     <div class="stats-grid">
       <div class="stat-item">
-        <div class="stat-label-top">Total Applicants</div>
-        <div class="stat-number" id="num1">0</div>
-        <div class="stat-label-ko">누적 신청자</div>
+        <div class="stat-label-top">Return Rate</div>
+        <div class="stat-number" id="num1">0%</div>
+        <div class="stat-label-ko">재참여율</div>
       </div>
       <div class="stat-item">
-        <div class="stat-label-top">Total Participants</div>
-        <div class="stat-number" id="num2">0</div>
-        <div class="stat-label-ko">누적 참여자</div>
+        <div class="stat-label-top">Satisfaction</div>
+        <div class="stat-number" id="num2">0%</div>
+        <div class="stat-label-ko">만족도</div>
       </div>
       <div class="stat-item">
-        <div class="stat-label-top">Max Capacity</div>
-        <div class="stat-number">110</div>
-        <div class="stat-label-ko">회당 최대 정원</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label-top">Matched Couples</div>
-        <div class="stat-number" id="num3">0</div>
-        <div class="stat-label-ko">누적 커플 매칭</div>
+        <div class="stat-label-top">Gender Ratio</div>
+        <div class="stat-number">균형</div>
+        <div class="stat-label-ko">남녀 성비 유지</div>
       </div>
     </div>
   </div>
@@ -734,11 +729,10 @@ observeCount(document.querySelector('.about-stats'),()=>{
   animateCount(document.getElementById('statParticipants'),window._lc.p,2000,'+');
 });
 
-// Stats 섹션 카운터 (num1 / num2 / num3)
+// Stats 섹션 카운터
 observeCount(document.getElementById('stats'),()=>{
-  animateCount(document.getElementById('num1'),window._lc.a,2000,'+');
-  animateCount(document.getElementById('num2'),window._lc.p,2000,'+');
-  animateCount(document.getElementById('num3'),window._lc.c,2000,'+');
+  animateCount(document.getElementById('num1'),68,1500,'%');
+  animateCount(document.getElementById('num2'),92,1500,'%');
 });
 
 /* FAQ 토글 */
