@@ -878,6 +878,26 @@ function fallbackCopy(text, cb) {
   document.body.removeChild(ta);
 }
 
+// 안드로이드/인스타그램 인앱브라우저 키보드 가림 방지
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', function() {
+    const el = document.activeElement;
+    if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT')) {
+      setTimeout(function() {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  });
+} else {
+  document.addEventListener('focusin', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      setTimeout(function() {
+        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 400);
+    }
+  });
+}
+
 </script>
 
 <!--
