@@ -29,13 +29,26 @@
 }
 html,body{width:100%;min-height:100%;-webkit-text-size-adjust:none}
 body{background:var(--black);font-family:var(--font-body);font-weight:300;color:var(--white);padding-bottom:0}
-.apply-footer{padding:2rem 1.5rem 2.5rem;border-top:1px solid rgba(255,255,255,0.06);margin-top:1rem}
-.apply-footer-info{font-size:0.58rem;color:rgba(255,255,255,0.18);line-height:2.1;text-align:center;margin-bottom:1.2rem;word-break:keep-all}
-.apply-footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
-.apply-footer-copy{font-size:0.55rem;color:rgba(255,255,255,0.12);letter-spacing:0.08em}
-.apply-footer-legal{display:flex;gap:1.5rem}
-.apply-footer-legal a{font-size:0.55rem;color:rgba(255,255,255,0.2);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s}
-.apply-footer-legal a:hover{color:rgba(255,255,255,0.5)}
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);padding:4rem 3rem 2rem;margin-top:1rem}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:4rem;max-width:1200px;margin:0 auto 3.5rem}
+.footer-brand{font-family:var(--font-display);font-size:2rem;font-weight:500;color:var(--gold);letter-spacing:0.1em;margin-bottom:1rem}
+.footer-tagline{font-size:0.72rem;color:rgba(255,255,255,0.28);line-height:1.9;font-weight:300;font-style:italic;font-family:var(--font-display);word-spacing:normal;letter-spacing:0.01em}
+.footer-heading{font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1.3rem}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:0.7rem;padding:0;margin:0}
+.footer-links a{color:rgba(255,255,255,0.38);text-decoration:none;font-size:0.72rem;transition:color 0.2s;font-weight:300}
+.footer-links a:hover{color:var(--gold)}
+.footer-info{font-size:0.68rem;color:rgba(255,255,255,0.22);line-height:2.2;font-weight:300}
+.footer-info a{color:var(--gold);text-decoration:none}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1200px;margin:0 auto}
+.footer-copy{font-size:0.58rem;color:rgba(255,255,255,0.15);letter-spacing:0.1em}
+.footer-legal{display:flex;gap:2rem}
+.footer-legal a{font-size:0.58rem;color:rgba(255,255,255,0.15);text-decoration:none;letter-spacing:0.1em;transition:color 0.2s}
+.footer-legal a:hover{color:rgba(255,255,255,0.4)}
+@media(max-width:768px){
+  footer{padding:3rem 1.5rem 2rem}
+  .footer-grid{grid-template-columns:1fr;gap:2.5rem}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
 
 /* ── HEADER ── */
@@ -484,15 +497,35 @@ fbq("track","PageView");
 
 </div><!-- /container -->
 
-<footer class="apply-footer">
-  <div class="apply-footer-info">
-    상호: 썸잇 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 793-02-03419<br>
-    부산광역시 수영구 무학로 9번길 15-1<br>
-    인스타그램: @sum_it.official &nbsp;|&nbsp; 이메일: aprycotkr@naver.com
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Sumit</div>
+      <p class="footer-tagline">낯선 만남이 가장 설레는 순간이 되는 곳.<br>분위기와 대화, 그리고 끌림이 자연스럽게 이어집니다.</p>
+    </div>
+    <div>
+      <p class="footer-heading">Navigation</p>
+      <ul class="footer-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="booking.html">파티 신청하기</a></li>
+        <li><a href="reviews.html">후기</a></li>
+        <li><a href="crew.html">크루모집</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">고객 센터</p>
+      <div class="footer-info">
+        <p>상호: 썸잇 | 대표자: 김경민</p>
+        <p>사업자등록번호: 793-02-03419</p>
+        <p>부산광역시 수영구 무학로 9번길 15-1</p>
+        <p style="margin-top:0.6rem">인스타그램: <a href="https://instagram.com/sum_it.official" target="_blank">@sum_it.official</a></p>
+        <p>이메일: aprycotkr@naver.com</p>
+      </div>
+    </div>
   </div>
-  <div class="apply-footer-bottom">
-    <span class="apply-footer-copy">© 2026 Sumit Party. All rights reserved.</span>
-    <div class="apply-footer-legal">
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Sumit Party. All rights reserved.</p>
+    <div class="footer-legal">
       <a href="terms.html">이용약관</a>
       <a href="privacy.html">개인정보처리방침</a>
     </div>
