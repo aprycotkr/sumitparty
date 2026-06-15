@@ -570,7 +570,8 @@ const fd = {
   phone: '', ticket: '1+2부', name: '', gender: '',
   byear: '', bmonth: '', bday: '',
   insta: '', photoUrl: '', date: '',
-  photoSelected: false, uploading: false, pendingNext: false
+  photoSelected: false, uploading: false, pendingNext: false,
+  eventId: 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2)
 };
 const terms = [false, false, false];
 
@@ -839,7 +840,8 @@ async function submitForm() {
   const payload = {
     ...fd,
     price: submitPrice || '',
-    submitTime: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+    submitTime: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+    eventId: fd.eventId
   };
 
   let submitOk = true;
@@ -877,7 +879,7 @@ async function submitForm() {
   document.getElementById('cPrice').textContent = priceText;
   document.getElementById('cPrice2').textContent = priceText;
 
-  fbq("track","Lead");
+  fbq("track","Lead", {}, {eventID: fd.eventId});
   goStep(6);
 }
 
