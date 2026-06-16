@@ -1,41 +1,23 @@
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec';
 
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
-
-export default async function handler(req, res) {
-  const type = req.query.type || '';
+module.exports = async (req, res) => {
+  const type = req.query.type;
+  if (!type) return res.status(400).json({ error: 'type required' });
 
   try {
     let gasRes;
-
-    if (req.method === 'GET') {
-      gasRes = await fetch(`${GAS_URL}?type=${type}`, {
-        redirect: 'follow'
-      });
-    } else {
-      const body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+    if (req.method === 'POST' || req.method === 'PUT') {
       gasRes = await fetch(`${GAS_URL}?type=${type}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: body,
-        redirect: 'follow'
+        body: JSON.stringify(req.body)
       });
+    } else {
+      gasRes = await fetch(`${GAS_URL}?type=${type}`);
     }
-
-    const text = await gasRes.text();
-    
-    try {
-      const json = JSON.parse(text);
-      res.status(200).json(json);
-    } catch {
-      res.status(200).send(text);
-    }
-
+    const data = await gasRes.json();
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-}
+};
