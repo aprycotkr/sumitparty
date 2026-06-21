@@ -841,7 +841,10 @@ async function submitForm() {
     ...fd,
     price: submitPrice || '',
     submitTime: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
-    eventId: fd.eventId
+    eventId: fd.eventId,
+    fbp: getCookie('_fbp'),
+    fbc: getCookie('_fbc'),
+    userAgent: navigator.userAgent
   };
 
   let submitOk = true;
@@ -881,6 +884,11 @@ async function submitForm() {
 
   fbq("track","Lead", {}, {eventID: fd.eventId});
   goStep(6);
+}
+
+function getCookie(name) {
+  const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return m ? decodeURIComponent(m[2]) : null;
 }
 
 // 계좌번호 복사
