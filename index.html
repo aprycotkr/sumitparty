@@ -229,6 +229,13 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .faq-item.open .faq-answer{max-height:200px}
 .faq-a-text{padding:0 2rem 1.5rem;font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.9;font-weight:300;border-top:1px solid rgba(255,255,255,0.05);padding-top:1.2rem}
 
+/* ── VIDEO ── */
+.video-section{background:var(--dark);padding:4rem 1.5rem}
+.video-inner{max-width:800px;margin:0 auto;text-align:center}
+.video-title{font-family:var(--font-display);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:300;color:var(--white);margin-bottom:1.8rem;line-height:1.2}
+.video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(201,169,110,0.15)}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%}
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -310,6 +317,23 @@ fbq("track","PageView");
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="video-section">
+  <div class="video-inner">
+    <p class="section-label" style="justify-content:center;margin-bottom:0.8rem">Party Highlight</p>
+    <h2 class="video-title">파티 현장을 직접 확인하세요</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/5JS_YLesUhk?rel=0&modestbranding=1"
+        title="썸잇 파티 현장"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
 </section>
 
