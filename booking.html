@@ -152,6 +152,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 /* NOTICE */
 .age-notice{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;line-height:1.5}
+/* TRUST STRIP */
+.trust-strip{display:flex;align-items:center;justify-content:center;gap:2rem;padding:0.85rem 2rem;background:rgba(201,169,110,0.04);border-bottom:1px solid rgba(201,169,110,0.08);flex-wrap:wrap}
+.trust-item{font-size:0.6rem;color:rgba(255,255,255,0.35);letter-spacing:0.08em;font-weight:400;display:flex;align-items:center;gap:0.35rem}
+.trust-item em{color:rgba(201,169,110,0.85);font-style:normal;font-weight:600}
+@media(max-width:600px){.trust-strip{gap:0.8rem 1.5rem;padding:0.7rem 1rem}}
 
 /* 모바일 하단 고정 버튼 */
 .mobile-sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.97);border-top:1px solid rgba(201,169,110,0.2);padding:0.9rem 1.2rem;padding-bottom:calc(0.9rem + env(safe-area-inset-bottom))}
@@ -226,6 +231,12 @@ fbq("track","PageView");
     <div class="info-item-label">운영 요일</div>
     <div class="info-item-value"><em>금 · 토 · 일</em></div>
   </div>
+</div>
+
+<div class="trust-strip">
+  <span class="trust-item">⭐ 만족도 <em>92%</em></span>
+  <span class="trust-item">👥 누적 신청자 <em>30,000+</em></span>
+  <span class="trust-item">"생각보다 훨씬 좋았어요" — 실제 참가자</span>
 </div>
 
 <div class="booking-layout">
