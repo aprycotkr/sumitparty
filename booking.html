@@ -274,6 +274,7 @@ fbq("track","PageView");
 <script src="common.js"></script>
 <script>
 const PARTY_DAYS = [0,5,6];
+const SPECIAL_DATES = ['2026-07-16']; // 비정기 특별 파티 날짜
 let currentYear, currentMonth;
 let selectedDate = null;
 let dateStatusMap = {};
@@ -281,6 +282,16 @@ let dateStatusMap = {};
 async function init(){
   const now=new Date();
   currentYear=now.getFullYear(); currentMonth=now.getMonth();
+
+  // 현재 달에 남은 파티 날이 없으면 다음 달로
+  const daysInCurrent=new Date(currentYear,currentMonth+1,0).getDate();
+  let hasUpcoming=false;
+  for(let d=now.getDate();d<=daysInCurrent;d++){
+    const dow=new Date(currentYear,currentMonth,d).getDay();
+    const ds=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    if(PARTY_DAYS.includes(dow)||SPECIAL_DATES.includes(ds)){hasUpcoming=true;break;}
+  }
+  if(!hasUpcoming){currentMonth++;if(currentMonth>11){currentMonth=0;currentYear++;}}
 
   const cached = localStorage.getItem('sumit_dateStatus');
   if(cached){ try{ dateStatusMap = JSON.parse(cached); }catch(e){} }
@@ -312,11 +323,11 @@ function renderCalendar(){
     const cell=document.createElement('div'); cell.className='cal-cell';
     const date=new Date(currentYear,currentMonth,d);
     const dow=date.getDay();
+    const dateStr=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isPast=date<new Date(today.getFullYear(),today.getMonth(),today.getDate());
     if(isPast){ cell.classList.add('past'); cell.textContent=d; }
-    else if(PARTY_DAYS.includes(dow)){
+    else if(PARTY_DAYS.includes(dow)||SPECIAL_DATES.includes(dateStr)){
       cell.classList.add('party');
-      const dateStr=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const st = dateStatusMap[dateStr] || {};
       const maleSt = st.male || '정상';
       const femaleSt = st.female || '정상';
