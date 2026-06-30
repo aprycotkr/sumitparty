@@ -131,6 +131,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .floating-btn{min-width:100px;height:42px;border-radius:10px;background:var(--gold);color:var(--black);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;transition:background 0.2s;flex-shrink:0;border:none;cursor:pointer;font-family:var(--font-body)}
 .floating-btn:hover{background:var(--gold-light)}
 
+/* VIEWER BADGE */
+.viewer-bar{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;background:#0f0f0f;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.78rem;color:#fff;font-weight:700;letter-spacing:0.01em;width:100%}
+.viewer-badge{display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 14px;background:#0f0f0f;border-radius:8px;font-size:0.75rem;color:#fff;font-weight:700;margin-bottom:0.9rem;width:100%}
+.viewer-bar .vb-flame,.viewer-badge .vb-flame{font-size:1rem;line-height:1}
+@keyframes vblink{0%,100%{opacity:1}50%{opacity:0.35}}
+
 @media(max-width:900px){
   .page-wrap{grid-template-columns:1fr;padding-top:5rem;padding-bottom:7rem}
   .detail-right{display:none}
@@ -159,6 +165,11 @@ fbq("track","ViewContent",{content_name:"썸잇 솔로파티 상세",content_cat
   <a href="booking.html" class="nav-back">← 날짜 선택으로</a>
   <a href="index.html" class="nav-logo">Sumit</a>
 </nav>
+
+<!-- VIEWER TOP BAR -->
+<div class="viewer-bar">
+  <span class="vb-flame">🔥</span><span class="viewer-count-num">5</span>명이 보고 있어요!
+</div>
 
 <div class="page-wrap">
 
@@ -310,6 +321,7 @@ fbq("track","ViewContent",{content_name:"썸잇 솔로파티 상세",content_cat
         ✔ 조기 마감 가능<br>
         ✔ 선착순 진행
       </div>
+      <div class="viewer-badge"><span class="vb-flame">🔥</span><span class="viewer-count-num">5</span>명이 보고 있어요!</div>
       <button class="card-apply-btn" onclick="goApply()">파티 참가 신청</button>
       <p class="card-guide">신청 후 순차적으로 확정 안내됩니다.</p>
     </div>
@@ -370,6 +382,19 @@ const _partyStatusReady = (async function(){
     document.getElementById('floatingTitle').textContent = `썸잇 솔로파티 ${dateText} — 부산 부경대점`;
     document.getElementById('floatingSub').textContent = `${dateText} · ${timeText}`;
   }
+})();
+
+(function(){
+  var els = document.querySelectorAll('.viewer-count-num');
+  var cur = Math.floor(Math.random() * 7) + 3;
+  els.forEach(function(e){ e.textContent = cur; });
+  function tick(){
+    var delta = Math.random() < 0.5 ? 1 : -1;
+    cur = Math.max(3, Math.min(9, cur + delta));
+    els.forEach(function(e){ e.textContent = cur; });
+    setTimeout(tick, 30000 + Math.random() * 30000);
+  }
+  setTimeout(tick, 30000 + Math.random() * 30000);
 })();
 
 function goApply(){

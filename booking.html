@@ -158,6 +158,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .trust-item em{color:rgba(201,169,110,0.85);font-style:normal;font-weight:600}
 @media(max-width:600px){.trust-strip{gap:0.8rem 1.5rem;padding:0.7rem 1rem}}
 
+/* VIEWER BADGE */
+.viewer-badge{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;background:#0f0f0f;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.78rem;color:#fff;font-weight:700;letter-spacing:0.01em}
+.viewer-badge .vb-flame{font-size:1rem;line-height:1}
+@keyframes vblink{0%,100%{opacity:1}50%{opacity:0.35}}
+
 /* 모바일 하단 고정 버튼 */
 .mobile-sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.97);border-top:1px solid rgba(201,169,110,0.2);padding:0.9rem 1.2rem;padding-bottom:calc(0.9rem + env(safe-area-inset-bottom))}
 .mobile-sticky-bar.show{display:block}
@@ -237,6 +242,11 @@ fbq("track","PageView");
   <span class="trust-item">⭐ 만족도 <em>92%</em></span>
   <span class="trust-item">👥 누적 신청자 <em>30,000+</em></span>
   <span class="trust-item">"생각보다 훨씬 좋았어요" — 실제 참가자</span>
+</div>
+
+<!-- VIEWER BADGE -->
+<div class="viewer-badge">
+  <span class="vb-flame">🔥</span><span id="viewerCount">5</span>명이 보고 있어요!
 </div>
 
 <div class="booking-layout">
@@ -418,6 +428,19 @@ function submitBooking(){
 
 function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
 init();
+
+(function(){
+  var el = document.getElementById('viewerCount');
+  var cur = Math.floor(Math.random() * 7) + 3;
+  el.textContent = cur;
+  function tick(){
+    var delta = Math.random() < 0.5 ? 1 : -1;
+    cur = Math.max(3, Math.min(9, cur + delta));
+    el.textContent = cur;
+    setTimeout(tick, 30000 + Math.random() * 30000);
+  }
+  setTimeout(tick, 30000 + Math.random() * 30000);
+})();
 </script>
 </body>
 </html>
