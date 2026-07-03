@@ -361,9 +361,9 @@ function renderCalendar(){
       } else {
         let badge;
         if(maleSt==='마감' && femaleSt!=='마감'){
-          badge=`<span class="cal-badge cal-badge-male">남마감</span>`;
+          badge=`<span class="cal-badge cal-badge-male">남자마감</span>`;
         } else if(femaleSt==='마감' && maleSt!=='마감'){
-          badge=`<span class="cal-badge cal-badge-female">여마감</span>`;
+          badge=`<span class="cal-badge cal-badge-female">여자마감</span>`;
         } else if(maleSt==='마감임박'||femaleSt==='마감임박'||diffDays<=3){
           badge=`<span class="cal-badge cal-badge-soon">마감임박</span>`;
         } else {
