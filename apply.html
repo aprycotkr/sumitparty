@@ -352,18 +352,18 @@ fbq("track","PageView");
   <button class="btn-back" onclick="goStep(2)">← 뒤로</button>
   <div class="step-label">Step 3 / 4</div>
   <h2 class="step-title">사진 업로드</h2>
-  <p class="step-desc">외모 심사를 위한 사진입니다. 정면 셀카 OK · 배경 무관</p>
+  <p class="step-desc">외모 심사를 위한 사진입니다. 얼굴이 잘 보이는 사진으로 올려주세요.</p>
 
   <div class="field">
     <label>얼굴 사진 <span class="req">*</span></label>
     <div class="photo-area" id="photoArea">
-      <input type="file" id="photoInput" accept="image/*" capture="user" onchange="handlePhoto(this)">
+      <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
       <img class="photo-preview" id="photoPreview" alt="">
       <div class="photo-icon" id="photoIcon">📷</div>
-      <div class="photo-text" id="photoText"><strong>카메라 또는 앨범에서 선택</strong><br>얼굴이 잘 보이는 정면 사진을 올려주세요</div>
+      <div class="photo-text" id="photoText"><strong>클릭하여 사진 선택</strong><br>정면을 바라보는 얼굴이 잘 보이는 최근 사진</div>
     </div>
     <div class="err" id="photoErr"></div>
-    <div class="photo-privacy">✨ 합격률은 정면 사진이 가장 높습니다<br>🔒 사진은 외모 심사 용도로만 사용되며 심사 완료 후 즉시 삭제됩니다</div>
+    <div class="photo-privacy">🔒 사진은 외모 심사 용도로만 사용됩니다. 심사 완료 후 즉시 삭제되며, 제3자에게 공유되지 않습니다.</div>
   </div>
 
   <button class="btn-primary" id="photoNextBtn" onclick="step3Next()">다음으로</button>
