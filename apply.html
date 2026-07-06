@@ -121,6 +121,8 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .ticket-opt-price{font-size:0.72rem;color:rgba(255,255,255,0.3);font-weight:300}
 .ticket-opt-desc{font-size:0.65rem;color:rgba(255,255,255,0.25);margin-top:0.4rem;line-height:1.5;font-weight:300}
 .ticket-note{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-radius:8px;padding:0.7rem 0.9rem;font-size:0.65rem;color:rgba(255,255,255,0.35);margin-top:0.8rem;line-height:1.6}
+.ticket-opt-time{font-size:0.62rem;color:rgba(201,169,110,0.75);font-weight:500;margin-top:3px;letter-spacing:0.01em}
+.ticket-opt-time:empty{display:none}
 
 /* ── INSTA INPUT ── */
 .insta-wrap{display:flex;align-items:center;border:1px solid rgba(255,255,255,0.1);border-radius:8px;overflow:hidden;background:var(--dark2);transition:border-color 0.2s}
@@ -256,14 +258,13 @@ fbq("track","PageView");
   <div class="progress-dot" id="pd2"></div>
   <div class="progress-dot" id="pd3"></div>
   <div class="progress-dot" id="pd4"></div>
-  <div class="progress-dot" id="pd5"></div>
 </div>
 
 <div style="max-width:480px;margin:0 auto;padding:0 1rem">
 
 <!-- STEP 1: 연락처 -->
 <div id="s1" class="card">
-  <div class="step-label">Step 1 / 5</div>
+  <div class="step-label">Step 1 / 4</div>
   <h2 class="step-title">연락처 확인</h2>
   <p class="step-desc">중복 신청 방지 및 합격 안내를 위해 사용됩니다.</p>
   <div class="field">
@@ -277,7 +278,7 @@ fbq("track","PageView");
 <!-- STEP 2: 기본정보 -->
 <div id="s2" class="card" style="display:none">
   <button class="btn-back" onclick="goStep(1)">← 뒤로</button>
-  <div class="step-label">Step 2 / 5</div>
+  <div class="step-label">Step 2 / 4</div>
   <h2 class="step-title">기본 정보</h2>
   <p class="step-desc">프로필 카드에 사용될 정보를 입력해주세요.</p>
 
@@ -290,16 +291,19 @@ fbq("track","PageView");
           <span class="ticket-badge">추천</span>
         </div>
         <div class="ticket-opt-price">남성 59,900원 / 여성 49,900원</div>
+        <div class="ticket-opt-time" id="ticketTime-12"></div>
         <div class="ticket-opt-desc">설렘 컨텐츠 + 도파민 컨텐츠 전체 참가</div>
       </div>
       <div class="ticket-opt" onclick="selTicket(this,'1부만')">
         <div class="ticket-opt-top"><span class="ticket-opt-name">1부만 (설렘 컨텐츠)</span></div>
         <div class="ticket-opt-price">남성 43,000원 / 여성 39,000원</div>
+        <div class="ticket-opt-time" id="ticketTime-1"></div>
         <div class="ticket-opt-desc">첫인상·이미지게임·로테이션 자리이동·이상형찾기</div>
       </div>
       <div class="ticket-opt" onclick="selTicket(this,'2부만')">
         <div class="ticket-opt-top"><span class="ticket-opt-name">2부만 (도파민 컨텐츠)</span></div>
         <div class="ticket-opt-price">남성 40,000원 / 여성 37,000원</div>
+        <div class="ticket-opt-time" id="ticketTime-2"></div>
         <div class="ticket-opt-desc">익명라디오·매력포인트 적기·자리뺏기</div>
       </div>
     </div>
@@ -311,6 +315,8 @@ fbq("track","PageView");
     <input type="text" id="name" placeholder="홍길동" aria-describedby="nameErr">
     <div class="err" id="nameErr" role="alert"></div>
   </div>
+
+  <div id="seatBadge" style="display:none;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.25);border-radius:8px;padding:0.6rem 1rem;margin-bottom:1.1rem;font-size:0.7rem;font-weight:600;text-align:center;line-height:1.7"></div>
 
   <div class="field">
     <label>성별 <span class="req">*</span></label>
@@ -328,16 +334,6 @@ fbq("track","PageView");
     <div class="err" id="bdayErr"></div>
   </div>
 
-  <button class="btn-primary" onclick="step2Next()">다음으로</button>
-</div>
-
-<!-- STEP 3: 상세정보 -->
-<div id="s3" class="card" style="display:none">
-  <button class="btn-back" onclick="goStep(2)">← 뒤로</button>
-  <div class="step-label">Step 3 / 5</div>
-  <h2 class="step-title">상세 정보</h2>
-  <p class="step-desc">합격 후 연락 및 프로필 확인에 사용됩니다.</p>
-
   <div class="field">
     <label for="insta">인스타그램 아이디 <span class="req">*</span></label>
     <div class="insta-wrap">
@@ -348,35 +344,35 @@ fbq("track","PageView");
     <div class="err" id="instaErr"></div>
   </div>
 
-  <button class="btn-primary" onclick="step3Next()">다음으로</button>
+  <button class="btn-primary" onclick="step2Next()">다음으로</button>
 </div>
 
-<!-- STEP 4: 사진 업로드 -->
-<div id="s4" class="card" style="display:none">
-  <button class="btn-back" onclick="goStep(3)">← 뒤로</button>
-  <div class="step-label">Step 4 / 5</div>
+<!-- STEP 3: 사진 업로드 -->
+<div id="s3" class="card" style="display:none">
+  <button class="btn-back" onclick="goStep(2)">← 뒤로</button>
+  <div class="step-label">Step 3 / 4</div>
   <h2 class="step-title">사진 업로드</h2>
-  <p class="step-desc">외모 심사를 위한 사진입니다. 얼굴이 잘 보이는 사진으로 올려주세요.</p>
+  <p class="step-desc">외모 심사를 위한 사진입니다. 정면 셀카 OK · 배경 무관</p>
 
   <div class="field">
     <label>얼굴 사진 <span class="req">*</span></label>
     <div class="photo-area" id="photoArea">
-      <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+      <input type="file" id="photoInput" accept="image/*" capture="user" onchange="handlePhoto(this)">
       <img class="photo-preview" id="photoPreview" alt="">
       <div class="photo-icon" id="photoIcon">📷</div>
-      <div class="photo-text" id="photoText"><strong>클릭하여 사진 선택</strong><br>정면을 바라보는 얼굴이 잘 보이는 최근 사진</div>
+      <div class="photo-text" id="photoText"><strong>카메라 또는 앨범에서 선택</strong><br>얼굴이 잘 보이는 정면 사진을 올려주세요</div>
     </div>
     <div class="err" id="photoErr"></div>
-    <div class="photo-privacy">🔒 사진은 외모 심사 용도로만 사용됩니다. 심사 완료 후 즉시 삭제되며, 제3자에게 공유되지 않습니다.</div>
+    <div class="photo-privacy">✨ 합격률은 정면 사진이 가장 높습니다<br>🔒 사진은 외모 심사 용도로만 사용되며 심사 완료 후 즉시 삭제됩니다</div>
   </div>
 
-  <button class="btn-primary" id="photoNextBtn" onclick="step4Next()">다음으로</button>
+  <button class="btn-primary" id="photoNextBtn" onclick="step3Next()">다음으로</button>
 </div>
 
-<!-- STEP 5: 약관 동의 + 계좌 입력 -->
-<div id="s5" class="card" style="display:none">
-  <button class="btn-back" onclick="goStep(4)">← 뒤로</button>
-  <div class="step-label">Step 5 / 5</div>
+<!-- STEP 4: 약관 동의 + 계좌 입력 -->
+<div id="s4" class="card" style="display:none">
+  <button class="btn-back" onclick="goStep(3)">← 뒤로</button>
+  <div class="step-label">Step 4 / 4</div>
   <h2 class="step-title">마지막 단계입니다!</h2>
   <p class="step-desc">약관 동의 후 입금하시면 신청이 완료됩니다.</p>
 
@@ -604,12 +600,23 @@ const terms = [false, false, false];
           const pEl = document.querySelector('.ticket-opt .ticket-opt-price');
           if (pEl) pEl.textContent = '남성 55,000원 / 여성 45,000원';
           const dEl = document.querySelector('.ticket-opt .ticket-opt-desc');
-          if (dEl) dEl.textContent = '10분 로테이션 1:1 프라이빗 디너 미팅';
+          if (dEl) dEl.textContent = '10분 로테이션 프라이빗 디너 미팅';
           const noteEl = document.querySelector('.ticket-note');
           if (noteEl) noteEl.style.display = 'none';
         } else {
           document.getElementById('formSubtitle').textContent = `썸잇 솔로파티 ${txt} — 부산 부경대점`;
         }
+        // 권종별 파티 시간 표시
+        const TIMES = {
+          5: {'12':'20:00~23:30','1':'20:00~22:00','2':'22:00~23:00'},
+          6: {'12':'19:00~23:00','1':'19:00~21:00','2':'21:00~23:00'},
+          0: {'12':'19:00~22:00'}
+        };
+        const times = TIMES[d.getDay()] || {};
+        [['ticketTime-12','12'],['ticketTime-1','1'],['ticketTime-2','2']].forEach(function([id,key]){
+          const el = document.getElementById(id);
+          if (el) el.textContent = times[key] ? '⏰ ' + times[key] : '';
+        });
       }
     }
   }
@@ -626,14 +633,15 @@ const terms = [false, false, false];
 
 // 스텝 이동
 function goStep(n) {
-  ['s1','s2','s3','s4','s5','sc'].forEach(s => document.getElementById(s).style.display = 'none');
-  document.getElementById(n === 6 ? 'sc' : 's' + n).style.display = 'block';
-  for (let i = 1; i <= 5; i++) {
+  ['s1','s2','s3','s4','sc'].forEach(s => document.getElementById(s).style.display = 'none');
+  document.getElementById(n === 5 ? 'sc' : 's' + n).style.display = 'block';
+  for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('pd' + i);
     el.className = 'progress-dot' + (i < n ? ' done' : i === n ? ' active' : '');
   }
-  if (n === 6) document.getElementById('progressWrap').style.display = 'none';
+  if (n === 5) document.getElementById('progressWrap').style.display = 'none';
   window.scrollTo(0, 0);
+  if (n === 2) _statusReady.then(function(){ updateSeatBadge(); });
 }
 
 // STEP 1
@@ -679,20 +687,16 @@ async function step2Next() {
     document.getElementById('bdayErr').textContent = '올바른 생년월일을 입력해주세요.'; return;
   }
   document.getElementById('bdayErr').textContent = '';
+  const iv = document.getElementById('insta').value.trim();
+  if (!iv) { document.getElementById('instaErr').textContent = '인스타그램 아이디를 입력해주세요.'; return; }
+  document.getElementById('instaErr').textContent = '';
   fd.name = nm; fd.byear = by; fd.bmonth = String(mo); fd.bday = String(dy);
+  fd.insta = iv;
   goStep(3);
 }
 
 // STEP 3
 function step3Next() {
-  const v = document.getElementById('insta').value.trim();
-  if (!v) { document.getElementById('instaErr').textContent = '인스타그램 아이디를 입력해주세요.'; return; }
-  document.getElementById('instaErr').textContent = '';
-  fd.insta = v; goStep(4);
-}
-
-// STEP 4
-function step4Next() {
   // 사진 자체를 아직 선택 안 한 경우
   if (!fd.photoSelected) {
     document.getElementById('photoErr').textContent = '사진을 업로드해주세요.';
@@ -701,7 +705,7 @@ function step4Next() {
   // 업로드 완료된 경우 → 바로 진행
   if (fd.photoUrl) {
     document.getElementById('photoErr').textContent = '';
-    goToStep5();
+    goToStep4();
     return;
   }
   // 사진은 선택됐지만 아직 업로드 중인 경우 → 대기 후 자동 진행
@@ -717,11 +721,53 @@ function step4Next() {
   document.getElementById('photoErr').textContent = '사진 업로드에 실패했습니다. 사진을 다시 선택해주세요.';
 }
 
-function goToStep5() {
+function goToStep4() {
   const price = CONFIG.PRICES[fd.ticket]?.[fd.gender];
   document.getElementById('previewTicket').textContent = fd.ticket;
   document.getElementById('previewPrice').textContent = price ? price.toLocaleString() + '원' : '-';
-  goStep(5);
+  goStep(4);
+}
+
+function updateSeatBadge() {
+  const badge = document.getElementById('seatBadge');
+  if (!badge || !fd.date) return;
+  const st = dateStatusMap[fd.date] || {};
+  const ms = st.male || '정상', fs = st.female || '정상';
+  const mL = st.maleLeft, fL = st.femaleLeft;
+  const hasML = mL !== null && mL !== undefined && mL !== '';
+  const hasFL = fL !== null && fL !== undefined && fL !== '';
+
+  // 버튼 상태 초기화
+  document.querySelectorAll('.gender-btn').forEach(btn => {
+    const isMale = btn.getAttribute('onclick')?.includes("'남성'");
+    btn.textContent = isMale ? '남성' : '여성';
+    btn.style.opacity = ''; btn.style.cursor = ''; btn.disabled = false;
+  });
+
+  let mText = '', fText = '';
+  if (ms === '마감')       mText = '<span style="color:#f87171">남성 마감</span>';
+  else if (ms === '마감임박') mText = hasML ? `<span style="color:#fb923c">남성 ${mL}자리</span>` : '<span style="color:#fb923c">남성 마감임박</span>';
+  else if (hasML)          mText = `<span style="color:#f87171">남성 ${mL}자리</span>`;
+
+  if (fs === '마감')       fText = '<span style="color:#f87171">여성 마감</span>';
+  else if (fs === '마감임박') fText = hasFL ? `<span style="color:#fb923c">여성 ${fL}자리</span>` : '<span style="color:#fb923c">여성 마감임박</span>';
+  else if (hasFL)          fText = `<span style="color:#f87171">여성 ${fL}자리</span>`;
+
+  const parts = [mText, fText].filter(Boolean);
+  if (!parts.length) { badge.style.display = 'none'; return; }
+
+  badge.innerHTML = '🔥 ' + parts.join(' · ') + ' 남음';
+  badge.style.display = 'block';
+
+  // 마감 성별 버튼 비활성화
+  document.querySelectorAll('.gender-btn').forEach(btn => {
+    const isMale = btn.getAttribute('onclick')?.includes("'남성'");
+    const closed = isMale ? ms === '마감' : fs === '마감';
+    if (closed) {
+      btn.textContent = (isMale ? '남성' : '여성') + ' (마감)';
+      btn.style.opacity = '0.3'; btn.style.cursor = 'not-allowed'; btn.disabled = true;
+    }
+  });
 }
 
 function resetPhotoNextBtn() {
@@ -816,7 +862,7 @@ function handlePhoto(input) {
               const btn = document.getElementById('photoNextBtn');
               btn.textContent = '다음으로';
               btn.disabled = false;
-              goToStep5();
+              goToStep4();
             }
           } else {
             fd.uploading = false;
@@ -904,7 +950,7 @@ async function submitForm() {
   document.getElementById('cPrice2').textContent = priceText;
 
   fbq("track","Lead", {}, {eventID: fd.eventId});
-  goStep(6);
+  goStep(5);
 }
 
 function getCookie(name) {

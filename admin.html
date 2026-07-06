@@ -94,6 +94,7 @@ html,body{min-height:100vh;background:var(--black);color:var(--white);font-famil
 <script>
 const ADMIN_KEY = 'sumit0313';
 const PARTY_DAYS = [0, 5, 6]; // 일, 금, 토
+const SPECIAL_DATES = ['2026-07-16']; // 특별 파티 날짜
 let statusMap = {};
 
 // ── 대시보드 로드
@@ -127,7 +128,7 @@ function renderList() {
     const fem = st.female || '정상';
     const mL  = st.maleLeft   ?? '';
     const fL  = st.femaleLeft ?? '';
-    const dowCls = dow === 5 ? 'fri' : dow === 6 ? 'sat' : 'sun';
+    const dowCls = dow === 5 ? 'fri' : dow === 6 ? 'sat' : dow === 0 ? 'sun' : 'fri';
 
     html += `
 <div class="date-card" id="card-${dateStr}">
@@ -257,8 +258,8 @@ function getPartyDates(weeks) {
   const cur    = new Date(today);
   while (cur <= end) {
     const dow = cur.getDay();
-    if (PARTY_DAYS.includes(dow)) {
-      const dateStr = `${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,'0')}-${String(cur.getDate()).padStart(2,'0')}`;
+    const dateStr = `${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,'0')}-${String(cur.getDate()).padStart(2,'0')}`;
+    if (PARTY_DAYS.includes(dow) || SPECIAL_DATES.includes(dateStr)) {
       result.push({ dateStr, d: new Date(cur), dow });
     }
     cur.setDate(cur.getDate() + 1);

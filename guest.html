@@ -243,12 +243,6 @@ function selGender(el, g) {
   });
 })();
 
-function selTicket(el, t) {
-  document.querySelectorAll('.ticket-opt').forEach(x => x.classList.remove('sel'));
-  el.classList.add('sel');
-  selectedTicket = t;
-}
-
 async function submitGuest() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();

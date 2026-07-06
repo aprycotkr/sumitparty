@@ -466,7 +466,7 @@ fbq("track","PageView");
       <div>
         <p class="price-badge" style="margin-bottom:0.6rem">✦ 매주 일요일 · 썸잇 선데이</p>
         <p style="font-family:var(--font-display);font-size:1.6rem;font-weight:300;color:var(--white);margin-bottom:0.3rem">프라이빗 디너 미팅</p>
-        <p style="font-size:0.65rem;color:rgba(255,255,255,0.3);letter-spacing:0.08em;line-height:1.8">말보다 눈빛이 먼저 오가는 시간 · 10분 로테이션 1:1 대화 · 최소 5:5 소규모 구성</p>
+        <p style="font-size:0.65rem;color:rgba(255,255,255,0.3);letter-spacing:0.08em;line-height:1.8">말보다 눈빛이 먼저 오가는 시간 · 10분 로테이션 대화 · 최소 5:5 ~ 최대 12:12 소규모 구성</p>
       </div>
       <div style="display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap">
         <div>
@@ -506,7 +506,7 @@ fbq("track","PageView");
       <div class="sc-tl-col">
         <div class="sc-tl-day">Sunday · 프라이빗 디너</div>
         <div class="sc-tl-row"><span class="sc-tl-time">19:00</span><span class="sc-tl-desc">입장 및 안내</span></div>
-        <div class="sc-tl-row"><span class="sc-tl-time">19:30</span><span class="sc-tl-desc">10분 로테이션 1:1 대화</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">19:30</span><span class="sc-tl-desc">10분 로테이션 대화</span></div>
         <div class="sc-tl-row"><span class="sc-tl-time">21:30</span><span class="sc-tl-desc">매칭 폼 제출</span></div>
         <div class="sc-tl-row"><span class="sc-tl-time">22:00</span><span class="sc-tl-desc">파티 종료</span></div>
       </div>
@@ -839,14 +839,29 @@ document.querySelectorAll('a[href*="booking.html"]').forEach(function(a){
     const st=map[nxt.ds]||{};
     const lbl=`${nxt.d.getMonth()+1}월 ${nxt.d.getDate()}일 (${DN[nxt.dow]})`;
     const ms=st.male||'정상', fs=st.female||'정상';
+    const mL=st.maleLeft, fL=st.femaleLeft;
+    const hasML=mL!==null&&mL!==undefined&&mL!=='';
+    const hasFL=fL!==null&&fL!==undefined&&fL!=='';
     const today=new Date(); const todayMid=new Date(today.getFullYear(),today.getMonth(),today.getDate());
     const diffDays=Math.ceil((nxt.d-todayMid)/(1000*60*60*24));
     let seat='';
-    if(ms==='마감'&&fs==='마감') seat=`<span class="hero-party-seat">마감</span>`;
-    else if(ms==='마감') seat=`<span class="hero-party-seat">남마감</span><span class="hero-sep"> · </span><span class="hero-party-avail">여 신청가능</span>`;
-    else if(fs==='마감') seat=`<span class="hero-party-avail">남 신청가능</span><span class="hero-sep"> · </span><span class="hero-party-seat">여마감</span>`;
-    else if(ms==='마감임박'||fs==='마감임박'||diffDays<=3) seat=`<span class="hero-party-seat">마감임박</span>`;
-    else seat=`<span class="hero-party-avail">신청 가능</span>`;
+    if(ms==='마감'&&fs==='마감'){
+      seat=`<span class="hero-party-seat">마감</span>`;
+    } else if(ms==='마감'){
+      seat=`<span class="hero-party-seat">남마감</span><span class="hero-sep"> · </span>`
+          +(hasFL?`<span class="hero-party-avail">여 ${fL}자리</span>`:`<span class="hero-party-avail">여 신청가능</span>`);
+    } else if(fs==='마감'){
+      seat=(hasML?`<span class="hero-party-avail">남 ${mL}자리</span>`:`<span class="hero-party-avail">남 신청가능</span>`)
+          +`<span class="hero-sep"> · </span><span class="hero-party-seat">여마감</span>`;
+    } else if(ms==='마감임박'||fs==='마감임박'||diffDays<=3){
+      seat=(hasML&&hasFL)
+        ?`<span class="hero-party-seat">남 ${mL}자리</span><span class="hero-sep"> · </span><span class="hero-party-seat">여 ${fL}자리</span>`
+        :`<span class="hero-party-seat">마감임박</span>`;
+    } else {
+      seat=(hasML&&hasFL)
+        ?`<span class="hero-party-avail">남 ${mL}자리 · 여 ${fL}자리</span>`
+        :`<span class="hero-party-avail">신청 가능</span>`;
+    }
     document.getElementById('heroPartyBadge').innerHTML=
       `<div class="hero-party-badge"><span class="hero-party-label">다음 파티</span><span class="hero-party-date">${lbl}</span>${seat}</div>`;
   }
