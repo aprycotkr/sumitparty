@@ -21,14 +21,14 @@
 <meta name="facebook-domain-verification" content="blurgr5powypwcis3te1kjn7o2479h">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;900&family=Bebas+Neue&family=Space+Grotesk:wght@600;700&family=Inter:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;900&family=Bebas+Neue&family=Space+Grotesk:wght@600;700&family=Inter:wght@600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --gold:#C9A96E;--gold-light:#E8D4A8;--gold-dark:#8A6B3A;
   --black:#0A0A0A;--dark:#111111;--dark2:#1A1A1A;--dark3:#242424;
   --white:#FFFFFF;
-  --font-display:'Cormorant Garamond',serif;
+  --font-display:'Cormorant Garamond','Noto Serif KR',serif;
   --font-body:'Montserrat',sans-serif;
 }
 html{scroll-behavior:smooth}
@@ -62,19 +62,23 @@ nav.scrolled{background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(201,169
 .hero-aurora{position:absolute;inset:0;background:radial-gradient(ellipse 65% 50% at 50% 52%,rgba(201,169,110,0.12) 0%,rgba(150,100,60,0.05) 45%,transparent 70%);animation:aurora 6s ease-in-out infinite alternate;z-index:1}
 @keyframes aurora{0%{opacity:0.5}100%{opacity:1}}
 canvas#starCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
-.hero-content{position:relative;z-index:10;width:100%;max-width:520px;display:flex;flex-direction:column;align-items:center}
-.hero-eyebrow{font-size:0.62rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(201,169,110,0.9);font-weight:600;margin-bottom:1.8rem;opacity:0;animation:fadeUp 0.8s ease forwards 0.2s}
-.hero-logo-wrap{position:relative;width:100%;min-height:90px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;opacity:0;animation:fadeUp 1s ease forwards 0.5s}
+.hero-grain{position:absolute;inset:-25%;z-index:3;pointer-events:none;opacity:0.14;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");background-size:240px 240px;animation:grainShift 1.4s steps(4) infinite}
+@keyframes grainShift{0%,100%{transform:translate(0,0)}25%{transform:translate(-2%,1.5%)}50%{transform:translate(1.5%,-2%)}75%{transform:translate(-1%,-1%)}}
+.hero-content{position:relative;z-index:10;width:100%;max-width:600px;display:flex;flex-direction:column;align-items:center}
+.hero-eyebrow{font-size:0.6rem;letter-spacing:0.45em;text-transform:uppercase;color:rgba(201,169,110,0.85);font-weight:600;margin-bottom:2.4rem;opacity:0;animation:fadeUp 0.8s ease forwards 0.2s}
+.hero-logo-wrap{position:relative;width:100%;min-height:90px;display:flex;align-items:center;justify-content:center;margin-bottom:2.8rem;opacity:0;animation:fadeUp 1s ease forwards 0.45s}
 .hero-logo-glow{position:absolute;width:240px;height:240px;background:radial-gradient(circle at center,rgba(201,169,110,0.2) 0%,transparent 65%);animation:logoGlow 3s ease-in-out infinite}
 @keyframes logoGlow{0%,100%{transform:scale(0.9);opacity:0.6}50%{transform:scale(1.1);opacity:1}}
 .hero-logo{width:260px;max-width:85vw;height:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 24px rgba(201,169,110,0.5)) brightness(1.1);animation:floatLogo 4s ease-in-out infinite}
 @keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease forwards 0.9s}
-.hero-btn{display:inline-block;padding:0.95rem 2.5rem;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;transition:all 0.3s;font-family:var(--font-body)}
-.hero-btn:hover{background:var(--gold);color:var(--black);transform:translateY(-2px)}
-.hero-btn.solid{background:var(--gold);color:var(--black)}
-.hero-btn.solid:hover{background:var(--gold-light)}
-.hero-scroll{position:absolute;bottom:2rem;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:10;opacity:0;animation:fadeUp 0.8s ease forwards 1.3s}
+.hero-cta-wrap{opacity:0;animation:fadeUp 0.8s ease forwards 1.65s}
+.hero-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:0.8rem;background:linear-gradient(135deg,var(--gold-light) 0%,var(--gold) 45%,var(--gold-dark) 100%);color:var(--black);text-decoration:none;padding:1.2rem 3.4rem;font-family:var(--font-body);font-size:0.8rem;font-weight:700;letter-spacing:0.16em;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;box-shadow:0 8px 32px rgba(201,169,110,0.22)}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(201,169,110,0.38)}
+.hero-cta::after{content:'';position:absolute;top:0;left:-80%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.55),transparent);transform:skewX(-20deg);animation:ctaShine 3.4s ease-in-out infinite}
+@keyframes ctaShine{0%{left:-80%}45%,100%{left:135%}}
+.hero-cta .cta-arrow{font-size:0.95rem;line-height:1;transition:transform 0.3s ease}
+.hero-cta:hover .cta-arrow{transform:translateX(4px)}
+.hero-scroll{position:absolute;bottom:2rem;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:10;opacity:0;animation:fadeUp 0.8s ease forwards 2s}
 .hero-scroll span{font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.3)}
 .scroll-line{width:1px;height:28px;background:linear-gradient(to bottom,rgba(201,169,110,0.8),transparent);animation:scrollAnim 2s ease-in-out infinite}
 @keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -260,14 +264,30 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   .footer-bottom{flex-direction:column;align-items:flex-start}
   footer{padding:3rem 1.5rem 2rem}
 }
-/* ── HERO PARTY BADGE ── */
-.hero-party-badge{display:inline-flex;align-items:center;gap:0.8rem;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.25);padding:0.55rem 1.4rem;flex-wrap:wrap;justify-content:center}
+/* ── HERO PARTY BADGE (urgency chip) ── */
+.hero-party-badge{display:inline-flex;align-items:center;gap:0.7rem;background:rgba(10,10,10,0.55);border:1px solid rgba(201,169,110,0.22);border-radius:100px;padding:0.6rem 1.4rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);flex-wrap:wrap;justify-content:center}
+.hero-party-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#f87171;flex-shrink:0;animation:urgePulse 1.6s ease-in-out infinite}
+@keyframes urgePulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.45);opacity:1}50%{box-shadow:0 0 0 6px rgba(248,113,113,0);opacity:0.65}}
 .hero-party-label{font-size:0.52rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,169,110,0.65);font-weight:600}
 .hero-party-date{font-size:0.78rem;color:var(--white);font-weight:500}
 .hero-party-seat{font-size:0.62rem;color:#f87171;font-weight:600}
 .hero-party-avail{font-size:0.62rem;color:var(--gold);font-weight:600}
 .hero-sep{color:rgba(255,255,255,0.2);font-size:0.6rem}
-#heroPartyBadge{margin-top:1.2rem;min-height:32px;opacity:0;animation:fadeUp 0.8s ease forwards 1.1s}
+#heroPartyBadge{margin:0 0 1.4rem;min-height:36px;opacity:0;animation:fadeUp 0.8s ease forwards 1.55s}
+/* ── HERO RESPONSIVE + MOTION ── */
+@media(max-width:480px){
+  .hero-eyebrow{margin-bottom:2rem;font-size:0.55rem;letter-spacing:0.28em}
+  .hero-logo{width:200px}
+  .hero-logo-wrap{margin-bottom:2.2rem}
+  .hero-headline{font-size:clamp(1.65rem,8vw,2.1rem);margin-bottom:2rem}
+  .hero-pill{font-size:0.56rem;padding:0.45rem 0.85rem;letter-spacing:0.1em}
+  .hero-badges{margin-bottom:2.4rem;gap:0.45rem}
+  .hero-cta{width:100%;max-width:320px;padding:1.15rem 2rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-grain,.hero-cta::after,.hero-party-badge::before,.hero-logo,.hero-logo-glow{animation:none}
+  .hero-eyebrow,.hero-logo-wrap,.hero-cta-wrap,#heroPartyBadge,.hero-scroll{animation-duration:0.01s;animation-delay:0s}
+}
 /* ── MOBILE STICKY CTA ── */
 .mobile-cta-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;padding:0.85rem 1.2rem;padding-bottom:calc(0.85rem + env(safe-area-inset-bottom));background:rgba(10,10,10,0.97);border-top:1px solid rgba(201,169,110,0.2);transform:translateY(100%);transition:transform 0.3s ease}
 .mobile-cta-bar.visible{transform:translateY(0)}
@@ -318,17 +338,17 @@ fbq("track","PageView");
   <div class="hero-bg"></div>
   <div class="hero-aurora"></div>
   <canvas id="starCanvas"></canvas>
+  <div class="hero-grain" aria-hidden="true"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">Busan No.1 Premium Solo Party</p>
     <div class="hero-logo-wrap">
       <div class="hero-logo-glow"></div>
       <img class="hero-logo" src="logo.png" alt="Sumit Logo">
     </div>
-    <div class="hero-btns">
-      <a href="booking.html" class="hero-btn solid">신청하기</a>
-      <a href="#about" class="hero-btn">더 알아보기</a>
-    </div>
     <div id="heroPartyBadge"></div>
+    <div class="hero-cta-wrap">
+      <a href="booking.html" class="hero-cta">지금 자리 확인하기<span class="cta-arrow" aria-hidden="true">→</span></a>
+    </div>
   </div>
   <div class="hero-scroll">
     <span>Scroll</span>
@@ -863,7 +883,7 @@ document.querySelectorAll('a[href*="booking.html"]').forEach(function(a){
         :`<span class="hero-party-avail">신청 가능</span>`;
     }
     document.getElementById('heroPartyBadge').innerHTML=
-      `<div class="hero-party-badge"><span class="hero-party-label">다음 파티</span><span class="hero-party-date">${lbl}</span>${seat}</div>`;
+      `<div class="hero-party-badge"><span class="hero-party-label">가장 빠른 다음 파티</span><span class="hero-party-date">${lbl}</span>${seat}</div>`;
   }
   try{render(JSON.parse(localStorage.getItem('sumit_dateStatus')||'{}'));}catch(e){render({});}
   _cacheReady.then(function(){try{render(JSON.parse(localStorage.getItem('sumit_dateStatus')||'{}'));}catch(e){}});
