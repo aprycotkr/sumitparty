@@ -667,7 +667,7 @@ const terms = [false, false, false];
 function goStep(n) {
   ['s1','s2','s3','s4','sc'].forEach(s => document.getElementById(s).style.display = 'none');
   document.getElementById(n === 5 ? 'sc' : 's' + n).style.display = 'block';
-  const lineWidths = ['0%','33%','66%','100%'];
+  const lineWidths = ['0%','33%','66%','calc(100% - 26px)'];
   for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('ps' + i);
     if (!el) continue;
