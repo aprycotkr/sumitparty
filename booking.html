@@ -168,7 +168,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 /* 모바일 하단 고정 버튼 */
 .mobile-sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.97);border-top:1px solid rgba(201,169,110,0.2);padding:0.9rem 1.2rem;padding-bottom:calc(0.9rem + env(safe-area-inset-bottom))}
 .mobile-sticky-bar.show{display:block}
-.mobile-sticky-date{font-size:0.65rem;color:rgba(255,255,255,0.45);margin-bottom:0.5rem;letter-spacing:0.05em}
+.mobile-sticky-date{font-size:0.65rem;color:rgba(255,255,255,0.45);margin-bottom:0.3rem;letter-spacing:0.05em}
+.mobile-sticky-seats{font-size:0.6rem;display:none;gap:0.7rem;margin-bottom:0.4rem}
 .mobile-sticky-btn{width:100%;background:var(--gold);color:var(--black);border:none;padding:0.95rem;font-family:var(--font-body);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;cursor:pointer}
 @media(max-width:900px){
   .booking-layout{grid-template-columns:1fr}
@@ -178,7 +179,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   body.has-sticky{padding-bottom:100px}
 }
 @media(min-width:901px){.mobile-sticky-bar{display:none!important}}
-@media(max-width:600px){nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}.page-header{padding:6rem 1.5rem 1.5rem}.page-title{font-size:1.8rem}.booking-left,.booking-right{padding:1.2rem 1.2rem}.info-banner{grid-template-columns:1fr 1fr}.info-item{padding:0.9rem 1rem}.ticket-card{grid-template-columns:1fr;gap:0.8rem}.ticket-prices{text-align:left}.cal-header{margin-bottom:1rem}.cal-month{font-size:1.2rem}.cal-grid{gap:1px;width:100%}.cal-cell{font-size:0.72rem;aspect-ratio:unset;height:clamp(38px,11vw,50px)}.cal-cell.party{padding:4px 1px;gap:1px;height:auto;min-height:clamp(44px,12vw,56px)}.cal-badge{font-size:0.55rem;padding:1px 4px}.cal-days-header span{padding:0.3rem 0;font-size:0.55rem}}
+@media(max-width:600px){nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}.page-header{padding:6rem 1.5rem 1.5rem}.page-title{font-size:1.8rem}.booking-left,.booking-right{padding:1.2rem 1.2rem}.info-banner{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.info-banner::-webkit-scrollbar{display:none}.info-item{flex:0 0 auto;min-width:115px;padding:0.8rem 1rem}.ticket-card{grid-template-columns:1fr;gap:0.8rem}.ticket-prices{text-align:left}.cal-header{margin-bottom:1rem}.cal-month{font-size:1.2rem}.cal-grid{gap:1px;width:100%}.cal-cell{font-size:0.72rem;aspect-ratio:unset;height:clamp(38px,11vw,50px)}.cal-cell.party{padding:4px 1px;gap:1px;height:auto;min-height:clamp(44px,12vw,56px)}.cal-badge{font-size:0.55rem;padding:1px 4px}.cal-days-header span{padding:0.3rem 0;font-size:0.55rem}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -290,6 +291,7 @@ fbq("track","PageView");
 <!-- 모바일 하단 고정 버튼 -->
 <div class="mobile-sticky-bar" id="mobileStickyBar">
   <div class="mobile-sticky-date" id="mobileStickyDate"></div>
+  <div class="mobile-sticky-seats" id="mobileStickySeats"></div>
   <button class="mobile-sticky-btn" onclick="submitBooking()">이 날짜로 신청하기 →</button>
 </div>
 
@@ -417,6 +419,14 @@ function selectDate(year,month,day,dow){
   // 모바일 하단 고정 버튼 표시
   const bar = document.getElementById('mobileStickyBar');
   document.getElementById('mobileStickyDate').textContent = year+'년 '+(month+1)+'월 '+day+'일 ('+dayNames[dow]+') 부산 부경대점';
+  const seatsEl = document.getElementById('mobileStickySeats');
+  if (hasMale || hasFemale) {
+    const sp = [];
+    if (hasMale)   sp.push(`<span style="color:#f87171;font-weight:600">남성 잔여 ${mL}석</span>`);
+    if (hasFemale) sp.push(`<span style="color:#f472b6;font-weight:600">여성 잔여 ${fL}석</span>`);
+    seatsEl.innerHTML = sp.join('');
+    seatsEl.style.display = 'flex';
+  } else { seatsEl.innerHTML = ''; seatsEl.style.display = 'none'; }
   bar.classList.add('show');
   document.body.classList.add('has-sticky');
 }
