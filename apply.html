@@ -85,7 +85,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .field input[type=text],.field input[type=tel]{
   width:100%;padding:0.85rem 1rem;
   background:var(--dark2);border:1px solid rgba(255,255,255,0.1);
-  border-radius:8px;font-size:0.85rem;color:var(--white);
+  border-radius:8px;font-size:1rem;color:var(--white);
   outline:none;font-family:var(--font-body);font-weight:300;
   transition:border-color 0.2s
 }
@@ -572,6 +572,7 @@ const CONFIG = {
   PRICES: {
     '1+2부': { '남성': 59900, '여성': 49900 },
     '1+2부(선데이)': { '남성': 55000, '여성': 45000 },
+    '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
     '1부만': { '남성': 43000, '여성': 39000 },
     '2부만': { '남성': 40000, '여성': 37000 },
   }
@@ -617,10 +618,11 @@ const terms = [false, false, false];
           isSundayForm = true;
           if (p === '2026-07-16') {
             document.getElementById('formSubtitle').textContent = `썸잇 스페셜 파티 ${txt} — 부산 부경대점`;
+            fd.ticket = '1+2부(스페셜)';
           } else {
             document.getElementById('formSubtitle').textContent = `썸잇 선데이 · 프라이빗 디너 미팅 ${txt}`;
+            fd.ticket = '1+2부(선데이)';
           }
-          fd.ticket = '1+2부(선데이)';
           // 1부만·2부만 옵션 숨김
           document.querySelectorAll('.ticket-opt').forEach(el => {
             const oc = el.getAttribute('onclick') || '';
