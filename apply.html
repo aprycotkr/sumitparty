@@ -8,7 +8,8 @@
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 /* ══════════════════════════════
    설정값 — 여기만 수정하면 됩니다
@@ -25,7 +26,7 @@
   --black:#0A0A0A;--dark:#111111;--dark2:#1A1A1A;--dark3:#2A2A2A;
   --white:#FFFFFF;--gray:#6B7280;
   --font-display:'Cormorant Garamond',serif;
-  --font-body:'Montserrat',sans-serif;
+  --font-body:'Pretendard Variable',Pretendard,sans-serif;
 }
 html,body{width:100%;min-height:100%;-webkit-text-size-adjust:none}
 body{background:var(--black);font-family:var(--font-body);font-weight:300;color:var(--white);padding-bottom:0}
@@ -59,10 +60,17 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 #formSubtitle{color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;font-weight:500}
 
 /* ── PROGRESS ── */
-.progress-wrap{max-width:480px;margin:1.8rem auto;padding:0 1.5rem;display:flex;gap:6px}
-.progress-dot{flex:1;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;transition:background 0.3s}
-.progress-dot.done{background:rgba(201,169,110,0.4)}
-.progress-dot.active{background:var(--gold)}
+.progress-wrap{max-width:480px;margin:1.5rem auto 0;padding:0 1.5rem}
+.progress-steps{display:flex;align-items:flex-start;justify-content:space-between;position:relative}
+.progress-steps::before{content:'';position:absolute;top:13px;left:13px;right:13px;height:1px;background:rgba(255,255,255,0.08);z-index:0}
+.progress-line{position:absolute;top:13px;left:13px;height:1px;background:linear-gradient(to right,#C9A96E,rgba(201,169,110,0.4));z-index:1;transition:width 0.4s ease;width:0%}
+.progress-step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:2}
+.progress-step-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;border:1px solid rgba(255,255,255,0.1);background:var(--black);color:rgba(255,255,255,0.2);transition:all 0.3s}
+.progress-step.done .progress-step-circle{background:rgba(201,169,110,0.12);border-color:rgba(201,169,110,0.4);color:#C9A96E}
+.progress-step.active .progress-step-circle{background:#C9A96E;border-color:#C9A96E;color:#000;box-shadow:0 0 14px rgba(201,169,110,0.3)}
+.progress-step-name{font-size:0.5rem;letter-spacing:0.04em;color:rgba(255,255,255,0.18);white-space:nowrap}
+.progress-step.done .progress-step-name{color:rgba(201,169,110,0.45)}
+.progress-step.active .progress-step-name{color:rgba(255,255,255,0.6)}
 
 /* ── CARD ── */
 .card{background:var(--dark);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2rem 1.5rem;max-width:480px;margin:0 auto;position:relative}
@@ -254,10 +262,25 @@ fbq("track","PageView");
 
 <!-- PROGRESS -->
 <div class="progress-wrap" id="progressWrap">
-  <div class="progress-dot active" id="pd1"></div>
-  <div class="progress-dot" id="pd2"></div>
-  <div class="progress-dot" id="pd3"></div>
-  <div class="progress-dot" id="pd4"></div>
+  <div class="progress-steps">
+    <div class="progress-line" id="progressLine"></div>
+    <div class="progress-step active" id="ps1">
+      <div class="progress-step-circle">1</div>
+      <span class="progress-step-name">연락처</span>
+    </div>
+    <div class="progress-step" id="ps2">
+      <div class="progress-step-circle">2</div>
+      <span class="progress-step-name">기본정보</span>
+    </div>
+    <div class="progress-step" id="ps3">
+      <div class="progress-step-circle">3</div>
+      <span class="progress-step-name">사진</span>
+    </div>
+    <div class="progress-step" id="ps4">
+      <div class="progress-step-circle">4</div>
+      <span class="progress-step-name">입금</span>
+    </div>
+  </div>
 </div>
 
 <div style="max-width:480px;margin:0 auto;padding:0 1rem">
@@ -639,10 +662,15 @@ const terms = [false, false, false];
 function goStep(n) {
   ['s1','s2','s3','s4','sc'].forEach(s => document.getElementById(s).style.display = 'none');
   document.getElementById(n === 5 ? 'sc' : 's' + n).style.display = 'block';
+  const lineWidths = ['0%','33%','66%','100%'];
   for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('pd' + i);
-    el.className = 'progress-dot' + (i < n ? ' done' : i === n ? ' active' : '');
+    const el = document.getElementById('ps' + i);
+    if (!el) continue;
+    el.className = 'progress-step' + (i < n ? ' done' : i === n ? ' active' : '');
+    el.querySelector('.progress-step-circle').textContent = i < n ? '✓' : i;
   }
+  const pl = document.getElementById('progressLine');
+  if (pl) pl.style.width = n <= 4 ? lineWidths[n - 1] : '100%';
   if (n === 5) document.getElementById('progressWrap').style.display = 'none';
   window.scrollTo(0, 0);
   if (n === 2) _statusReady.then(function(){ updateSeatBadge(); });
