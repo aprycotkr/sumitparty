@@ -587,9 +587,13 @@ const terms = [false, false, false];
       if (!isNaN(d)) {
         const wd = ["일","월","화","수","목","금","토"];
         const txt = `${d.getMonth()+1}월 ${d.getDate()}일 (${wd[d.getDay()]})`;
-        if (d.getDay() === 0) {
+        if (d.getDay() === 0 || p === '2026-07-16') {
           isSundayForm = true;
-          document.getElementById('formSubtitle').textContent = `썸잇 선데이 · 프라이빗 디너 미팅 ${txt}`;
+          if (p === '2026-07-16') {
+            document.getElementById('formSubtitle').textContent = `썸잇 스페셜 파티 ${txt} — 부산 부경대점`;
+          } else {
+            document.getElementById('formSubtitle').textContent = `썸잇 선데이 · 프라이빗 디너 미팅 ${txt}`;
+          }
           fd.ticket = '1+2부(선데이)';
           // 1부만·2부만 옵션 숨김
           document.querySelectorAll('.ticket-opt').forEach(el => {
@@ -612,7 +616,7 @@ const terms = [false, false, false];
           6: {'12':'19:00~23:00','1':'19:00~21:00','2':'21:00~23:00'},
           0: {'12':'19:00~22:00'}
         };
-        const times = TIMES[d.getDay()] || {};
+        const times = (p === '2026-07-16') ? {'12':'20:00~23:00'} : (TIMES[d.getDay()] || {});
         [['ticketTime-12','12'],['ticketTime-1','1'],['ticketTime-2','2']].forEach(function([id,key]){
           const el = document.getElementById(id);
           if (el) el.textContent = times[key] ? '⏰ ' + times[key] : '';
