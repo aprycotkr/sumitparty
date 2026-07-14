@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sumitparty.com/sitemap.xml
