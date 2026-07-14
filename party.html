@@ -460,7 +460,7 @@ const _partyStatusReady = (async function(){
     }
   }
 
-  const isSunday = (dow === 0);
+  const isSunday = (dow === 0 || dateParam === '2026-07-16');
 
   if(isSunday){
     document.getElementById('badgeType').textContent = '✦ 프라이빗 디너 미팅';
@@ -470,7 +470,10 @@ const _partyStatusReady = (async function(){
   }
 
   if(dateText){
-    if(isSunday){
+    if(dateParam === '2026-07-16'){
+      document.getElementById('mainTitle').innerHTML = `썸잇 스페셜 파티<br>${dateText}<br>부산 부경대점`;
+      document.getElementById('floatingTitle').textContent = `썸잇 스페셜 파티 — ${dateText}`;
+    } else if(isSunday){
       document.getElementById('mainTitle').innerHTML = `썸잇 선데이 · 프라이빗 디너 미팅<br>${dateText}`;
       document.getElementById('floatingTitle').textContent = `썸잇 선데이 · 프라이빗 디너 미팅 — ${dateText}`;
     } else {
