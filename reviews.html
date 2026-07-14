@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0">
 <title>후기 — 썸잇 (Sumit)</title>
+<link rel="canonical" href="https://sumitparty.com/reviews.html">
+<meta name="description" content="썸잇 솔로파티 실제 방문객 후기 모음. 부산 부경대점 내돈내산 리얼 후기 30개+. 로테이션 소개팅 파티 솔직 후기.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,6 +90,12 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.06);paddin
   footer{padding:2rem 1.5rem}
   .footer-bottom{flex-direction:column;align-items:flex-start}
 }
+/* MOBILE STICKY CTA */
+.mobile-cta-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;padding:0.85rem 1.2rem;padding-bottom:calc(0.85rem + env(safe-area-inset-bottom));background:rgba(10,10,10,0.97);border-top:1px solid rgba(201,169,110,0.2);transform:translateY(100%);transition:transform 0.3s ease}
+.mobile-cta-bar.visible{transform:translateY(0)}
+.mobile-cta-bar a{display:block;background:var(--gold);color:var(--black);text-align:center;padding:0.95rem;font-family:var(--font-body);font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none}
+@media(max-width:768px){.mobile-cta-bar{display:block}}
+@media(min-width:769px){.mobile-cta-bar{display:none!important}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -188,6 +196,17 @@ fbq("track","PageView");
 
 <script>
 function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
+(function(){
+  var bar=document.getElementById('mobileCTABar');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    bar.classList.toggle('visible',window.scrollY>300);
+  },{passive:true});
+})();
 </script>
+
+<div class="mobile-cta-bar" id="mobileCTABar">
+  <a href="booking.html">지금 신청하기 →</a>
+</div>
 </body>
 </html>
