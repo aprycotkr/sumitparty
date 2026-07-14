@@ -452,7 +452,8 @@ const _partyStatusReady = (async function(){
         const wd = ['일','월','화','수','목','금','토'];
         dow = d.getDay();
         dateText = `${d.getMonth()+1}월 ${d.getDate()}일 (${wd[dow]})`;
-        if(dow===5) timeText='20:00~23:30';
+        if(dateParam==='2026-07-16') timeText='20:00~23:00';
+        else if(dow===5) timeText='20:00~23:30';
         else if(dow===6) timeText='19:00~23:00';
         else timeText='19:00~22:00';
       }
