@@ -394,6 +394,7 @@ function submitCrew(){
     body:JSON.stringify(payload)
   }).catch(()=>{}).finally(()=>{
     btn.disabled=false; btn.textContent='지원하기';
+    if(typeof fbq!=='undefined') fbq('track','Lead',{content_name:'크루 지원',content_category:'크루모집'});
     document.getElementById('modalOverlay').classList.add('open');
   });
 }

@@ -986,7 +986,12 @@ async function submitForm() {
   document.getElementById('cPrice').textContent = priceText;
   document.getElementById('cPrice2').textContent = priceText;
 
-  fbq("track","Lead", {}, {eventID: fd.eventId});
+  fbq("track","Lead", {
+    currency: "KRW",
+    value: submitPrice || 0,
+    content_name: fd.ticket,
+    content_category: "파티신청"
+  }, {eventID: fd.eventId});
   goStep(5);
 }
 
