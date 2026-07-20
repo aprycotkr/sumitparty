@@ -689,7 +689,7 @@ function step1Next() {
     document.getElementById('phoneErr').textContent = '올바른 휴대폰 번호를 입력해주세요.'; return;
   }
   document.getElementById('phoneErr').textContent = '';
-  fd.phone = v; fbq("track","InitiateCheckout"); goStep(2);
+  fd.phone = v; fbq("track","InitiateCheckout",{currency:"KRW"}); goStep(2);
 }
 
 // STEP 2
