@@ -941,6 +941,12 @@ async function submitForm() {
 
   // Google Sheets 전송
   const submitPrice = CONFIG.PRICES[fd.ticket]?.[fd.gender];
+  let clientIp = '';
+  try {
+    const ipRes = await fetch('https://api.ipify.org?format=json');
+    const ipJson = await ipRes.json();
+    clientIp = ipJson.ip || '';
+  } catch(e) {}
   const payload = {
     ...fd,
     price: submitPrice || '',
@@ -948,7 +954,8 @@ async function submitForm() {
     eventId: fd.eventId,
     fbp: getCookie('_fbp'),
     fbc: getCookie('_fbc'),
-    userAgent: navigator.userAgent
+    userAgent: navigator.userAgent,
+    clientIp: clientIp
   };
 
   let submitOk = true;

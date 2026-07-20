@@ -656,6 +656,7 @@ function sendMetaCAPI(data) {
           ln:  data.name  ? sha256(data.name.slice(0, 1))      : null,
           ge:  sha256(genderCode),
           db:  dob ? sha256(dob) : null,
+          external_id: data.phone ? sha256(normalizePhone(data.phone)) : null,
           client_ip_address: data.clientIp  || null,
           client_user_agent: data.userAgent || null,
           fbc: data.fbc || null,
@@ -709,6 +710,7 @@ function sendMetaCAPIPurchase(data) {
       ln: data.name  ? sha256(data.name.slice(0, 1))      : null,
       ge: sha256(data.gender === '여성' ? 'f' : 'm'),
       db: data.dob   ? sha256(data.dob)                   : null,
+      external_id: data.phone ? sha256(normalizePhone(data.phone)) : null,
       fbp: data.fbp  || null,
       fbc: data.fbc  || null,
       client_user_agent: data.ua || null
