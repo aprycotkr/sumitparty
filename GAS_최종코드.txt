@@ -27,7 +27,7 @@ const SENDER        = '01064509313';
 
 // ─── Meta CAPI 설정 ────────────────────────────
 const PIXEL_ID           = '821379504055811';
-const CAPI_ACCESS_TOKEN  = 'EAAXpalD64TcBRhZCP3lltG3bZAJgos3JnTjRenEh1ZCqZBIERfDlPq1ZAwc4jzZBdEkW4KXDXfzdIY3YsIsveTySCpeHllMjM4ZBDZBgwqiOhQLHxLEis9nRFCrhvJ8g49H0dJtFRO1ikHLxzbbueZBy5pjRy9zjjTFeyFJWDCcj6bXvPfuDcLKX1Wr3QyELcLi0LnQZDZD';
+const CAPI_ACCESS_TOKEN  = 'EAAXpalD64TcBSDjroywWanGPlEbWQfjFANEkNRtvBcewOb7jO7HCk5CZCvNZBBhPK0DjsQzUxSgaPs24SB3WSpCZBaV14pAusKIDwoYubT3jXFtLvDtHkxeeaVdi3h159jUBKw6PujDV7lOhq9og6jcA1moFs2cDxRlAkGRZB47RDc98ljAn5oP9PnFqjR6QaQZDZD';
 
 // ─── 광고 관리 토큰 (ads_management + ads_read) ─
 // Graph API Explorer에서 발급 — 약 60일마다 갱신 필요
@@ -642,6 +642,7 @@ function sendMetaCAPI(data) {
       ? data.byear + String(data.bmonth || '').padStart(2,'0') + String(data.bday || '').padStart(2,'0')
       : null;
 
+    const priceNum = data.price ? Number(data.price) : 0;
     const payload = {
       data: [{
         event_name: 'Lead',
@@ -659,6 +660,11 @@ function sendMetaCAPI(data) {
           client_user_agent: data.userAgent || null,
           fbc: data.fbc || null,
           fbp: data.fbp || null
+        },
+        custom_data: {
+          currency: 'KRW',
+          value: priceNum,
+          content_name: data.ticket || ''
         }
       }]
     };
