@@ -139,6 +139,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .viewer-bar .vb-flame,.viewer-badge .vb-flame{font-size:1rem;line-height:1}
 @keyframes vblink{0%,100%{opacity:1}50%{opacity:0.35}}
 
+.review-list{display:flex;flex-direction:column;gap:10px}
+.review-card{background:var(--dark);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:1.2rem 1.3rem}
+.review-stars{color:var(--gold);font-size:0.72rem;margin-bottom:0.5rem;letter-spacing:2px}
+.review-text{font-size:0.78rem;color:rgba(255,255,255,0.55);line-height:1.8;font-weight:300;margin-bottom:0.6rem}
+.review-meta{font-size:0.62rem;color:rgba(255,255,255,0.22);display:flex;gap:1rem}
 @media(max-width:900px){
   .page-wrap{grid-template-columns:1fr;padding-top:5rem;padding-bottom:7rem}
   .detail-right{display:none}
@@ -243,28 +248,6 @@ fbq("track","ViewContent",{content_name:"썸잇 솔로파티 상세",content_cat
       </div>
     </div>
 
-    <!-- 이런 분들 -->
-    <div class="sec regular-only">
-      <div class="sec-title">이런 분들이 오십니다</div>
-      <div class="simple-list">
-        <div class="simple-item">✨ 새로운 인연을 자연스럽게 만나고 싶은 분</div>
-        <div class="simple-item">💬 분위기 좋은 소개팅/파티를 찾는 분</div>
-        <div class="simple-item">🥂 혼자 와도 편하게 즐기고 싶은 분</div>
-        <div class="simple-item">🌿 시끄럽지 않은 깔끔한 분위기를 선호하는 분</div>
-      </div>
-    </div>
-
-    <!-- 이런 분께 추천 (일요일 전용) -->
-    <div class="sec sunday-only" style="display:none">
-      <div class="sec-title">이런 분께 추천해요</div>
-      <div class="simple-list">
-        <div class="simple-item">💬 스펙보다 직접 나눈 대화로 사람을 알아가고 싶은 분</div>
-        <div class="simple-item">✨ 어색함 없이 편하게 대화하고 싶은 분</div>
-        <div class="simple-item">🤝 티키타카, 결이 맞는 사람을 찾고 있는 분</div>
-        <div class="simple-item">🤍 가볍지 않은, 진짜 만남을 기대하는 분</div>
-      </div>
-    </div>
-
     <!-- 당일 프로그램 -->
     <div class="sec regular-only">
       <div class="sec-title">당일 프로그램</div>
@@ -291,8 +274,8 @@ fbq("track","ViewContent",{content_name:"썸잇 솔로파티 상세",content_cat
     <div class="sec">
       <div class="sec-title">장소 안내</div>
       <div class="location-box">
-        📍 부산 남구 수영로 인근 부경대/경성대 메인 상권<br>
-        <span style="color:rgba(255,255,255,0.3);font-size:0.68rem">신청 완료 후 상세 위치 개별 안내</span>
+        📍 부산 남구 수영로334번길 6 2층<br>
+        <span style="color:rgba(255,255,255,0.3);font-size:0.68rem">부경대/경성대 메인 상권</span>
       </div>
     </div>
 
@@ -316,6 +299,28 @@ fbq("track","ViewContent",{content_name:"썸잇 솔로파티 상세",content_cat
         • 모든 로테이션 종료 후 매칭 폼에 1, 2순위를 제출해주세요.<br>
         • 서로 호감이 닿으면 개별 안내드립니다.<br>
         • ※ 노쇼 및 허위 정보 기재 시 이후 참여가 제한됩니다.
+      </div>
+    </div>
+
+    <!-- 참가자 후기 -->
+    <div class="sec">
+      <div class="sec-title">참가자 후기</div>
+      <div class="review-list">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"처음에 혼자 가는 게 어색할 것 같아서 망설였는데, 로테이션 방식이라 억지로 말 걸 필요 없이 자연스럽게 대화가 됐어요. 생각보다 훨씬 좋았습니다."</p>
+          <div class="review-meta"><span>박○○ · 27세 여성</span><span>2026년 6월 참가</span></div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"외모 승인제라서 분위기가 확실히 달랐어요. 클럽이나 술자리가 아니라 진짜 사람을 만날 수 있는 자리였습니다. 다음 달에도 신청했어요."</p>
+          <div class="review-meta"><span>김○○ · 29세 남성</span><span>2026년 6월 참가</span></div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"진행이 너무 자연스러워서 파티라는 게 전혀 어색하지 않았어요. 스태프분들도 분위기 잘 챙겨주시고, 연락처도 교환했습니다 😊"</p>
+          <div class="review-meta"><span>이○○ · 26세 여성</span><span>2026년 7월 참가</span></div>
+        </div>
       </div>
     </div>
 

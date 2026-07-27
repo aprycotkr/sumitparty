@@ -258,6 +258,7 @@ fbq("track","PageView");
 <div class="page-header">
   <a href="index.html" class="header-logo">Sumit</a>
   <div class="header-title" style="font-family:'Cormorant Garamond',serif;font-weight:300">파티 신청서</div>
+  <div id="dateChip" style="display:none;margin:0.5rem auto 0;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.35);border-radius:20px;padding:0.3rem 1rem;font-size:0.78rem;font-weight:600;color:var(--gold);letter-spacing:0.04em;width:fit-content"></div>
   <div class="header-sub"><span id="formSubtitle">썸잇 솔로파티 — 부산 부경대점</span></div>
 </div>
 
@@ -615,6 +616,8 @@ const terms = [false, false, false];
       if (!isNaN(d)) {
         const wd = ["일","월","화","수","목","금","토"];
         const txt = `${d.getMonth()+1}월 ${d.getDate()}일 (${wd[d.getDay()]})`;
+        const chip = document.getElementById('dateChip');
+        if (chip) { chip.textContent = '📅 ' + txt; chip.style.display = 'block'; }
         if (d.getDay() === 0 || p === '2026-07-16') {
           isSundayForm = true;
           if (p === '2026-07-16') {
