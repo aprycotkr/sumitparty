@@ -729,6 +729,7 @@ async function step2Next() {
   document.getElementById('instaErr').textContent = '';
   fd.name = nm; fd.byear = by; fd.bmonth = String(mo); fd.bday = String(dy);
   fd.insta = iv;
+  fbq("track","AddToCart",{currency:"KRW"});
   goStep(3);
 }
 
@@ -762,6 +763,7 @@ function goToStep4() {
   const price = CONFIG.PRICES[fd.ticket]?.[fd.gender];
   document.getElementById('previewTicket').textContent = fd.ticket;
   document.getElementById('previewPrice').textContent = price ? price.toLocaleString() + '원' : '-';
+  fbq("track","AddPaymentInfo",{currency:"KRW"});
   goStep(4);
 }
 
