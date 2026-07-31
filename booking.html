@@ -291,6 +291,7 @@ fbq("track","PageView");
 <script>
 const PARTY_DAYS = [0,5,6];
 const SPECIAL_DATES = ['2026-07-16']; // 비정기 특별 파티 날짜
+const XDATES = ['2026-07-25','2026-07-31'];
 let currentYear, currentMonth;
 let selectedDate = null;
 let dateStatusMap = {};
@@ -305,7 +306,7 @@ async function init(){
   for(let d=now.getDate();d<=daysInCurrent;d++){
     const dow=new Date(currentYear,currentMonth,d).getDay();
     const ds=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    if(PARTY_DAYS.includes(dow)||SPECIAL_DATES.includes(ds)){hasUpcoming=true;break;}
+    if((PARTY_DAYS.includes(dow)||SPECIAL_DATES.includes(ds))&&!XDATES.includes(ds)){hasUpcoming=true;break;}
   }
   if(!hasUpcoming){currentMonth++;if(currentMonth>11){currentMonth=0;currentYear++;}}
 
