@@ -31,13 +31,15 @@ const CAPI_ACCESS_TOKEN  = 'EAAXpalD64TcBSDjroywWanGPlEbWQfjFANEkNRtvBcewOb7jO7H
 
 // ─── 광고 관리 토큰 (ads_management + ads_read) ─
 // Graph API Explorer에서 발급 — 약 60일마다 갱신 필요
-const ADS_ACCESS_TOKEN   = 'EAASvNxskGikBRuVw96ZBUZBQAHARJZCopoLHrBRWV30eC5JVHeR0fNX8wkyTy9NJGw7mzN7043sDiIWtALfJ0Hy7NzUiXHZCvSqGMZCtPpgSxFqWVlRAHM0UMkWYcuWeZCGLFZBIPIxhkSzB8Cu9QyINEDCbRJowyehLJ11KNU9pZCl7FGm4ebyVkEl7OLjcO5bGxfXW2kZA7ZCvQgvnv7'; // 만료: 2026-08-15
+const ADS_ACCESS_TOKEN   = 'EAASvNxskGikBSKCBsH8tSby2eOmQ86zZBNZBsv55NNdf3z2RKQr9vYyyO4hZBZARq4qNGUDcUZAsMyAKf257cAYCTS8Mp7UFOJDdneePdefuxvp8enC9fRFBKU82k2XTCnmqHzA07e8N5vPxM85xqeZAfdcRN2bkQu2HIQGZCfug2EiOpGANsDTVfibDc4AHMuWKlLMIwWSaE6x'; // 만료: 2026-10-07
 
 // ─── 권종별 가격표 ──────────────────────────────
 const PRICES = {
-  '1+2부': { '남성': 59900, '여성': 49900 },
-  '1부만': { '남성': 43000, '여성': 39000 },
-  '2부만': { '남성': 40000, '여성': 37000 }
+  '1+2부':       { '남성': 59900, '여성': 49900 },
+  '1+2부(선데이)': { '남성': 55000, '여성': 45000 },
+  '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
+  '1부만':       { '남성': 43000, '여성': 39000 },
+  '2부만':       { '남성': 40000, '여성': 37000 }
 };
 
 // ─── 입금 계좌 정보 ─────────────────────────────
