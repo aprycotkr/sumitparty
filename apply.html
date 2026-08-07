@@ -237,6 +237,7 @@ t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,"script","https://connect.facebook.net/en_US/fbevents.js");
 fbq("init","821379504055811");
 fbq("track","PageView");
+fbq("track","InitiateCheckout",{currency:"KRW"});
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=821379504055811&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
@@ -689,7 +690,7 @@ function step1Next() {
     document.getElementById('phoneErr').textContent = '올바른 휴대폰 번호를 입력해주세요.'; return;
   }
   document.getElementById('phoneErr').textContent = '';
-  fd.phone = v; fbq("track","InitiateCheckout",{currency:"KRW"}); goStep(2);
+  fd.phone = v; goStep(2);
 }
 
 // STEP 2
@@ -729,7 +730,8 @@ async function step2Next() {
   document.getElementById('instaErr').textContent = '';
   fd.name = nm; fd.byear = by; fd.bmonth = String(mo); fd.bday = String(dy);
   fd.insta = iv;
-  fbq("track","AddToCart",{currency:"KRW"});
+  const _atcPrice = CONFIG.PRICES[fd.ticket]?.[fd.gender];
+  fbq("track","AddToCart",{currency:"KRW",value:_atcPrice||0,content_name:fd.ticket,content_category:"파티신청"});
   goStep(3);
 }
 
@@ -763,7 +765,7 @@ function goToStep4() {
   const price = CONFIG.PRICES[fd.ticket]?.[fd.gender];
   document.getElementById('previewTicket').textContent = fd.ticket;
   document.getElementById('previewPrice').textContent = price ? price.toLocaleString() + '원' : '-';
-  fbq("track","AddPaymentInfo",{currency:"KRW"});
+  fbq("track","AddPaymentInfo",{currency:"KRW",value:price||0,content_name:fd.ticket,content_category:"파티신청"});
   goStep(4);
 }
 
@@ -996,6 +998,12 @@ async function submitForm() {
   document.getElementById('cPrice2').textContent = priceText;
 
   fbq("track","Lead", {
+    currency: "KRW",
+    value: submitPrice || 0,
+    content_name: fd.ticket,
+    content_category: "파티신청"
+  }, {eventID: fd.eventId});
+  fbq("track","Purchase", {
     currency: "KRW",
     value: submitPrice || 0,
     content_name: fd.ticket,
