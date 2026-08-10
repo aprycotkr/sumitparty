@@ -290,7 +290,7 @@ fbq("track","PageView");
 <script src="common.js"></script>
 <script>
 const PARTY_DAYS = [0,5,6];
-const SPECIAL_DATES = ['2026-07-16']; // 비정기 특별 파티 날짜
+const SPECIAL_DATES = ['2026-07-16','2026-08-17']; // 비정기 특별 파티 날짜
 const XDATES = ['2026-07-25','2026-07-31'];
 let currentYear, currentMonth;
 let selectedDate = null;
@@ -409,7 +409,7 @@ function selectDate(year,month,day,dow){
     <div class="order-date">${year}년 ${month+1}월 ${day}일 (${dayNames[dow]})</div>
     <div class="order-slot-info">부산 부경대점 · 탭하여 상세보기 →</div>
     ${seatsHtml}`;
-  if(typeof fbq!=='undefined') fbq("track","AddToCart",{content_name:"파티 날짜 선택",content_category:"파티",currency:"KRW",value:dow===0?50000:55000});
+  if(typeof fbq!=='undefined') fbq("track","AddToCart",{content_name:"파티 날짜 선택",content_category:"파티",currency:"KRW",value:(dow===0||dateStr==='2026-08-17')?50000:55000});
 
   // 모바일 하단 고정 버튼 표시
   const bar = document.getElementById('mobileStickyBar');
