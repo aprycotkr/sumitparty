@@ -360,9 +360,10 @@ function selectDate(year,month,day,dow){
   const hasMale   = mL !== '' && mL !== null && mL !== undefined;
   const hasFemale = fL !== '' && fL !== null && fL !== undefined;
   const isSoon = st.male === '마감임박' || st.female === '마감임박';
-  const subHtml = isSoon
-    ? `<div style="margin-top:0.5rem"><span class="soon-badge">마감임박</span></div>`
-    : `<div class="order-slot-info" style="margin-top:0.3rem">부산 부경대점</div>`;
+  const timeMap = {5:'20:00~23:30', 6:'19:00~23:00', 0:'19:00~22:00'};
+  const partyTime = timeMap[dow] || '';
+  const subHtml = `<div class="order-slot-info" style="margin-top:0.3rem">${partyTime} · 부산 남구</div>`
+    + (isSoon ? `<div style="margin-top:0.5rem"><span class="soon-badge">마감임박</span></div>` : '');
   let seatsHtml = '';
   if (hasMale || hasFemale) {
     const mCard = hasMale   ? `<div class="seat-card"><div class="seat-card-label">남성 잔여</div><div class="seat-card-num">${mL}석</div></div>` : '';
