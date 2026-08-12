@@ -164,6 +164,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .viewer-badge{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;background:#0f0f0f;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.78rem;color:#fff;font-weight:700;letter-spacing:0.01em}
 .viewer-badge .vb-flame{font-size:1rem;line-height:1}
 @keyframes vblink{0%,100%{opacity:1}50%{opacity:0.35}}
+/* 마감임박 뱃지 */
+.soon-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.5);color:#f87171;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;padding:4px 10px;border-radius:20px;animation:soonPulse 1.4s ease-in-out infinite}
+@keyframes soonPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(239,68,68,0.4)}50%{opacity:0.75;box-shadow:0 0 0 5px rgba(239,68,68,0)}}
+.soon-badge::before{content:'';width:6px;height:6px;background:#f87171;border-radius:50%;animation:soonDot 1.4s ease-in-out infinite}
+@keyframes soonDot{0%,100%{opacity:1}50%{opacity:0.3}}
+/* 잔여석 카드 */
+.seat-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem}
+.seat-card{background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-radius:8px;padding:0.9rem 1rem;text-align:center}
+.seat-card-label{font-size:0.55rem;color:rgba(255,255,255,0.4);letter-spacing:0.12em;font-weight:500;margin-bottom:0.4rem}
+.seat-card-num{font-size:1.5rem;font-weight:700;color:#f87171;letter-spacing:-0.01em;line-height:1}
 
 /* 모바일 하단 고정 버튼 */
 .mobile-sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.97);border-top:1px solid rgba(201,169,110,0.2);padding:0.9rem 1.2rem;padding-bottom:calc(0.9rem + env(safe-area-inset-bottom))}
@@ -221,32 +231,6 @@ fbq("track","PageView");
   <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;line-height:1.1">파티 신청하기</h1>
 </div>
 
-<!-- INFO BANNER -->
-<div class="info-banner">
-  <div class="info-item">
-    <div class="info-item-label">참가 연령</div>
-    <div class="info-item-value"><em>90~07년생</em></div>
-  </div>
-  <div class="info-item">
-    <div class="info-item-label">심사 방식</div>
-    <div class="info-item-value"><em>외모 승인제</em></div>
-  </div>
-  <div class="info-item">
-    <div class="info-item-label">남녀 성비</div>
-    <div class="info-item-value" style="white-space:nowrap"><em>1 : 1</em> 균형</div>
-  </div>
-</div>
-
-<div class="trust-strip">
-  <span class="trust-item">⭐ 만족도 <em>92%</em></span>
-  <span class="trust-item">👥 누적 신청자 <em>30,000+</em></span>
-  <span class="trust-item">"생각보다 훨씬 좋았어요" — 실제 참가자</span>
-</div>
-
-<!-- VIEWER BADGE -->
-<div class="viewer-badge">
-  <span class="vb-flame">🔥</span><span id="viewerCount">5</span>명이 보고 있어요!
-</div>
 
 <div class="booking-layout">
   <!-- LEFT -->
@@ -392,14 +376,17 @@ function selectDate(year,month,day,dow){
   const mL = st.maleLeft;
   const fL = st.femaleLeft;
 
-  let seatsHtml = '';
   const hasMale   = mL !== '' && mL !== null && mL !== undefined;
   const hasFemale = fL !== '' && fL !== null && fL !== undefined;
+  const isSoon = st.male === '마감임박' || st.female === '마감임박';
+  const subHtml = isSoon
+    ? `<div style="margin-top:0.5rem"><span class="soon-badge">마감임박</span></div>`
+    : `<div class="order-slot-info" style="margin-top:0.3rem">부산 부경대점</div>`;
+  let seatsHtml = '';
   if (hasMale || hasFemale) {
-    const parts = [];
-    if (hasMale)   parts.push(`<span style="color:#f87171;font-weight:600">남성 잔여 ${mL}석</span>`);
-    if (hasFemale) parts.push(`<span style="color:#f472b6;font-weight:600">여성 잔여 ${fL}석</span>`);
-    seatsHtml = `<div style="margin-top:0.6rem;font-size:0.68rem;display:flex;gap:0.8rem">${parts.join('')}</div>`;
+    const mCard = hasMale   ? `<div class="seat-card"><div class="seat-card-label">남성 잔여</div><div class="seat-card-num">${mL}석</div></div>` : '';
+    const fCard = hasFemale ? `<div class="seat-card"><div class="seat-card-label">여성 잔여</div><div class="seat-card-num">${fL}석</div></div>` : '';
+    seatsHtml = `<div class="seat-cards">${mCard}${fCard}</div>`;
   }
 
   const el=document.getElementById('orderSummary');
@@ -407,7 +394,7 @@ function selectDate(year,month,day,dow){
   el.onclick=()=>window.location.href=`party.html?date=${dateStr}`;
   el.innerHTML=`
     <div class="order-date">${year}년 ${month+1}월 ${day}일 (${dayNames[dow]})</div>
-    <div class="order-slot-info">부산 부경대점 · 탭하여 상세보기 →</div>
+    ${subHtml}
     ${seatsHtml}`;
   if(typeof fbq!=='undefined') fbq("track","AddToCart",{content_name:"파티 날짜 선택",content_category:"파티",currency:"KRW",value:(dow===0||dateStr==='2026-08-17')?50000:55000});
 
@@ -417,8 +404,8 @@ function selectDate(year,month,day,dow){
   const seatsEl = document.getElementById('mobileStickySeats');
   if (hasMale || hasFemale) {
     const sp = [];
-    if (hasMale)   sp.push(`<span style="color:#f87171;font-weight:600">남성 잔여 ${mL}석</span>`);
-    if (hasFemale) sp.push(`<span style="color:#f472b6;font-weight:600">여성 잔여 ${fL}석</span>`);
+    if (hasMale)   sp.push(`<span style="color:#f87171;font-weight:700;font-size:0.78rem">남성 잔여 ${mL}석</span>`);
+    if (hasFemale) sp.push(`<span style="color:#f472b6;font-weight:700;font-size:0.78rem">여성 잔여 ${fL}석</span>`);
     seatsEl.innerHTML = sp.join('');
     seatsEl.style.display = 'flex';
   } else { seatsEl.innerHTML = ''; seatsEl.style.display = 'none'; }
@@ -435,18 +422,6 @@ function submitBooking(){
 function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
 init();
 
-(function(){
-  var el = document.getElementById('viewerCount');
-  var cur = Math.floor(Math.random() * 7) + 3;
-  el.textContent = cur;
-  function tick(){
-    var delta = Math.random() < 0.5 ? 1 : -1;
-    cur = Math.max(3, Math.min(9, cur + delta));
-    el.textContent = cur;
-    setTimeout(tick, 30000 + Math.random() * 30000);
-  }
-  setTimeout(tick, 30000 + Math.random() * 30000);
-})();
 </script>
 </body>
 </html>
