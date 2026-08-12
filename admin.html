@@ -281,14 +281,14 @@ loadDashboard();
 
   ─────────────────────────────────────────────────
 
-const ADMIN_KEY = 'sumit0000'; // admin.html의 ADMIN_KEY와 동일하게
+const ADMIN_KEY = 'sumit0313';
 
 function doGet(e) {
   const action = e.parameter.action;
   if (action === 'getDateStatus') return getDateStatus();
   if (action === 'updateDateStatus') {
     if (e.parameter.key !== ADMIN_KEY) return res({ result:'error', message:'인증실패' });
-    return updateDateStatus(e.parameter.date, e.parameter.male, e.parameter.female);
+    return updateDateStatus(e.parameter.date, e.parameter.male, e.parameter.female, e.parameter.maleLeft, e.parameter.femaleLeft);
   }
   return res({ result: 'error' });
 }
@@ -315,27 +315,29 @@ function getDateStatus() {
   const data = {};
   for (let i = 1; i < rows.length; i++) {
     const date = String(rows[i][0]).trim();
-    if (date) data[date] = { male: rows[i][1] || '정상', female: rows[i][2] || '정상' };
+    if (date) data[date] = { male: rows[i][1] || '정상', female: rows[i][2] || '정상', maleLeft: rows[i][3] !== '' ? String(rows[i][3]) : '', femaleLeft: rows[i][4] !== '' ? String(rows[i][4]) : '' };
   }
   return res({ result: 'success', data });
 }
 
-function updateDateStatus(date, male, female) {
+function updateDateStatus(date, male, female, maleLeft, femaleLeft) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let s = ss.getSheetByName('마감현황');
   if (!s) {
     s = ss.insertSheet('마감현황');
-    s.appendRow(['날짜', '남성', '여성']);
+    s.appendRow(['날짜', '남성', '여성', '남잔여', '여잔여']);
   }
   const rows = s.getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
     if (String(rows[i][0]).trim() === date) {
       s.getRange(i+1, 2).setValue(male);
       s.getRange(i+1, 3).setValue(female);
+      s.getRange(i+1, 4).setValue(maleLeft !== undefined ? maleLeft : '');
+      s.getRange(i+1, 5).setValue(femaleLeft !== undefined ? femaleLeft : '');
       return res({ result: 'success' });
     }
   }
-  s.appendRow([date, male, female]);
+  s.appendRow([date, male, female, maleLeft || '', femaleLeft || '']);
   return res({ result: 'success' });
 }
 
