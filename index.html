@@ -930,15 +930,6 @@ const _cacheReady = (async function(){
   } catch(e){}
 })();
 
-// booking.html 링크 클릭 시 캐시 완료 후 이동 (최대 2.5초 대기)
-document.querySelectorAll('a[href*="booking.html"]').forEach(function(a){
-  a.addEventListener('click', function(e){
-    e.preventDefault();
-    const href = this.href;
-    Promise.race([_cacheReady, new Promise(function(r){ setTimeout(r, 2500); })])
-      .then(function(){ window.location.href = href; });
-  });
-});
 
 // 히어로 다음 파티 배지
 (function(){
