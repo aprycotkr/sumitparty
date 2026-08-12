@@ -872,18 +872,14 @@ function toggleFaq(el) {
   if (!isOpen) item.classList.add('open');
 }
 </script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="common.js"></script>
 <script>
-// 달력 캐시 미리 채우기
-const _cacheReady = (async function(){
-  try {
-    const res = await fetch(GAS_URL + '?action=getDateStatus');
-    const json = await res.json();
-    if(json.result === 'success'){
-      localStorage.setItem('sumit_dateStatus', JSON.stringify(json.data || {}));
-    }
-  } catch(e){}
-})();
+// 실시간 상태 캐시
+const _cacheReady = window._fbBusanRef.once('value').then(function(snap){
+  localStorage.setItem('sumit_dateStatus', JSON.stringify(snap.val() || {}));
+}).catch(function(){});
 
 
 // 히어로 다음 파티 배지
@@ -906,7 +902,7 @@ const _cacheReady = (async function(){
     const st=map[nxt.ds]||{};
     const lbl=`${nxt.d.getMonth()+1}월 ${nxt.d.getDate()}일 (${DN[nxt.dow]})`;
     const ms=st.male||'정상', fs=st.female||'정상';
-    const mL=st.maleLeft, fL=st.femaleLeft;
+    const mL=st.maleRemaining??st.maleLeft, fL=st.femaleRemaining??st.femaleLeft;
     const hasML=mL!==null&&mL!==undefined&&mL!=='';
     const hasFL=fL!==null&&fL!==undefined&&fL!=='';
     const today=new Date(); const todayMid=new Date(today.getFullYear(),today.getMonth(),today.getDate());

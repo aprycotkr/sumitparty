@@ -257,6 +257,8 @@ fbq("track","PageView");
 
 <!-- 모바일 하단 고정 버튼 -->
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="common.js"></script>
 <script>
 const PARTY_DAYS = [0,5,6];
@@ -284,18 +286,11 @@ async function init(){
   if(cached){ try{ dateStatusMap = JSON.parse(cached); }catch(e){} }
   renderCalendar();
 
-  try {
-    const res = await fetch(GAS_URL + '?action=getDateStatus');
-    const json = await res.json();
-    if(json.result === 'success'){
-      const newStr = JSON.stringify(json.data || {});
-      if(newStr !== cached){
-        dateStatusMap = json.data || {};
-        localStorage.setItem('sumit_dateStatus', newStr);
-        renderCalendar();
-      }
-    }
-  } catch(e){}
+  window._fbBusanRef.on('value', function(snap) {
+    dateStatusMap = snap.val() || {};
+    localStorage.setItem('sumit_dateStatus', JSON.stringify(dateStatusMap));
+    renderCalendar();
+  });
 }
 
 function renderCalendar(){
@@ -359,8 +354,8 @@ function selectDate(year,month,day,dow){
   const dayNames=['일','월','화','수','목','금','토'];
   const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
   const st = dateStatusMap[dateStr] || {};
-  const mL = st.maleLeft;
-  const fL = st.femaleLeft;
+  const mL = st.maleRemaining ?? st.maleLeft;
+  const fL = st.femaleRemaining ?? st.femaleLeft;
 
   const hasMale   = mL !== '' && mL !== null && mL !== undefined;
   const hasFemale = fL !== '' && fL !== null && fL !== undefined;

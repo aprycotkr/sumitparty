@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="common.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -102,10 +104,9 @@ let statusMap = {};
 // ── 대시보드 로드
 async function loadDashboard() {
   try {
-    const res = await fetch(GAS_URL + '?action=getDateStatus');
-    const json = await res.json();
-    if (json.result === 'success') statusMap = json.data || {};
-  } catch (e) {}
+    const snap = await window._fbBusanRef.once('value');
+    statusMap = snap.val() || {};
+  } catch(e) {}
   renderList();
 }
 
@@ -128,8 +129,8 @@ function renderList() {
     const st  = statusMap[dateStr] || {};
     const mal = st.male   || '정상';
     const fem = st.female || '정상';
-    const mL  = st.maleLeft   ?? '';
-    const fL  = st.femaleLeft ?? '';
+    const mL  = st.maleRemaining ?? st.maleLeft ?? '';
+    const fL  = st.femaleRemaining ?? st.femaleLeft ?? '';
     const dowCls = dow === 5 ? 'fri' : dow === 6 ? 'sat' : dow === 0 ? 'sun' : 'fri';
 
     html += `
@@ -183,51 +184,41 @@ function btnHtml(dateStr, gender, value, current) {
   return `<button class="sbtn ${cls}${active}" onclick="onBtn('${dateStr}','${gender}','${value}')">${value}</button>`;
 }
 
-// ── 상태 버튼 클릭 → GAS 업데이트
+// ── 상태 버튼 클릭
 async function onBtn(dateStr, gender, newVal) {
   const prev = statusMap[dateStr] || { male: '정상', female: '정상' };
   if (prev[gender] === newVal) return;
-
-  const updated = { ...prev, [gender]: newVal };
-  statusMap[dateStr] = updated;
+  statusMap[dateStr] = { ...prev, [gender]: newVal };
   setCardState(dateStr, 'saving', '저장 중...');
   rerenderBtns(dateStr);
-
-  await saveToGAS(dateStr, updated);
+  await saveToFirebase(dateStr, statusMap[dateStr]);
 }
 
-// ── 잔여석 변경 → GAS 업데이트
+// ── 잔여석 변경
 async function onSeatChange(dateStr) {
   const mL = document.getElementById(`maleLeft-${dateStr}`)?.value;
   const fL = document.getElementById(`femaleLeft-${dateStr}`)?.value;
   const prev = statusMap[dateStr] || { male: '정상', female: '정상' };
-  const updated = { ...prev, maleLeft: mL, femaleLeft: fL };
-  statusMap[dateStr] = updated;
+  statusMap[dateStr] = { ...prev, maleLeft: mL, femaleLeft: fL };
   setCardState(dateStr, 'saving', '저장 중...');
-  await saveToGAS(dateStr, updated);
+  await saveToFirebase(dateStr, statusMap[dateStr]);
 }
 
-// ── 공통 저장 함수
-async function saveToGAS(dateStr, data) {
-  const prev = { ...data };
+// ── Firebase 저장
+async function saveToFirebase(dateStr, data) {
   try {
-    const mL = data.maleLeft   ?? '';
-    const fL = data.femaleLeft ?? '';
-    const url = `${GAS_URL}?action=updateDateStatus`
-      + `&date=${encodeURIComponent(dateStr)}`
-      + `&male=${encodeURIComponent(data.male   || '정상')}`
-      + `&female=${encodeURIComponent(data.female || '정상')}`
-      + `&maleLeft=${encodeURIComponent(mL)}`
-      + `&femaleLeft=${encodeURIComponent(fL)}`
-      + `&key=${encodeURIComponent(ADMIN_KEY)}`;
-    const res  = await fetch(url);
-    const json = await res.json();
-    if (json.result !== 'success') throw new Error();
+    const mL = data.maleLeft ?? data.maleRemaining ?? '';
+    const fL = data.femaleLeft ?? data.femaleRemaining ?? '';
+    const entry = {
+      male: data.male || '정상',
+      female: data.female || '정상'
+    };
+    if (mL !== '' && mL !== null && mL !== undefined) entry.maleRemaining = Number(mL);
+    if (fL !== '' && fL !== null && fL !== undefined) entry.femaleRemaining = Number(fL);
+    await window._fbBusanRef.child(dateStr).set(entry);
     setCardState(dateStr, 'saved', '저장 완료 ✓');
     setTimeout(() => setCardState(dateStr, '', ''), 2000);
-  } catch {
-    statusMap[dateStr] = prev;
-    rerenderBtns(dateStr);
+  } catch(e) {
     setCardState(dateStr, 'err', '저장 실패 ✕');
     setTimeout(() => setCardState(dateStr, '', ''), 2500);
   }

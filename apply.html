@@ -556,6 +556,8 @@ fbq("track","InitiateCheckout",{currency:"KRW"});
   </div>
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="common.js"></script>
 <script>
 /* ══════════════════════════════
@@ -583,13 +585,10 @@ const CONFIG = {
 
 // 날짜별 성별 마감 상태
 let dateStatusMap = {};
-const _statusReady = (async function(){
-  try {
-    const res = await fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=getDateStatus');
-    const json = await res.json();
-    if(json.result === 'success') dateStatusMap = json.data || {};
-  } catch(e) {}
-})();
+const _statusReady = window._fbBusanRef.once('value').then(function(snap) {
+  dateStatusMap = snap.val() || {};
+  localStorage.setItem('sumit_dateStatus', JSON.stringify(dateStatusMap));
+}).catch(function(){});
 
 // 폼 데이터
 let isSundayForm = false;
@@ -777,7 +776,7 @@ function updateSeatBadge() {
   if (!badge || !fd.date) return;
   const st = dateStatusMap[fd.date] || {};
   const ms = st.male || '정상', fs = st.female || '정상';
-  const mL = st.maleLeft, fL = st.femaleLeft;
+  const mL = st.maleRemaining ?? st.maleLeft, fL = st.femaleRemaining ?? st.femaleLeft;
   const hasML = mL !== null && mL !== undefined && mL !== '';
   const hasFL = fL !== null && fL !== undefined && fL !== '';
 

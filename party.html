@@ -430,19 +430,14 @@ fbq("track","ViewContent",{content_name:"썸잇 솔로파티 상세",content_cat
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="common.js"></script>
 <script>
 let _partyDateStatusMap = {};
-const _partyStatusReady = (async function(){
-  try {
-    const ctrl = new AbortController();
-    const tid = setTimeout(() => ctrl.abort(), 4000);
-    const res = await fetch(GAS_URL + '?action=getDateStatus', { signal: ctrl.signal });
-    clearTimeout(tid);
-    const json = await res.json();
-    if(json.result === 'success') _partyDateStatusMap = json.data || {};
-  } catch(e) {}
-})();
+const _partyStatusReady = window._fbBusanRef.once('value').then(function(snap){
+  _partyDateStatusMap = snap.val() || {};
+}).catch(function(){});
 
 (function(){
   const params = new URLSearchParams(window.location.search);
