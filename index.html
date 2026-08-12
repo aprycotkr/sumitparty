@@ -129,23 +129,23 @@ canvas#starCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
 .about-detail-key{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.25rem}
 .about-detail-val{font-size:0.8rem;color:rgba(255,255,255,0.65);font-weight:300}
 
-/* ── PRICING ── */
+/* ── REAL REVIEWS ── */
 #pricing{background:var(--black)}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.1);margin-top:4rem}
-.price-card{background:var(--dark);padding:2.8rem 2.2rem;transition:background 0.2s}
-.price-card:hover{background:var(--dark2)}
-.price-card.featured{background:rgba(201,169,110,0.05);border:2px solid rgba(201,169,110,0.25)}
-.price-badge{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1rem}
-.price-name{font-family:var(--font-display);font-size:1.5rem;font-weight:400;color:var(--white);margin-bottom:0.3rem}
-.price-desc{font-size:0.62rem;color:rgba(255,255,255,0.28);letter-spacing:0.08em;margin-bottom:2rem;font-weight:300}
-.price-divider{height:1px;background:rgba(201,169,110,0.12);margin-bottom:1.8rem}
-.price-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem}
-.price-gender{font-size:0.65rem;color:rgba(255,255,255,0.38);font-weight:300}
-.price-amount{font-family:var(--font-display);font-size:1.7rem;font-weight:300;color:var(--white)}
-.price-amount sup{font-size:0.7rem;font-family:var(--font-body);color:rgba(255,255,255,0.35);font-weight:300;vertical-align:super}
-.price-card.featured .price-amount{color:var(--gold)}
-.price-note{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.05);font-size:0.62rem;color:rgba(255,255,255,0.25);line-height:1.7;font-weight:300}
-.price-note em{color:var(--gold);font-style:normal}
+.dm-grid{display:grid;grid-template-columns:1fr 1fr;padding:1rem 0.5rem;margin-top:2rem}
+.dm-card{position:relative;border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,0.1);box-shadow:0 8px 28px rgba(0,0,0,0.55);margin:0 6px -16px}
+.dm-card img{display:block;width:100%;height:auto}
+.dm-card:nth-child(1){transform:rotate(-2deg);z-index:3}
+.dm-card:nth-child(2){transform:rotate(1.5deg);z-index:2;margin-top:28px}
+.dm-card:nth-child(3){transform:rotate(1deg);z-index:5;margin-top:-10px}
+.dm-card:nth-child(4){transform:rotate(-1.5deg);z-index:4;margin-top:20px}
+.dm-card:nth-child(5){transform:rotate(2deg);z-index:7;margin-top:-8px}
+.dm-card:nth-child(6){transform:rotate(-1deg);z-index:6;margin-top:16px}
+.dm-card:nth-child(7){transform:rotate(-1.8deg);z-index:9;margin-top:-12px}
+.dm-card:nth-child(8){transform:rotate(1.2deg);z-index:8;margin-top:24px}
+.dm-cta-wrap{text-align:center;margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)}
+.dm-cta-btn{display:inline-block;background:var(--gold);color:var(--black);text-decoration:none;padding:1.15rem 4rem;border-radius:50px;font-family:var(--font-body);font-size:1rem;font-weight:700;letter-spacing:0.04em;transition:all 0.25s;box-shadow:0 6px 24px rgba(201,169,110,0.35)}
+.dm-cta-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,169,110,0.5)}
+@media(max-width:600px){.dm-grid{grid-template-columns:1fr 1fr}.dm-card{margin:0 3px -10px}.dm-cta-btn{padding:1rem 2.5rem;font-size:0.9rem}}
 .price-cta{display:block;text-align:center;margin-top:2rem;padding:0.75rem;border:1px solid rgba(201,169,110,0.3);color:var(--gold);text-decoration:none;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;transition:all 0.2s}
 .price-cta:hover{background:var(--gold);color:var(--black)}
 
@@ -488,17 +488,6 @@ fbq("track","PageView");
   </div>
 </div>
 
-<!-- BOOKING BANNER -->
-<a href="booking.html" class="booking-banner">
-  <div class="booking-banner-bg"></div>
-  <div class="booking-banner-tag">탭하여 신청</div>
-  <div class="booking-banner-content">
-    <p class="booking-banner-location">부산 부경대점</p>
-    <p class="booking-banner-title">솔로파티 썸잇</p>
-    <p class="booking-banner-sub">매주 금·토·일 운영</p>
-    <span class="booking-banner-btn">신청하기 →</span>
-  </div>
-</a>
 
 <!-- ABOUT -->
 <section id="about">
@@ -541,57 +530,23 @@ fbq("track","PageView");
   </div>
 </section>
 
-<!-- PRICING -->
+<!-- REAL REVIEWS -->
 <section id="pricing">
   <div class="section container">
-    <p class="section-label">Pricing</p>
-    <h2 class="section-title">티켓 가격</h2>
-    <div class="pricing-grid">
-      <div class="price-card featured">
-        <p class="price-badge">✦ 추천</p>
-        <p class="price-name">1부 + 2부</p>
-        <p class="price-desc">설렘 컨텐츠부터 도파민 컨텐츠까지</p>
-        <div class="price-divider"></div>
-        <div class="price-row"><span class="price-gender">남성</span><span class="price-amount">59,900<sup>원</sup></span></div>
-        <div class="price-row"><span class="price-gender">여성</span><span class="price-amount">49,900<sup>원</sup></span></div>
-        <p class="price-note">첫인상 게임·로테이션 자리이동부터<br><em>익명라디오·자리뺏기</em>까지 모두 참가</p>
-        <a href="booking.html" class="price-cta">신청하기</a>
-      </div>
-      <div class="price-card">
-        <p class="price-badge">1부만</p>
-        <p class="price-name">설렘 컨텐츠</p>
-        <p class="price-desc">어색함을 녹이는 1부만 참가</p>
-        <div class="price-divider"></div>
-        <div class="price-row"><span class="price-gender">남성</span><span class="price-amount">43,000<sup>원</sup></span></div>
-        <div class="price-row"><span class="price-gender">여성</span><span class="price-amount">39,000<sup>원</sup></span></div>
-        <p class="price-note">타인이 보는 첫인상·이미지 게임<br>로테이션 자리이동·이상형 찾기</p>
-        <a href="booking.html" class="price-cta">신청하기</a>
-      </div>
-      <div class="price-card">
-        <p class="price-badge">2부만</p>
-        <p class="price-name">도파민 컨텐츠</p>
-        <p class="price-desc">달아오르는 분위기의 2부만 참가</p>
-        <div class="price-divider"></div>
-        <div class="price-row"><span class="price-gender">남성</span><span class="price-amount">40,000<sup>원</sup></span></div>
-        <div class="price-row"><span class="price-gender">여성</span><span class="price-amount">37,000<sup>원</sup></span></div>
-        <p class="price-note">설렘폭발 익명라디오·매력 포인트 적기<br>자리뺏기 등 도파민 가득한 파티</p>
-        <a href="booking.html" class="price-cta">신청하기</a>
-      </div>
+    <p class="section-label">Real Reviews</p>
+    <h2 class="section-title">게스트분들의<br>솔직한 후기</h2>
+    <div class="dm-grid">
+      <div class="dm-card"><img src="reviews/dm1.png" alt="썸잇 솔직 후기" loading="lazy"></div>
+      <div class="dm-card"><img src="reviews/dm2.png" alt="썸잇 솔직 후기" loading="lazy"></div>
+      <div class="dm-card"><img src="reviews/dm3.png" alt="썸잇 솔직 후기" loading="lazy"></div>
+      <div class="dm-card"><img src="reviews/dm4.png" alt="썸잇 솔직 후기" loading="lazy"></div>
+      <div class="dm-card"><img src="reviews/dm5.png" alt="썸잇 솔직 후기" loading="lazy"></div>
+      <div class="dm-card"><img src="reviews/dm6.png" alt="썸잇 솔직 후기" loading="lazy"></div>
+      <div class="dm-card"><img src="reviews/dm7.png" alt="썸잇 솔직 후기" loading="lazy"></div>
+      <div class="dm-card"><img src="reviews/dm8.png" alt="썸잇 솔직 후기" loading="lazy"></div>
     </div>
-    <!-- Sunday Special -->
-    <div style="margin-top:1px;background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.2);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
-      <div>
-        <p class="price-badge" style="margin-bottom:0.6rem">✦ 매주 일요일 · 썸잇 선데이</p>
-        <p style="font-family:var(--font-display);font-size:1.6rem;font-weight:300;color:var(--white);margin-bottom:0.3rem">프라이빗 디너 미팅</p>
-        <p style="font-size:0.65rem;color:rgba(255,255,255,0.3);letter-spacing:0.08em;line-height:1.8">말보다 눈빛이 먼저 오가는 시간 · 10분 로테이션 대화 · 최소 5:5 ~ 최대 12:12 소규모 구성</p>
-      </div>
-      <div style="display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap">
-        <div>
-          <div class="price-row" style="margin-bottom:0.5rem"><span class="price-gender">남성</span><span class="price-amount" style="margin-left:1rem">55,000<sup>원</sup></span></div>
-          <div class="price-row"><span class="price-gender">여성</span><span class="price-amount" style="margin-left:1rem">45,000<sup>원</sup></span></div>
-        </div>
-        <a href="booking.html" class="price-cta" style="margin-top:0;white-space:nowrap">신청하기</a>
-      </div>
+    <div class="dm-cta-wrap">
+      <a href="booking.html" class="dm-cta-btn">지금 신청하기</a>
     </div>
   </div>
 </section>
