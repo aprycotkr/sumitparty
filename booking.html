@@ -362,7 +362,7 @@ function selectDate(year,month,day,dow){
   const isSoon = st.male === '마감임박' || st.female === '마감임박';
   const timeMap = {5:'20:00~23:30', 6:'19:00~23:00', 0:'19:00~22:00'};
   const partyTime = dateStr === '2026-08-17' ? '19:00~22:00' : (timeMap[dow] || '');
-  const subHtml = `<div class="order-slot-info" style="margin-top:0.3rem">${partyTime} · 부산 남구</div>`
+  const subHtml = `<div class="order-slot-info" style="margin-top:0.3rem">${partyTime} · 📍 부산 남구</div>`
     + (isSoon ? `<div style="margin-top:0.5rem"><span class="soon-badge">마감임박</span></div>` : '');
   let seatsHtml = '';
   if (hasMale || hasFemale) {
