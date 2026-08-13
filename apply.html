@@ -577,6 +577,7 @@ const CONFIG = {
     '1+2부': { '남성': 59900, '여성': 49900 },
     '1+2부(선데이)': { '남성': 55000, '여성': 45000 },
     '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
+    '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
     '1부만': { '남성': 43000, '여성': 39000 },
     '2부만': { '남성': 40000, '여성': 37000 },
   }
@@ -822,7 +823,7 @@ function resetPhotoNextBtn() {
 function selTicket(el, t) {
   document.querySelectorAll('.ticket-opt').forEach(x => x.classList.remove('sel'));
   el.classList.add('sel');
-  fd.ticket = isSundayForm ? '1+2부(선데이)' : t;
+  fd.ticket = isSundayForm ? (fd.date === '2026-08-17' ? '1+2부(프라이빗)' : '1+2부(선데이)') : t;
 }
 
 // 성별 선택
