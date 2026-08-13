@@ -1013,12 +1013,6 @@ async function submitForm() {
     content_name: fd.ticket,
     content_category: "파티신청"
   }, {eventID: fd.eventId});
-  fbq("track","Purchase", {
-    currency: "KRW",
-    value: submitPrice || 0,
-    content_name: fd.ticket,
-    content_category: "파티신청"
-  }, {eventID: fd.eventId});
   goStep(5);
 }
 
