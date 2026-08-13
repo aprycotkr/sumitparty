@@ -947,10 +947,13 @@ async function submitForm() {
 
   // Google Sheets 전송
   const submitPrice = CONFIG.PRICES[fd.ticket]?.[fd.gender];
+  const timeout = ms => new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms));
   let clientIp = '';
   try {
-    const ipRes = await fetch('https://api.ipify.org?format=json');
-    const ipJson = await ipRes.json();
+    const ipJson = await Promise.race([
+      fetch('https://api.ipify.org?format=json').then(r => r.json()),
+      timeout(2000)
+    ]);
     clientIp = ipJson.ip || '';
   } catch(e) {}
   const payload = {
@@ -964,15 +967,19 @@ async function submitForm() {
     clientIp: clientIp
   };
 
+  // no-cors라 응답 못 읽음 — 8초 내 요청만 보장, 타임아웃 시 성공 처리
   let submitOk = true;
   try {
-    await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    });
+    await Promise.race([
+      fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      }),
+      timeout(8000)
+    ]);
   } catch (e) {
-    submitOk = false;
+    if (e.message !== 'timeout') submitOk = false;
   }
 
   clearInterval(interval);
