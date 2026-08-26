@@ -334,10 +334,10 @@ fbq("track","InitiateCheckout",{currency:"KRW"});
       <div>
         <div class="ticket-sum-meta">권종</div>
         <div class="ticket-sum-name">1+2부</div>
-        <div class="ticket-sum-desc" id="ticketOptDesc">설렘 컨텐츠 + 도파민 컨텐츠 전체 참가</div>
+        <div class="ticket-sum-desc" id="ticketOptDesc">성별 선택 후 금액이 표시됩니다</div>
       </div>
     </div>
-    <div class="ticket-sum-price" id="ticketOptPrice">남 62,000<br>여 45,000원</div>
+    <div class="ticket-sum-price" id="ticketOptPrice">—</div>
   </div>
 
   <div class="field">
@@ -596,6 +596,7 @@ const _statusReady = window._fbBusanRef.once('value').then(function(snap) {
 
 // 폼 데이터
 let isSundayForm = false;
+let isEarlyBirdApplied = false;
 const fd = {
   phone: '', ticket: '1+2부', name: '', gender: '',
   byear: '', bmonth: '', bday: '',
@@ -657,14 +658,11 @@ const terms = [false, false, false];
           const todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
           const partyDate = new Date(p + 'T00:00:00');
           if (Math.floor((partyDate - todayMidnight) / 86400000) > 3) {
+            isEarlyBirdApplied = true;
             if (isSundayForm) {
               CONFIG.PRICES[fd.ticket] = { '남성': 50000, '여성': 40000 };
-              const pEl = document.getElementById('ticketOptPrice');
-              if (pEl) pEl.innerHTML = '<span style="text-decoration:line-through;color:#9CA3AF;font-size:0.85em">남성 55,000원 / 여성 45,000원</span><br><span style="color:#EA580C;font-weight:600">얼리버드 남성 50,000원 / 여성 40,000원</span>';
             } else {
               CONFIG.PRICES['1+2부'] = { '남성': 57000, '여성': 40000 };
-              const pEl = document.getElementById('ticketOptPrice');
-              if (pEl) pEl.innerHTML = '<span style="text-decoration:line-through;color:#9CA3AF;font-size:0.85em">남성 62,000원 / 여성 45,000원</span><br><span style="color:#EA580C;font-weight:600">얼리버드 남성 57,000원 / 여성 40,000원</span>';
             }
           }
         }
@@ -853,9 +851,11 @@ function selGender(el, g) {
   el.classList.add('sel'); el.setAttribute('aria-pressed','true'); fd.gender = g;
   const price = CONFIG.PRICES[fd.ticket]?.[g];
   const pEl = document.getElementById('ticketOptPrice');
+  const dEl2 = document.getElementById('ticketOptDesc');
   if (pEl && price) {
-    const label = g === '남성' ? '남성 참가비' : '여성 참가비';
-    pEl.innerHTML = `${price.toLocaleString()}원<br><span style="font-size:0.6rem;font-weight:400;color:rgba(255,255,255,0.3)">${label}</span>`;
+    const label = (g === '남성' ? '남성 참가비' : '여성 참가비') + (isEarlyBirdApplied ? ' · 얼리버드' : '');
+    pEl.textContent = price.toLocaleString() + '원';
+    if (dEl2) dEl2.textContent = label;
   }
 }
 
