@@ -132,13 +132,20 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .ticket-note{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-radius:8px;padding:0.7rem 0.9rem;font-size:0.65rem;color:rgba(255,255,255,0.35);margin-top:0.8rem;line-height:1.6}
 .ticket-opt-time{font-size:0.62rem;color:rgba(201,169,110,0.75);font-weight:500;margin-top:3px;letter-spacing:0.01em}
 .ticket-opt-time:empty{display:none}
-.party-info-card{padding:1rem 1.1rem;border:1px solid rgba(201,169,110,0.2);border-radius:10px;background:rgba(201,169,110,0.04);margin-bottom:1.3rem}
-.party-info-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem}
-.party-info-name{font-size:0.85rem;font-weight:600;color:var(--gold)}
-.party-info-time{font-size:0.62rem;color:rgba(201,169,110,0.7);font-weight:500}
-.party-info-price{font-size:0.72rem;color:rgba(255,255,255,0.45);margin-bottom:0.25rem;line-height:1.6}
-.party-info-subdesc{font-size:0.62rem;color:rgba(255,255,255,0.22);line-height:1.5;font-weight:300}
-.party-info-subdesc:empty{display:none}
+.sel-party-card{padding:0.9rem 1.1rem;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:var(--dark2);margin-bottom:0.7rem}
+.sel-party-label{font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.28);font-weight:600;margin-bottom:0.35rem}
+.sel-party-row{display:flex;align-items:center;justify-content:space-between}
+.sel-party-info{font-size:0.88rem;font-weight:600;color:var(--white)}
+.sel-party-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:rgba(255,255,255,0.45);font-size:0.6rem;font-weight:500;padding:4px 10px;cursor:pointer;font-family:var(--font-body);letter-spacing:0.05em;transition:all 0.2s}
+.sel-party-btn:hover{background:rgba(255,255,255,0.13);color:var(--white)}
+.ticket-sum-card{padding:0.9rem 1.1rem;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:var(--dark2);margin-bottom:1.3rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem}
+.ticket-sum-left{display:flex;align-items:flex-start;gap:0.7rem}
+.ticket-sum-icon{font-size:1.05rem;line-height:1;margin-top:3px}
+.ticket-sum-meta{font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.28);font-weight:600;margin-bottom:0.2rem}
+.ticket-sum-name{font-size:0.88rem;font-weight:600;color:var(--white)}
+.ticket-sum-desc{font-size:0.62rem;color:rgba(255,255,255,0.25);margin-top:0.2rem;font-weight:300;line-height:1.4}
+.ticket-sum-desc:empty{display:none}
+.ticket-sum-price{font-size:0.95rem;font-weight:700;color:var(--gold);text-align:right;white-space:nowrap;line-height:1.5}
 
 /* ── INSTA INPUT ── */
 .insta-wrap{display:flex;align-items:center;border:1px solid rgba(255,255,255,0.1);border-radius:8px;overflow:hidden;background:var(--dark2);transition:border-color 0.2s}
@@ -314,13 +321,23 @@ fbq("track","InitiateCheckout",{currency:"KRW"});
   <h2 class="step-title">기본 정보</h2>
   <p class="step-desc">프로필 카드에 사용될 정보를 입력해주세요.</p>
 
-  <div class="party-info-card">
-    <div class="party-info-row">
-      <span class="party-info-name">1부 + 2부 전체</span>
-      <span class="party-info-time" id="ticketTime-12"></span>
+  <div class="sel-party-card">
+    <div class="sel-party-label">선택된 파티</div>
+    <div class="sel-party-row">
+      <span class="sel-party-info" id="selPartyInfo">—</span>
+      <button class="sel-party-btn" onclick="window.location.href='booking.html'">변경</button>
     </div>
-    <div class="party-info-price" id="ticketOptPrice">남성 62,000원 / 여성 45,000원</div>
-    <div class="party-info-subdesc" id="ticketOptDesc">설렘 컨텐츠 + 도파민 컨텐츠 전체 참가</div>
+  </div>
+  <div class="ticket-sum-card">
+    <div class="ticket-sum-left">
+      <span class="ticket-sum-icon">🎟</span>
+      <div>
+        <div class="ticket-sum-meta">권종</div>
+        <div class="ticket-sum-name">1+2부</div>
+        <div class="ticket-sum-desc" id="ticketOptDesc">설렘 컨텐츠 + 도파민 컨텐츠 전체 참가</div>
+      </div>
+    </div>
+    <div class="ticket-sum-price" id="ticketOptPrice">남 62,000<br>여 45,000원</div>
   </div>
 
   <div class="field">
@@ -633,6 +650,8 @@ const terms = [false, false, false];
           const el = document.getElementById(id);
           if (el) el.textContent = times[key] ? '⏰ ' + times[key] : '';
         });
+        const selEl = document.getElementById('selPartyInfo');
+        if (selEl) selEl.textContent = txt + (times['12'] ? ' · ' + times['12'] : '');
         // 얼리버드: 파티 3일 초과 남은 경우 5천원 할인
         {
           const todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
@@ -832,6 +851,12 @@ function formatBdate(el) {
 function selGender(el, g) {
   document.querySelectorAll('.gender-btn').forEach(x => { x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
   el.classList.add('sel'); el.setAttribute('aria-pressed','true'); fd.gender = g;
+  const price = CONFIG.PRICES[fd.ticket]?.[g];
+  const pEl = document.getElementById('ticketOptPrice');
+  if (pEl && price) {
+    const label = g === '남성' ? '남성 참가비' : '여성 참가비';
+    pEl.innerHTML = `${price.toLocaleString()}원<br><span style="font-size:0.6rem;font-weight:400;color:rgba(255,255,255,0.3)">${label}</span>`;
+  }
 }
 
 // 약관 토글
