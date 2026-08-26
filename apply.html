@@ -313,23 +313,11 @@ fbq("track","InitiateCheckout",{currency:"KRW"});
       <div class="ticket-opt sel" onclick="selTicket(this,'1+2부')">
         <div class="ticket-opt-top">
           <span class="ticket-opt-name">1부 + 2부</span>
-          <span class="ticket-badge">추천</span>
+          <span class="ticket-badge">전체 참가</span>
         </div>
-        <div class="ticket-opt-price">남성 59,900원 / 여성 49,900원</div>
+        <div class="ticket-opt-price">남성 62,000원 / 여성 48,000원</div>
         <div class="ticket-opt-time" id="ticketTime-12"></div>
         <div class="ticket-opt-desc">설렘 컨텐츠 + 도파민 컨텐츠 전체 참가</div>
-      </div>
-      <div class="ticket-opt" onclick="selTicket(this,'1부만')">
-        <div class="ticket-opt-top"><span class="ticket-opt-name">1부만 (설렘 컨텐츠)</span></div>
-        <div class="ticket-opt-price">남성 43,000원 / 여성 39,000원</div>
-        <div class="ticket-opt-time" id="ticketTime-1"></div>
-        <div class="ticket-opt-desc">첫인상·이미지게임·로테이션 자리이동·이상형찾기</div>
-      </div>
-      <div class="ticket-opt" onclick="selTicket(this,'2부만')">
-        <div class="ticket-opt-top"><span class="ticket-opt-name">2부만 (도파민 컨텐츠)</span></div>
-        <div class="ticket-opt-price">남성 40,000원 / 여성 37,000원</div>
-        <div class="ticket-opt-time" id="ticketTime-2"></div>
-        <div class="ticket-opt-desc">익명라디오·매력포인트 적기·자리뺏기</div>
       </div>
     </div>
     <div class="ticket-note">💡 현장에서 추가 시 +25,000원 · 외모 승인제 운영</div>
@@ -574,12 +562,10 @@ const CONFIG = {
 
   // 권종별 가격
   PRICES: {
-    '1+2부': { '남성': 59900, '여성': 49900 },
+    '1+2부': { '남성': 62000, '여성': 48000 },
     '1+2부(선데이)': { '남성': 55000, '여성': 45000 },
     '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
     '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
-    '1부만': { '남성': 43000, '여성': 39000 },
-    '2부만': { '남성': 40000, '여성': 37000 },
   }
 };
 /* ══════════════════════════════ */
@@ -628,11 +614,6 @@ const terms = [false, false, false];
             document.getElementById('formSubtitle').textContent = `썸잇 선데이 · 프라이빗 디너 미팅 ${txt}`;
             fd.ticket = '1+2부(선데이)';
           }
-          // 1부만·2부만 옵션 숨김
-          document.querySelectorAll('.ticket-opt').forEach(el => {
-            const oc = el.getAttribute('onclick') || '';
-            if (oc.includes("'1부만'") || oc.includes("'2부만'")) el.style.display = 'none';
-          });
           // 1부+2부 가격·설명 선데이 전용으로 변경
           const pEl = document.querySelector('.ticket-opt .ticket-opt-price');
           if (pEl) pEl.textContent = '남성 55,000원 / 여성 45,000원';
@@ -650,7 +631,7 @@ const terms = [false, false, false];
           0: {'12':'19:00~22:00'}
         };
         const times = (p === '2026-07-16') ? {'12':'20:00~23:00'} : (p === '2026-08-17') ? {'12':'19:00~22:00'} : (TIMES[d.getDay()] || {});
-        [['ticketTime-12','12'],['ticketTime-1','1'],['ticketTime-2','2']].forEach(function([id,key]){
+        [['ticketTime-12','12']].forEach(function([id,key]){
           const el = document.getElementById(id);
           if (el) el.textContent = times[key] ? '⏰ ' + times[key] : '';
         });
@@ -658,7 +639,7 @@ const terms = [false, false, false];
     }
   }
   // 티켓 미리 선택 (일요일은 1+2부(선데이) 고정)
-  if (!isSundayForm && t && ['1+2부','1부만','2부만'].includes(t)) {
+  if (!isSundayForm && t && t === '1+2부') {
     fd.ticket = t;
     document.querySelectorAll('.ticket-opt').forEach(el => {
       const isMatch = el.getAttribute('onclick')?.includes(`'${t}'`);
