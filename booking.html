@@ -105,6 +105,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .soon-badge::before{content:'';width:5px;height:5px;background:#B91C1C;border-radius:50%;animation:soonDot 1.4s ease-in-out infinite}
 @keyframes soonDot{0%,100%{opacity:1}50%{opacity:0.25}}
 
+/* 얼리버드 */
+.date-card-badge-eb{display:inline-flex;align-items:center;background:rgba(234,88,12,0.09);border:1px solid rgba(234,88,12,0.2);color:#EA580C;font-size:0.52rem;font-weight:700;letter-spacing:0.06em;padding:2px 7px;border-radius:20px}
+.date-card.selected .date-card-badge-eb{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.4);color:#fff}
+.info-price{font-size:0.78rem;color:var(--text2);margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(0,0,0,0.06)}
+.info-price s{color:var(--text3);font-size:0.72rem}
+.info-price-eb{display:inline-flex;align-items:center;background:rgba(234,88,12,0.09);border:1px solid rgba(234,88,12,0.2);color:#EA580C;font-size:0.62rem;font-weight:700;letter-spacing:0.06em;padding:2px 8px;border-radius:20px;margin-right:0.4rem}
+
 /* LOADING */
 .loading-msg{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:0.8rem;letter-spacing:0.1em}
 
@@ -205,6 +212,12 @@ function getMonthLabel(y, mo) {
   return MONTH_NAMES[mo];
 }
 
+function isEarlyBird(ds) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const party = new Date(ds + 'T00:00:00');
+  return Math.floor((party - today) / 86400000) > 3;
+}
+
 function getStatusInfo(ds, dow) {
   const st = dateStatusMap[ds] || {};
   const male = st.male || '정상';
@@ -273,11 +286,14 @@ function renderSchedule() {
       const st = getStatusInfo(ds, dow);
       const isSelected = selectedDate && selectedDate.ds === ds;
       const isSoonCard = st.label === '마감임박';
+      const eb = isEarlyBird(ds);
       const statusEl = isSelected
         ? `<div class="date-card-status" style="color:rgba(255,255,255,0.88)">✓ 선택</div>`
         : isSoonCard
           ? `<div class="date-card-status"><span class="date-card-badge-soon">마감임박</span></div>`
-          : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
+          : eb && st.label === '예약가능'
+            ? `<div class="date-card-status"><span class="date-card-badge-eb">얼리버드</span></div>`
+            : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
       return `<div class="date-card${st.disabled ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
           onclick="${st.disabled ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow})`}">
         <span class="date-dot" style="background:${st.dot}"></span>
@@ -307,6 +323,13 @@ function renderSchedule() {
       </div>` : '';
 
       const btnLabel = `${selectedDate.mo+1}월 ${selectedDate.d}일 신청하기 →`;
+      const isSundayDate = selectedDate.dow === 0 || selectedDate.ds === '2026-07-16' || selectedDate.ds === '2026-08-17';
+      const ebDate = !isSundayDate && isEarlyBird(selectedDate.ds);
+      const priceHtml = isSundayDate
+        ? `<div class="info-price">남성 55,000원 &nbsp;·&nbsp; 여성 45,000원</div>`
+        : ebDate
+          ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>62,000</s> <strong>57,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
+          : `<div class="info-price">남성 62,000원 &nbsp;·&nbsp; 여성 45,000원</div>`;
       infoHtml = `<div class="info-panel">
         <div class="info-meta">
           <span class="info-meta-item">🕐 ${partyTime}</span>
@@ -314,6 +337,7 @@ function renderSchedule() {
           <span class="info-meta-item">📍 부산 남구</span>
           ${isSoon ? '<span class="info-meta-divider">·</span><span class="soon-badge">마감임박</span>' : ''}
         </div>
+        ${priceHtml}
         ${seatsHtml}
         <button class="cta-btn" onclick="goToParty('${selectedDate.ds}')">${btnLabel}</button>
       </div>`;

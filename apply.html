@@ -635,6 +635,16 @@ const terms = [false, false, false];
           const el = document.getElementById(id);
           if (el) el.textContent = times[key] ? '⏰ ' + times[key] : '';
         });
+        // 얼리버드: 파티 3일 초과 남은 경우 5천원 할인
+        if (!isSundayForm) {
+          const todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
+          const partyDate = new Date(p + 'T00:00:00');
+          if (Math.floor((partyDate - todayMidnight) / 86400000) > 3) {
+            CONFIG.PRICES['1+2부'] = { '남성': 57000, '여성': 40000 };
+            const pEl = document.querySelector('.ticket-opt .ticket-opt-price');
+            if (pEl) pEl.innerHTML = '<span style="text-decoration:line-through;color:#9CA3AF;font-size:0.85em">남성 62,000원 / 여성 45,000원</span><br><span style="color:#EA580C;font-weight:600">얼리버드 남성 57,000원 / 여성 40,000원</span>';
+          }
+        }
       }
     }
   }
