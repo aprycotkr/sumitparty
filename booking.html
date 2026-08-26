@@ -356,7 +356,7 @@ function renderSchedule() {
 function selectDateCard(ds, y, mo, d, dow) {
   selectedDate = { ds, y, mo, d, dow };
   renderSchedule();
-  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:(dow===0||ds==='2026-08-17')?50000:55000});
+  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:dow===0?55000:62000});
   setTimeout(() => {
     const panel = document.querySelector('.info-panel');
     if (panel) panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
