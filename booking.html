@@ -25,162 +25,103 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --gold:#C9A96E;--gold-light:#E8D4A8;--gold-dark:#8A6B3A;
-  --black:#0A0A0A;--dark:#111111;--dark2:#1A1A1A;--dark3:#242424;
-  --gray:#888888;--white:#FFFFFF;
+  --bg:#F2F3F5;--surface:#FFFFFF;--surface2:#F2EEE8;--surface3:#E8E2D8;
+  --text:#1A1814;--text2:#4A4540;--text3:#8A857E;
   --font-display:'Cormorant Garamond',serif;--font-body:'Pretendard Variable',Pretendard,sans-serif;
 }
-body{background:var(--black);color:var(--white);font-family:var(--font-body);font-weight:300;min-height:100vh}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(201,169,110,0.1)}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-weight:300;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;background:rgba(242,243,245,0.96);border-bottom:1px solid rgba(0,0,0,0.07);backdrop-filter:blur(8px)}
 .nav-logo{font-family:var(--font-display);font-size:1.8rem;font-weight:500;color:var(--gold);letter-spacing:0.15em;text-decoration:none}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{color:var(--white);text-decoration:none;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;transition:color 0.2s;opacity:0.85}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;transition:color 0.2s;opacity:0.85}
 .nav-links a:hover,.nav-links a.active{color:var(--gold);opacity:1}
 .nav-menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
-.nav-menu-btn span{display:block;width:24px;height:1px;background:var(--white)}
-.mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:200;flex-direction:column;justify-content:flex-start;padding:5.5rem 2rem 2rem}
+.nav-menu-btn span{display:block;width:24px;height:1px;background:var(--text)}
+.mobile-nav{display:none;position:fixed;inset:0;background:var(--surface);z-index:200;flex-direction:column;justify-content:flex-start;padding:5.5rem 2rem 2rem}
 .mobile-nav.open{display:flex}
-.mobile-nav a{color:var(--white);text-decoration:none;font-family:var(--font-body);font-size:1.15rem;font-weight:400;letter-spacing:0.08em;padding:1.3rem 0.5rem;border-bottom:1px solid rgba(201,169,110,0.12);transition:color 0.2s}
+.mobile-nav a{color:var(--text);text-decoration:none;font-family:var(--font-body);font-size:1.15rem;font-weight:400;letter-spacing:0.08em;padding:1.3rem 0.5rem;border-bottom:1px solid rgba(201,169,110,0.12);transition:color 0.2s}
 .mobile-nav a:first-of-type{color:var(--gold)}
 .mobile-nav a:hover{color:var(--gold)}
-.mobile-nav .mobile-cta{margin-top:2.5rem;background:var(--gold);color:var(--black);text-align:center;font-family:var(--font-body);font-size:0.95rem;font-weight:600;letter-spacing:0.05em;padding:1.2rem;border:none;border-radius:14px}
-.mobile-nav .mobile-cta:hover{background:var(--gold-light);color:var(--black)}
-.mobile-nav-close{position:absolute;top:1.5rem;right:1.8rem;background:none;border:none;color:var(--white);font-size:1.6rem;cursor:pointer;line-height:1}
-.page-header{padding:10rem 3rem 4rem;border-bottom:1px solid rgba(201,169,110,0.1)}
-.page-label{font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:1rem}
-.page-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:300;line-height:1.1}
+.mobile-nav .mobile-cta{margin-top:2.5rem;background:var(--gold);color:#fff;text-align:center;font-family:var(--font-body);font-size:0.95rem;font-weight:600;letter-spacing:0.05em;padding:1.2rem;border:none;border-radius:14px;cursor:pointer}
+.mobile-nav .mobile-cta:hover{background:var(--gold-dark)}
+.mobile-nav-close{position:absolute;top:1.5rem;right:1.8rem;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer;line-height:1}
 
-/* INFO BANNER */
-.info-banner{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(201,169,110,0.1);border-bottom:1px solid rgba(201,169,110,0.1)}
-.info-item{padding:1.5rem 2rem;background:var(--dark)}
-.info-item-label{font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:600;margin-bottom:0.4rem}
-.info-item-value{font-size:0.85rem;color:var(--white);font-weight:400;letter-spacing:0.05em}
-.info-item-value em{color:var(--gold);font-style:normal;font-weight:600}
+/* HERO */
+.hero{position:relative;height:72vh;min-height:460px;max-height:660px;background:url('gallery/gallery-2.jpg') center/cover no-repeat;margin-top:68px;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.72) 100%)}
+.hero-inner{position:absolute;bottom:0;left:0;right:0;padding:0 2rem 2.8rem;max-width:680px;z-index:1}
+.hero-label{margin-bottom:1rem}
+.hero-label-top{font-size:0.52rem;letter-spacing:0.38em;text-transform:uppercase;color:rgba(255,255,255,0.55);font-weight:500;display:block;margin-bottom:0.25rem}
+.hero-label-sub{font-size:0.68rem;color:rgba(255,255,255,0.7);letter-spacing:0.06em;font-weight:300;display:block}
+.hero-title{font-family:var(--font-body);font-size:clamp(1.9rem,5.5vw,2.8rem);font-weight:800;color:#fff;line-height:1.22;letter-spacing:-0.025em;margin-bottom:1.4rem}
+.hero-badges{display:flex;flex-wrap:wrap;gap:0.45rem}
+.hero-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:rgba(255,255,255,0.88);font-size:0.62rem;font-weight:500;letter-spacing:0.04em;padding:5px 12px;border-radius:20px;backdrop-filter:blur(6px)}
+.hero-badge-gold{background:rgba(201,169,110,0.22);border-color:rgba(201,169,110,0.5);color:#E8D4A8}
 
-.booking-layout{display:grid;grid-template-columns:1fr 420px;min-height:calc(100vh - 280px)}
-.booking-left{padding:3rem;border-right:1px solid rgba(255,255,255,0.06)}
+/* SCHEDULE INTRO */
+.schedule-intro{max-width:640px;margin:0 auto;padding:1.6rem 2rem 0.4rem}
+.schedule-intro p{font-size:0.75rem;color:var(--text3);font-weight:300}
 
-/* CALENDAR */
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
-.cal-month{font-family:var(--font-display);font-size:1.5rem;font-weight:300;letter-spacing:0.05em}
-.cal-nav{display:flex;gap:0.5rem}
-.cal-nav button{background:none;border:1px solid rgba(201,169,110,0.3);color:var(--gold);width:44px;height:44px;cursor:pointer;font-size:1rem;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
-.cal-nav button:hover{background:rgba(201,169,110,0.1)}
-.cal-days-header{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:0.5rem}
-.cal-days-header span{text-align:center;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0.5rem 0;font-weight:500}
-.cal-days-header span.party-day{color:var(--gold)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:400;cursor:pointer;position:relative;transition:all 0.2s;border-radius:2px;color:rgba(255,255,255,0.5)}
-.cal-cell.party{color:var(--white);font-weight:500;flex-direction:column;gap:2px;aspect-ratio:auto;padding:6px 2px}
-.cal-cell.party::after{display:none}
-.cal-cell.party:hover{background:rgba(201,169,110,0.15);color:var(--gold)}
-.cal-badge{font-size:0.45rem;font-weight:700;letter-spacing:0.05em;padding:1px 5px;border-radius:3px;background:rgba(201,169,110,0.25);color:var(--gold);border:1px solid rgba(201,169,110,0.4);line-height:1.4;text-align:center;white-space:nowrap}
-.cal-badge-soon{background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.4);animation:urgentPulse 1.5s ease-in-out infinite}
-.cal-badge-male{background:rgba(99,102,241,0.2);color:#818cf8;border:1px solid rgba(99,102,241,0.4)}
-.cal-badge-female{background:rgba(244,114,182,0.2);color:#f472b6;border:1px solid rgba(244,114,182,0.4)}
-.cal-badge-closed{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.1)}
-@keyframes urgentPulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.cal-cell.selected{background:var(--gold);color:var(--black);font-weight:600}
-.cal-cell.selected .cal-badge{background:rgba(0,0,0,0.25);color:var(--black)}
-.cal-cell.today{border:1px solid rgba(201,169,110,0.4)}
-.cal-cell.past{opacity:0.2;cursor:not-allowed;pointer-events:none}
-.cal-loading-msg{grid-column:1/-1;text-align:center;padding:2.5rem 1rem;color:rgba(255,255,255,0.3);font-size:0.72rem;letter-spacing:0.15em}
+/* SCHEDULE */
+.schedule-wrap{max-width:640px;margin:0 auto;padding:0 2rem 5rem}
+.month-group{background:var(--surface);border-radius:16px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.month-label{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:1rem;letter-spacing:-0.01em}
 
-/* TICKET TYPE */
-.slots-section{margin-top:3rem}
-.slots-title{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:1.5rem}
-.ticket-types{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.05)}
-.ticket-card{background:var(--dark);padding:1.8rem 2rem;cursor:pointer;transition:background 0.2s;border:2px solid transparent;display:grid;grid-template-columns:1fr auto;align-items:center;gap:1rem}
-.ticket-card:hover{background:var(--dark2)}
-.ticket-card.selected{border-color:var(--gold);background:rgba(201,169,110,0.05)}
-.ticket-name{font-family:var(--font-display);font-size:1.2rem;font-weight:400;color:var(--white);margin-bottom:0.3rem}
-.ticket-desc{font-size:0.65rem;color:rgba(255,255,255,0.35);letter-spacing:0.1em;font-weight:300}
-.ticket-prices{text-align:right}
-.ticket-price-row{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-bottom:0.2rem}
-.ticket-price-row span{color:var(--white);font-weight:500}
-.ticket-price-row.highlight span{color:var(--gold)}
-.no-date{text-align:center;padding:4rem 2rem;color:rgba(255,255,255,0.2);font-family:var(--font-display);font-size:1.2rem;font-weight:300;line-height:1.8}
+/* DATE GRID */
+.date-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+.date-card{position:relative;background:var(--surface);border:1.5px solid rgba(0,0,0,0.09);border-radius:12px;padding:1.1rem 0.5rem 0.9rem;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s;text-align:center;user-select:none}
+.date-card:not(.disabled):hover{border-color:rgba(201,169,110,0.5);box-shadow:0 3px 12px rgba(0,0,0,0.08)}
+.date-card.selected{background:var(--gold);border-color:var(--gold);box-shadow:0 4px 16px rgba(201,169,110,0.35)}
+.date-card.disabled{opacity:0.35;cursor:not-allowed;pointer-events:none}
+.date-dot{position:absolute;top:9px;right:10px;width:6px;height:6px;border-radius:50%;display:block}
+.date-card-dow{font-size:0.58rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:0.3rem;font-weight:500;text-transform:uppercase}
+.date-card.selected .date-card-dow{color:rgba(255,255,255,0.72)}
+.date-card-num{font-size:1.55rem;font-weight:700;color:var(--text);line-height:1.1;margin-bottom:0.45rem;letter-spacing:-0.02em}
+.date-card.selected .date-card-num{color:#fff}
+.date-card-status{font-size:0.56rem;font-weight:600;letter-spacing:0.04em}
+.date-card.selected .date-card-status{color:rgba(255,255,255,0.88)!important}
+/* 마감임박 날짜카드 뱃지 */
+.date-card-badge-soon{display:inline-flex;align-items:center;gap:3px;background:rgba(185,28,28,0.09);border:1px solid rgba(185,28,28,0.22);color:#B91C1C;font-size:0.52rem;font-weight:700;letter-spacing:0.06em;padding:2px 7px;border-radius:20px}
 
-/* RIGHT PANEL */
-.booking-right{padding:3rem 2.5rem;background:var(--dark);position:sticky;top:80px;height:fit-content;max-height:calc(100vh - 80px);overflow-y:auto}
-.order-title{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:2rem}
-.order-summary{background:var(--dark2);padding:1.5rem;margin-bottom:2rem;min-height:80px}
-.order-summary-empty{font-size:0.75rem;color:rgba(255,255,255,0.2);font-style:italic;font-family:var(--font-display);font-size:1rem;line-height:1.7}
-.order-date{font-family:var(--font-display);font-size:1.4rem;font-weight:300;color:var(--white);margin-bottom:0.3rem}
-.order-slot-info{font-size:0.65rem;color:rgba(255,255,255,0.5);letter-spacing:0.1em}
-.form-group{margin-bottom:1.5rem}
-.form-label{display:block;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:500;margin-bottom:0.6rem}
-.form-required{color:var(--gold)}
-.form-input,.form-select{width:100%;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:0.9rem 1rem;font-family:var(--font-body);font-size:0.8rem;font-weight:300;outline:none;transition:border-color 0.2s;appearance:none}
-.form-input:focus,.form-select:focus{border-color:var(--gold)}
-.form-input::placeholder{color:rgba(255,255,255,0.2)}
-.gender-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.08)}
-.gender-btn{background:var(--dark3);padding:0.9rem;text-align:center;cursor:pointer;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:500;transition:all 0.2s;border:2px solid transparent;font-family:var(--font-body)}
-.gender-btn:hover{background:var(--dark2);color:var(--white)}
-.gender-btn.selected{border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,0.05)}
-.price-table{border-top:1px solid rgba(255,255,255,0.06);margin:2rem 0 1.5rem;padding-top:1.5rem}
-.price-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.8rem}
-.price-key{font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:400}
-.price-val{font-size:0.8rem;color:var(--white);font-weight:500}
-.price-extra{border-top:1px solid rgba(255,255,255,0.06);padding-top:0.8rem;margin-top:0.5rem}
-.price-total{border-top:1px solid rgba(201,169,110,0.2);padding-top:1rem;margin-top:1rem}
-.price-total .price-key{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-weight:600}
-.price-total .price-val{font-family:var(--font-display);font-size:1.5rem;font-weight:400;color:var(--gold)}
-.extra-toggle{display:flex;align-items:center;gap:0.8rem;cursor:pointer;padding:0.8rem 0}
-.extra-toggle input{width:18px;height:18px;accent-color:var(--gold);cursor:pointer}
-.extra-toggle-label{font-size:0.75rem;color:rgba(255,255,255,0.6);font-weight:300}
-.extra-toggle-label strong{color:var(--white);font-weight:500}
-.submit-btn{width:100%;background:var(--gold);color:var(--black);border:none;padding:1.1rem;font-family:var(--font-body);font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:all 0.3s;margin-top:0.5rem}
-.submit-btn:hover{background:var(--gold-light);transform:translateY(-1px)}
-.submit-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none}
-.form-notice{font-size:0.6rem;color:rgba(255,255,255,0.2);line-height:1.8;margin-top:1rem;font-weight:300}
+/* INFO PANEL */
+.info-panel{margin-top:0.85rem;background:var(--surface);border-radius:12px;padding:1.3rem 1.4rem 1.4rem;border:1px solid rgba(0,0,0,0.07);animation:fadeIn 0.18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.info-meta{display:flex;align-items:center;gap:0.6rem;font-size:0.73rem;color:var(--text2);margin-bottom:1.1rem;flex-wrap:wrap;padding-bottom:1rem;border-bottom:1px solid rgba(0,0,0,0.06)}
+.info-meta-item{display:flex;align-items:center;gap:0.3rem}
+.info-meta-divider{color:rgba(0,0,0,0.15);font-size:0.65rem}
+.info-seats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.1rem}
+.info-seat-card{background:var(--surface2);border:1px solid rgba(0,0,0,0.07);border-radius:10px;padding:0.9rem 1rem;text-align:center}
+.info-seat-label{font-size:0.55rem;color:var(--text3);letter-spacing:0.12em;font-weight:600;text-transform:uppercase;margin-bottom:0.4rem}
+.info-seat-num{font-size:1.7rem;font-weight:700;color:var(--text);line-height:1;letter-spacing:-0.02em}
+.info-seat-num.urgent{color:#9B2C2C}
+.cta-btn{width:100%;background:var(--gold);color:#fff;border:none;padding:1rem 1.2rem;border-radius:10px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;letter-spacing:0.04em;cursor:pointer;transition:background 0.2s}
+.cta-btn:hover{background:var(--gold-dark)}
 
-/* APPROVAL BADGE */
-.approval-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:600;padding:0.35rem 0.8rem;border:1px solid rgba(201,169,110,0.3);margin-bottom:1.5rem}
+/* 마감임박 뱃지 (인포패널) */
+.soon-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(185,28,28,0.08);border:1px solid rgba(185,28,28,0.2);color:#B91C1C;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;padding:3px 10px;border-radius:20px}
+.soon-badge::before{content:'';width:5px;height:5px;background:#B91C1C;border-radius:50%;animation:soonDot 1.4s ease-in-out infinite}
+@keyframes soonDot{0%,100%{opacity:1}50%{opacity:0.25}}
 
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;align-items:center;justify-content:center;padding:2rem}
-.modal-overlay.open{display:flex}
-.modal{background:var(--dark);border:1px solid rgba(201,169,110,0.3);padding:3rem;max-width:480px;width:100%;text-align:center;max-height:90vh;overflow-y:auto}
-.modal-icon{font-family:var(--font-display);font-size:3rem;color:var(--gold);margin-bottom:1rem}
-.modal-title{font-family:var(--font-display);font-size:1.8rem;font-weight:300;margin-bottom:1rem}
-.modal-body{font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:2rem;font-weight:300}
-.modal-account{background:var(--dark2);padding:1.5rem;margin-bottom:2rem;text-align:left}
-.modal-account-label{font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.8rem}
-.modal-account-info{font-size:0.8rem;line-height:2.2;color:rgba(255,255,255,0.7)}
-.modal-account-info strong{color:var(--white);font-weight:500}
-.modal-close{background:none;border:1px solid rgba(201,169,110,0.4);color:var(--gold);padding:0.8rem 2.5rem;font-family:var(--font-body);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all 0.2s}
-.modal-close:hover{background:rgba(201,169,110,0.1)}
+/* LOADING */
+.loading-msg{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:0.8rem;letter-spacing:0.1em}
 
-/* NOTICE */
-.age-notice{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;line-height:1.5}
-/* TRUST STRIP */
-.trust-strip{display:flex;align-items:center;justify-content:center;gap:2rem;padding:0.85rem 2rem;background:rgba(201,169,110,0.04);border-bottom:1px solid rgba(201,169,110,0.08);flex-wrap:wrap}
-.trust-item{font-size:0.6rem;color:rgba(255,255,255,0.35);letter-spacing:0.08em;font-weight:400;display:flex;align-items:center;gap:0.35rem}
-.trust-item em{color:rgba(201,169,110,0.85);font-style:normal;font-weight:600}
-@media(max-width:600px){.trust-strip{gap:0.8rem 1.5rem;padding:0.7rem 1rem}}
-
-/* VIEWER BADGE */
-.viewer-badge{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;background:#0f0f0f;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.78rem;color:#fff;font-weight:700;letter-spacing:0.01em}
-.viewer-badge .vb-flame{font-size:1rem;line-height:1}
-@keyframes vblink{0%,100%{opacity:1}50%{opacity:0.35}}
-/* 마감임박 뱃지 */
-.soon-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.5);color:#f87171;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;padding:4px 10px;border-radius:20px;animation:soonPulse 1.4s ease-in-out infinite}
-@keyframes soonPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(239,68,68,0.4)}50%{opacity:0.75;box-shadow:0 0 0 5px rgba(239,68,68,0)}}
-.soon-badge::before{content:'';width:6px;height:6px;background:#f87171;border-radius:50%;animation:soonDot 1.4s ease-in-out infinite}
-@keyframes soonDot{0%,100%{opacity:1}50%{opacity:0.3}}
-/* 잔여석 카드 */
-.seat-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem}
-.seat-card{background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-radius:8px;padding:0.9rem 1rem;text-align:center}
-.seat-card-label{font-size:0.55rem;color:rgba(255,255,255,0.4);letter-spacing:0.12em;font-weight:500;margin-bottom:0.4rem}
-.seat-card-num{font-size:1.5rem;font-weight:700;color:#f87171;letter-spacing:-0.01em;line-height:1}
-
-/* 모바일 하단 고정 버튼 */
-@media(max-width:900px){
-  .booking-layout{grid-template-columns:1fr}
-  .booking-right{position:static;max-height:none}
+@media(max-width:600px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links{display:none}
+  .nav-menu-btn{display:flex}
+  .hero{margin-top:56px;min-height:400px;height:65vh}
+  .hero-inner{padding:0 1.2rem 2rem}
+  .hero-title{font-size:1.75rem}
+  .schedule-intro{padding:1.2rem 1rem 0.3rem}
+  .schedule-wrap{padding:0 1rem 4rem}
+  .month-group{padding:1.2rem 1rem}
+  .date-grid{grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px}
+  .date-card{padding:0.85rem 0.4rem 0.75rem}
+  .date-card-num{font-size:1.2rem}
 }
-@media(max-width:600px){nav{padding:1.2rem 1.5rem}.nav-links{display:none}.nav-menu-btn{display:flex}.page-header{padding:6rem 1.5rem 1.5rem}.page-title{font-size:1.8rem}.booking-left,.booking-right{padding:1.2rem 1.2rem}.info-banner{display:flex}.info-item{flex:1;min-width:0;padding:0.8rem 0.8rem}.ticket-card{grid-template-columns:1fr;gap:0.8rem}.ticket-prices{text-align:left}.cal-header{margin-bottom:1rem}.cal-month{font-size:1.2rem}.cal-grid{gap:1px;width:100%}.cal-cell{font-size:0.72rem;aspect-ratio:unset;height:clamp(38px,11vw,50px)}.cal-cell.party{padding:4px 1px;gap:1px;height:auto;min-height:clamp(44px,12vw,56px)}.cal-badge{font-size:0.55rem;padding:1px 4px}.cal-days-header span{padding:0.3rem 0;font-size:0.55rem}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -217,188 +158,204 @@ fbq("track","PageView");
   <a href="booking.html" class="mobile-cta" onclick="toggleMenu()">지금 파티 신청하기</a>
 </div>
 
-<div class="page-header">
-  <p class="page-label">Book Tickets</p>
-  <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;line-height:1.1">파티 신청하기</h1>
-</div>
-
-
-<div class="booking-layout">
-  <!-- LEFT -->
-  <div class="booking-left">
-    <div class="cal-header">
-      <h2 class="cal-month" id="calMonth"></h2>
-      <div class="cal-nav">
-        <button onclick="changeMonth(-1)" aria-label="이전 달">‹</button>
-        <button onclick="changeMonth(1)" aria-label="다음 달">›</button>
-      </div>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">
+      <span class="hero-label-top">SUMIT · BUSAN</span>
+      <span class="hero-label-sub">부산 외모 승인제 솔로파티</span>
     </div>
-    <div class="cal-days-header">
-      <span class="party-day">일</span>
-      <span>월</span><span>화</span><span>수</span><span>목</span>
-      <span class="party-day">금</span>
-      <span class="party-day">토</span>
+    <h1 class="hero-title">이번 주말,<br>당신의 인연이<br>여기 있습니다.</h1>
+    <div class="hero-badges">
+      <span class="hero-badge">외모 승인제</span>
+      <span class="hero-badge">엄선된 참가자</span>
+      <span class="hero-badge hero-badge-gold">누적 참가자 3만+</span>
+      <span class="hero-badge">매주 금·토·일</span>
     </div>
-    <div class="cal-grid" id="calGrid"></div>
-
-    <div class="slots-section" id="slotsSection" style="display:none"></div>
-  </div>
-
-  <!-- RIGHT -->
-  <div class="booking-right">
-    <p class="order-title">신청 정보</p>
-    <div class="order-summary" id="orderSummary">
-      <p class="order-summary-empty">원하는 날짜를 선택해주세요</p>
-      <p id="emptySub" style="font-size:0.6rem;color:rgba(201,169,110,0.45);margin-top:0.8rem;line-height:1.8">"생각보다 훨씬 좋았어요" — 실제 참가자<br>누적 신청자 30,000+ · 만족도 92%</p>
-    </div>
-    <button class="submit-btn" id="submitBtn" onclick="submitBooking()">이 날짜로 신청하기 →</button>
   </div>
 </div>
+<div class="schedule-intro">
+  <p>원하는 날짜를 선택하고 신청을 진행해주세요.</p>
+</div>
 
-<!-- 모바일 하단 고정 버튼 -->
+<div class="schedule-wrap" id="scheduleWrap">
+  <div class="loading-msg">일정을 불러오는 중...</div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="common.js"></script>
 <script>
 const PARTY_DAYS = [0,5,6];
-const SPECIAL_DATES = ['2026-07-16','2026-08-17']; // 비정기 특별 파티 날짜
+const SPECIAL_DATES = ['2026-07-16','2026-08-17'];
 const XDATES = ['2026-07-25','2026-07-31'];
-let currentYear, currentMonth;
+const DAY_NAMES = ['일','월','화','수','목','금','토'];
+const MONTH_NAMES = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
 let selectedDate = null;
 let dateStatusMap = {};
 
-async function init(){
-  const now=new Date();
-  currentYear=now.getFullYear(); currentMonth=now.getMonth();
+function getMonthLabel(y, mo) {
+  const now = new Date();
+  const nowY = now.getFullYear(), nowM = now.getMonth();
+  if (y === nowY && mo === nowM) return `이번 달 · ${MONTH_NAMES[mo]}`;
+  const nextM = nowM === 11 ? 0 : nowM + 1;
+  const nextY = nowM === 11 ? nowY + 1 : nowY;
+  if (y === nextY && mo === nextM) return `다음 달 · ${MONTH_NAMES[mo]}`;
+  if (y !== nowY) return `${y}년 ${MONTH_NAMES[mo]}`;
+  return MONTH_NAMES[mo];
+}
 
-  // 현재 달에 남은 파티 날이 없으면 다음 달로
-  const daysInCurrent=new Date(currentYear,currentMonth+1,0).getDate();
-  let hasUpcoming=false;
-  for(let d=now.getDate();d<=daysInCurrent;d++){
-    const dow=new Date(currentYear,currentMonth,d).getDay();
-    const ds=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    if((PARTY_DAYS.includes(dow)||SPECIAL_DATES.includes(ds))&&!XDATES.includes(ds)){hasUpcoming=true;break;}
+function getStatusInfo(ds, dow) {
+  const st = dateStatusMap[ds] || {};
+  const male = st.male || '정상';
+  const female = st.female || '정상';
+  if (male === '마감' && female === '마감') return { label:'마감', dot:'#C4C4C4', textColor:'#9CA3AF', disabled:true };
+  if (male === '마감임박' || female === '마감임박') return { label:'마감임박', dot:'#EF4444', textColor:'#DC2626', disabled:false };
+  if (male === '마감' && female !== '마감') return { label:'남자마감', dot:'#6366F1', textColor:'#4F46E5', disabled:false };
+  if (female === '마감' && male !== '마감') return { label:'여자마감', dot:'#EC4899', textColor:'#DB2777', disabled:false };
+  return { label:'예약가능', dot:'#C9A96E', textColor:'#8A6B3A', disabled:false };
+}
+
+function getPartyType(dow) {
+  return dow === 0 ? '프라이빗 디너미팅' : '솔로파티';
+}
+
+function getPartyTime(dow, ds) {
+  if (ds === '2026-08-17') return '19:00~22:00';
+  return {5:'20:00~23:30', 6:'19:00~23:00', 0:'19:00~22:00'}[dow] || '';
+}
+
+function renderSchedule() {
+  const wrap = document.getElementById('scheduleWrap');
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  // 시작 월 결정
+  let startY = now.getFullYear(), startM = now.getMonth();
+  const daysInCurrent = new Date(startY, startM + 1, 0).getDate();
+  let hasUpcoming = false;
+  for (let d = now.getDate(); d <= daysInCurrent; d++) {
+    const dow = new Date(startY, startM, d).getDay();
+    const ds = `${startY}-${String(startM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    if ((PARTY_DAYS.includes(dow) || SPECIAL_DATES.includes(ds)) && !XDATES.includes(ds) && new Date(startY, startM, d) >= today) {
+      hasUpcoming = true; break;
+    }
   }
-  if(!hasUpcoming){currentMonth++;if(currentMonth>11){currentMonth=0;currentYear++;}}
+  if (!hasUpcoming) { startM++; if (startM > 11) { startM = 0; startY++; } }
 
+  wrap.innerHTML = '';
+
+  // 3개월 렌더
+  for (let offset = 0; offset < 3; offset++) {
+    let y = startY, mo = startM + offset;
+    if (mo > 11) { mo -= 12; y++; }
+
+    const daysInMonth = new Date(y, mo + 1, 0).getDate();
+    const partyDates = [];
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(y, mo, d);
+      const dow = date.getDay();
+      const ds = `${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      if ((PARTY_DAYS.includes(dow) || SPECIAL_DATES.includes(ds)) && !XDATES.includes(ds) && date >= today) {
+        partyDates.push({ y, mo, d, dow, ds });
+      }
+    }
+
+    if (partyDates.length === 0) continue;
+
+    const group = document.createElement('div');
+    group.className = 'month-group';
+    group.id = `group-${y}-${mo}`;
+
+    // 날짜 카드 생성
+    const cards = partyDates.map(({ y, mo, d, dow, ds }) => {
+      const st = getStatusInfo(ds, dow);
+      const isSelected = selectedDate && selectedDate.ds === ds;
+      const isSoonCard = st.label === '마감임박';
+      const statusEl = isSelected
+        ? `<div class="date-card-status" style="color:rgba(255,255,255,0.88)">✓ 선택</div>`
+        : isSoonCard
+          ? `<div class="date-card-status"><span class="date-card-badge-soon">마감임박</span></div>`
+          : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
+      return `<div class="date-card${st.disabled ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
+          onclick="${st.disabled ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow})`}">
+        <span class="date-dot" style="background:${st.dot}"></span>
+        <div class="date-card-dow">${DAY_NAMES[dow]}</div>
+        <div class="date-card-num">${mo+1}/${d}</div>
+        ${statusEl}
+      </div>`;
+    }).join('');
+
+    // 인포 패널 (이 월에서 날짜 선택됐을 때)
+    let infoHtml = '';
+    if (selectedDate && selectedDate.y === y && selectedDate.mo === mo) {
+      const st = dateStatusMap[selectedDate.ds] || {};
+      const mL = st.maleRemaining ?? st.maleLeft;
+      const fL = st.femaleRemaining ?? st.femaleLeft;
+      const hasMale = mL !== '' && mL !== null && mL !== undefined;
+      const hasFemale = fL !== '' && fL !== null && fL !== undefined;
+      const isSoon = st.male === '마감임박' || st.female === '마감임박';
+      const partyTime = getPartyTime(selectedDate.dow, selectedDate.ds);
+      const partyType = getPartyType(selectedDate.dow);
+
+      const mUrgent = hasMale && Number(mL) <= 3;
+      const fUrgent = hasFemale && Number(fL) <= 3;
+      const seatsHtml = (hasMale || hasFemale) ? `<div class="info-seats">
+        ${hasMale ? `<div class="info-seat-card"><div class="info-seat-label">남성 잔여</div><div class="info-seat-num${mUrgent?' urgent':''}">${mL}석</div></div>` : ''}
+        ${hasFemale ? `<div class="info-seat-card"><div class="info-seat-label">여성 잔여</div><div class="info-seat-num${fUrgent?' urgent':''}">${fL}석</div></div>` : ''}
+      </div>` : '';
+
+      const btnLabel = `${selectedDate.mo+1}월 ${selectedDate.d}일 신청하기 →`;
+      infoHtml = `<div class="info-panel">
+        <div class="info-meta">
+          <span class="info-meta-item">🕐 ${partyTime}</span>
+          <span class="info-meta-divider">·</span>
+          <span class="info-meta-item">📍 부산 남구</span>
+          ${isSoon ? '<span class="info-meta-divider">·</span><span class="soon-badge">마감임박</span>' : ''}
+        </div>
+        ${seatsHtml}
+        <button class="cta-btn" onclick="goToParty('${selectedDate.ds}')">${btnLabel}</button>
+      </div>`;
+    }
+
+    group.innerHTML = `
+      <h2 class="month-label">${getMonthLabel(y, mo)}</h2>
+      <div class="date-grid">${cards}</div>
+      ${infoHtml}`;
+    wrap.appendChild(group);
+  }
+}
+
+function selectDateCard(ds, y, mo, d, dow) {
+  selectedDate = { ds, y, mo, d, dow };
+  renderSchedule();
+  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:(dow===0||ds==='2026-08-17')?50000:55000});
+  setTimeout(() => {
+    const panel = document.querySelector('.info-panel');
+    if (panel) panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }, 50);
+}
+
+function goToParty(ds) {
+  window.location.href = `apply.html?date=${ds}`;
+}
+
+function toggleMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+async function init() {
   const cached = localStorage.getItem('sumit_dateStatus');
-  if(cached){ try{ dateStatusMap = JSON.parse(cached); }catch(e){} }
-  renderCalendar();
+  if (cached) { try { dateStatusMap = JSON.parse(cached); } catch(e) {} }
+  renderSchedule();
 
   window._fbBusanRef.on('value', function(snap) {
     dateStatusMap = snap.val() || {};
     localStorage.setItem('sumit_dateStatus', JSON.stringify(dateStatusMap));
-    renderCalendar();
+    renderSchedule();
   });
 }
 
-function renderCalendar(){
-  const months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-  document.getElementById('calMonth').textContent=currentYear+'년 '+months[currentMonth];
-  const grid=document.getElementById('calGrid'); grid.innerHTML='';
-  const firstDay=new Date(currentYear,currentMonth,1).getDay();
-  const daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();
-  const today=new Date();
-  for(let i=0;i<firstDay;i++){const e=document.createElement('div');e.className='cal-cell';grid.appendChild(e)}
-  for(let d=1;d<=daysInMonth;d++){
-    const cell=document.createElement('div'); cell.className='cal-cell';
-    const date=new Date(currentYear,currentMonth,d);
-    const dow=date.getDay();
-    const dateStr=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isPast=date<new Date(today.getFullYear(),today.getMonth(),today.getDate());
-    if(isPast){ cell.classList.add('past'); cell.textContent=d; }
-    else if(PARTY_DAYS.includes(dow)||SPECIAL_DATES.includes(dateStr)){
-      cell.classList.add('party');
-      const st = dateStatusMap[dateStr] || {};
-      const maleSt = st.male || '정상';
-      const femaleSt = st.female || '정상';
-      const bothClosed = maleSt==='마감' && femaleSt==='마감';
-      const diffDays = Math.ceil((date - new Date(today.getFullYear(),today.getMonth(),today.getDate())) / (1000*60*60*24));
-
-      if(bothClosed){
-        cell.classList.add('past');
-        cell.innerHTML=`<span>${d}</span><span class="cal-badge cal-badge-closed">마감</span>`;
-      } else {
-        let badge;
-        if(maleSt==='마감' && femaleSt!=='마감'){
-          badge=`<span class="cal-badge cal-badge-male">남자마감</span>`;
-        } else if(femaleSt==='마감' && maleSt!=='마감'){
-          badge=`<span class="cal-badge cal-badge-female">여자마감</span>`;
-        } else if(maleSt==='마감임박'||femaleSt==='마감임박'||diffDays<=3){
-          badge=`<span class="cal-badge cal-badge-soon">마감임박</span>`;
-        } else {
-          badge=`<span class="cal-badge">부산</span>`;
-        }
-        cell.innerHTML=`<span>${d}</span>${badge}`;
-        cell.onclick=()=>selectDate(currentYear,currentMonth,d,dow);
-        cell.ondblclick=()=>{selectDate(currentYear,currentMonth,d,dow);window.location.href=`party.html?date=${dateStr}`;};
-      }
-    } else { cell.textContent=d; }
-    if(d===today.getDate()&&currentMonth===today.getMonth()&&currentYear===today.getFullYear()) cell.classList.add('today');
-    if(selectedDate&&selectedDate.year===currentYear&&selectedDate.month===currentMonth&&selectedDate.day===d) cell.classList.add('selected');
-    grid.appendChild(cell);
-  }
-}
-
-function changeMonth(dir){
-  currentMonth+=dir;
-  if(currentMonth>11){currentMonth=0;currentYear++}
-  if(currentMonth<0){currentMonth=11;currentYear--}
-  renderCalendar();
-}
-
-function selectDate(year,month,day,dow){
-  selectedDate={year,month,day,dow};
-  renderCalendar();
-  const dayNames=['일','월','화','수','목','금','토'];
-  const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-  const st = dateStatusMap[dateStr] || {};
-  const mL = st.maleRemaining ?? st.maleLeft;
-  const fL = st.femaleRemaining ?? st.femaleLeft;
-
-  const hasMale   = mL !== '' && mL !== null && mL !== undefined;
-  const hasFemale = fL !== '' && fL !== null && fL !== undefined;
-  const isSoon = st.male === '마감임박' || st.female === '마감임박';
-  const timeMap = {5:'20:00~23:30', 6:'19:00~23:00', 0:'19:00~22:00'};
-  const partyTime = dateStr === '2026-08-17' ? '19:00~22:00' : (timeMap[dow] || '');
-  const subHtml = `<div class="order-slot-info" style="margin-top:0.3rem">${partyTime} · 📍 부산 남구</div>`
-    + (isSoon ? `<div style="margin-top:0.5rem"><span class="soon-badge">마감임박</span></div>` : '');
-  let seatsHtml = '';
-  if (hasMale || hasFemale) {
-    const mCard = hasMale   ? `<div class="seat-card"><div class="seat-card-label">남성 잔여</div><div class="seat-card-num">${mL}석</div></div>` : '';
-    const fCard = hasFemale ? `<div class="seat-card"><div class="seat-card-label">여성 잔여</div><div class="seat-card-num">${fL}석</div></div>` : '';
-    seatsHtml = `<div class="seat-cards">${mCard}${fCard}</div>`;
-  }
-
-  const el=document.getElementById('orderSummary');
-  el.style.cursor='pointer';
-  el.onclick=()=>window.location.href=`party.html?date=${dateStr}`;
-  el.innerHTML=`
-    <div class="order-date">${year}년 ${month+1}월 ${day}일 (${dayNames[dow]})</div>
-    ${subHtml}
-    ${seatsHtml}`;
-  if(typeof fbq!=='undefined') fbq("track","AddToCart",{content_name:"파티 날짜 선택",content_category:"파티",currency:"KRW",value:(dow===0||dateStr==='2026-08-17')?50000:55000});
-
-  // 모바일: 신청 정보 섹션으로 스크롤
-  if(window.innerWidth <= 900) {
-    const right = document.querySelector('.booking-right');
-    if(right) right.scrollIntoView({behavior:'smooth', block:'start'});
-  }
-
-  // 모바일 하단 고정 버튼 표시
-}
-
-function submitBooking(){
-  if(!selectedDate){alert('날짜를 선택해주세요.');return}
-  const dateStr=`${selectedDate.year}-${String(selectedDate.month+1).padStart(2,'0')}-${String(selectedDate.day).padStart(2,'0')}`;
-  window.location.href=`party.html?date=${dateStr}`;
-}
-
-function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
 init();
-
-
 </script>
 </body>
 </html>
