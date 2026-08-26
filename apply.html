@@ -113,7 +113,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   font-size:0.82rem;font-weight:500;color:rgba(255,255,255,0.5);
   cursor:pointer;font-family:var(--font-body);transition:all 0.2s
 }
-.gender-btn.sel{border-color:var(--gold);background:rgba(201,169,110,0.08);color:var(--gold)}
+.gender-btn.sel{border-color:var(--gold);background:var(--gold);color:#000;font-weight:700}
 
 
 /* ── TICKET OPTIONS ── */
@@ -334,15 +334,15 @@ fbq("track","InitiateCheckout",{currency:"KRW"});
       <div>
         <div class="ticket-sum-meta">권종</div>
         <div class="ticket-sum-name">1+2부</div>
-        <div class="ticket-sum-desc" id="ticketOptDesc">성별 선택 후 금액이 표시됩니다</div>
+        <div class="ticket-sum-desc" id="ticketOptDesc">성별 선택 후 참가비가 표시됩니다</div>
       </div>
     </div>
     <div class="ticket-sum-price" id="ticketOptPrice">—</div>
   </div>
 
   <div class="field">
-    <label for="name">이름 (실명) <span class="req">*</span></label>
-    <input type="text" id="name" placeholder="홍길동" aria-describedby="nameErr">
+    <label for="name">이름 <span class="req">*</span></label>
+    <input type="text" id="name" placeholder="이름을 입력해주세요" aria-describedby="nameErr">
     <div class="err" id="nameErr" role="alert"></div>
   </div>
 
@@ -360,7 +360,7 @@ fbq("track","InitiateCheckout",{currency:"KRW"});
   <div class="field">
     <label for="bdate">생년월일 <span class="req">*</span></label>
     <input type="tel" id="bdate" placeholder="19980523" maxlength="10" oninput="formatBdate(this)" aria-label="생년월일 8자리 입력" autocomplete="bday" inputmode="numeric">
-    <div class="field-hint">생년월일 8자리 입력 · 예) 19980523</div>
+    <div class="field-hint">생년월일 8자리를 입력해주세요 · 예) 19980523</div>
     <div class="err" id="bdayErr"></div>
   </div>
 
