@@ -324,9 +324,11 @@ function renderSchedule() {
 
       const btnLabel = `${selectedDate.mo+1}월 ${selectedDate.d}일 신청하기 →`;
       const isSundayDate = selectedDate.dow === 0 || selectedDate.ds === '2026-07-16' || selectedDate.ds === '2026-08-17';
-      const ebDate = !isSundayDate && isEarlyBird(selectedDate.ds);
+      const ebDate = isEarlyBird(selectedDate.ds);
       const priceHtml = isSundayDate
-        ? `<div class="info-price">남성 55,000원 &nbsp;·&nbsp; 여성 45,000원</div>`
+        ? ebDate
+          ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>55,000</s> <strong>50,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
+          : `<div class="info-price">남성 55,000원 &nbsp;·&nbsp; 여성 45,000원</div>`
         : ebDate
           ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>62,000</s> <strong>57,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
           : `<div class="info-price">남성 62,000원 &nbsp;·&nbsp; 여성 45,000원</div>`;
