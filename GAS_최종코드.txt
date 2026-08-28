@@ -38,6 +38,7 @@ const PRICES = {
   '1+2부':       { '남성': 59900, '여성': 49900 },
   '1+2부(선데이)': { '남성': 55000, '여성': 45000 },
   '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
+  '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
   '1부만':       { '남성': 43000, '여성': 39000 },
   '2부만':       { '남성': 40000, '여성': 37000 }
 };
@@ -220,17 +221,18 @@ function handleBankdaConfirm(e) {
     sheet.getRange(rowNum, 1, 1, 14).setBackground('#e8f5e9');
 
     // 입금 확인 = 실제 결제 완료 → Purchase CAPI 전송
-    var rowData  = sheet.getRange(rowNum, 1, 1, 14).getValues()[0];
+    var rowData  = sheet.getRange(rowNum, 1, 1, 15).getValues()[0];
     var priceNum = parseInt(String(rowData[8] || '').replace(/[^0-9]/g, '')) || 0;
     sendMetaCAPIPurchase({
-      phone:  String(rowData[6] || ''),
-      name:   String(rowData[2] || ''),
-      gender: String(rowData[3] || ''),
-      price:  priceNum,
-      dob:    parseDobFromSheet(String(rowData[4] || '')),
-      fbp:    String(rowData[11] || ''),
-      fbc:    String(rowData[12] || ''),
-      ua:     String(rowData[13] || '')
+      phone:    String(rowData[6] || ''),
+      name:     String(rowData[2] || ''),
+      gender:   String(rowData[3] || ''),
+      price:    priceNum,
+      dob:      parseDobFromSheet(String(rowData[4] || '')),
+      fbp:      String(rowData[11] || ''),
+      fbc:      String(rowData[12] || ''),
+      ua:       String(rowData[13] || ''),
+      clientIp: String(rowData[14] || '')
     });
 
     results.push({ order_id: orderId, description: '성공' });
@@ -250,9 +252,9 @@ function handleApply(data) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow([
       '제출시간', '파티날짜', '이름', '성별', '생년월일',
-      '인스타그램', '연락처', '권종', '금액', '사진URL', '심사결과', 'fbp', 'fbc', 'ua'
+      '인스타그램', '연락처', '권종', '금액', '사진URL', '심사결과', 'fbp', 'fbc', 'ua', 'clientIp'
     ]);
-    const header = sheet.getRange(1, 1, 1, 14);
+    const header = sheet.getRange(1, 1, 1, 15);
     header.setBackground('#1a1a1a');
     header.setFontColor('#C9A96E');
     header.setFontWeight('bold');
@@ -281,11 +283,12 @@ function handleApply(data) {
     '검토중',
     data.fbp       || '',
     data.fbc       || '',
-    data.userAgent || ''
+    data.userAgent || '',
+    data.clientIp  || ''
   ]);
 
   const lastRow = sheet.getLastRow();
-  if (lastRow % 2 === 0) sheet.getRange(lastRow, 1, 1, 14).setBackground('#f9f9f9');
+  if (lastRow % 2 === 0) sheet.getRange(lastRow, 1, 1, 15).setBackground('#f9f9f9');
   if (data.photoUrl) {
     sheet.getRange(lastRow, 10).setFormula(`=HYPERLINK("${data.photoUrl}", "사진 보기")`);
   }
@@ -441,7 +444,7 @@ function sendApprovalSMS(sheet, row) {
   const dow = d.getDay();
   const md  = (d.getMonth() + 1) + '/' + d.getDate();
   const dateStr = Utilities.formatDate(d, 'Asia/Seoul', 'yyyy-MM-dd');
-  const isFridayOrSpecial = (dow === 5 || dateStr === '2026-07-16');
+  const isFridayOrSpecial = (dow === 5 || ['2026-07-16','2026-09-23','2026-09-24'].includes(dateStr));
 
   let msg;
 
@@ -470,7 +473,7 @@ function sendApprovalSMS(sheet, row) {
       `* 물품 파손·분실은 본인께 책임이 있습니다. (손괴 시)`;
   } else {
     let startTime, enterTime;
-    if (isFridayOrSpecial) { startTime = '오후 8시'; enterTime = '19:30'; }
+    if (isFridayOrSpecial) { startTime = '오후 8시 30분'; enterTime = '20:00'; }
     else                   { startTime = '오후 7시'; enterTime = '18:30'; }
     msg =
       `[썸잇 파티 참가 확정 안내]\n\n` +
@@ -553,7 +556,7 @@ function sendGuestConfirmSMS(sheet, row) {
   const dateStr = Utilities.formatDate(d, 'Asia/Seoul', 'yyyy-MM-dd');
 
   let startTime, enterTime;
-  if (dow === 5 || dateStr === '2026-07-16') { startTime = '오후 8시'; enterTime = '19:30'; }
+  if (dow === 5 || ['2026-07-16','2026-09-23','2026-09-24'].includes(dateStr)) { startTime = '오후 8시 30분'; enterTime = '20:00'; }
   else                                        { startTime = '오후 7시'; enterTime = '18:30'; }
 
   const msg =
@@ -644,7 +647,10 @@ function sendMetaCAPI(data) {
       ? data.byear + String(data.bmonth || '').padStart(2,'0') + String(data.bday || '').padStart(2,'0')
       : null;
 
-    const priceNum = data.price ? Number(data.price) : 0;
+    let priceNum = data.price ? Number(data.price) : 0;
+    if (!priceNum && data.ticket && data.gender && PRICES[data.ticket]) {
+      priceNum = PRICES[data.ticket][data.gender] || 0;
+    }
     const payload = {
       data: [{
         event_name: 'Lead',
@@ -715,6 +721,7 @@ function sendMetaCAPIPurchase(data) {
       external_id: data.phone ? sha256(normalizePhone(data.phone)) : null,
       fbp: data.fbp  || null,
       fbc: data.fbc  || null,
+      client_ip_address: data.clientIp || null,
       client_user_agent: data.ua || null
     };
     Object.keys(ud).forEach(k => { if (ud[k] === null) delete ud[k]; });
