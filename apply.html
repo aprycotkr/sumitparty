@@ -138,14 +138,16 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .sel-party-info{font-size:0.88rem;font-weight:600;color:var(--white)}
 .sel-party-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:rgba(255,255,255,0.45);font-size:0.6rem;font-weight:500;padding:4px 10px;cursor:pointer;font-family:var(--font-body);letter-spacing:0.05em;transition:all 0.2s}
 .sel-party-btn:hover{background:rgba(255,255,255,0.13);color:var(--white)}
-.ticket-sum-card{padding:0.9rem 1.1rem;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:var(--dark2);margin-bottom:1.3rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem}
+.ticket-sum-card{position:relative;padding:0.9rem 1.1rem;border:1px solid rgba(201,169,110,0.28);border-radius:10px;background:var(--dark2);margin-bottom:1.3rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;overflow:hidden}
+.ticket-sum-card::before,.ticket-sum-card::after{content:'';position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--dark);border:1px solid rgba(201,169,110,0.22);transform:translateY(-50%)}
+.ticket-sum-card::before{left:-8px}.ticket-sum-card::after{right:-8px}
 .ticket-sum-left{display:flex;align-items:flex-start;gap:0.7rem}
-.ticket-sum-icon{font-size:1.05rem;line-height:1;margin-top:3px}
+.ticket-sum-icon{font-size:1.12rem;line-height:1;margin-top:3px;filter:saturate(1.15);opacity:.95}
 .ticket-sum-meta{font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.28);font-weight:600;margin-bottom:0.2rem}
 .ticket-sum-name{font-size:0.88rem;font-weight:600;color:var(--white)}
-.ticket-sum-desc{font-size:0.62rem;color:rgba(255,255,255,0.25);margin-top:0.2rem;font-weight:300;line-height:1.4}
+.ticket-sum-desc{font-size:0.65rem;color:rgba(255,255,255,0.52);margin-top:0.25rem;font-weight:400;line-height:1.4}
 .ticket-sum-desc:empty{display:none}
-.ticket-sum-price{font-size:0.95rem;font-weight:700;color:var(--gold);text-align:right;white-space:nowrap;line-height:1.5}
+.ticket-sum-price{font-size:0.95rem;font-weight:700;color:var(--gold);text-align:right;white-space:nowrap;line-height:1.5;border-left:1px dashed rgba(201,169,110,0.32);padding-left:0.9rem}
 
 /* ── INSTA INPUT ── */
 .insta-wrap{display:flex;align-items:center;border:1px solid rgba(255,255,255,0.1);border-radius:8px;overflow:hidden;background:var(--dark2);transition:border-color 0.2s}
@@ -625,13 +627,13 @@ const terms = [false, false, false];
             document.getElementById('formSubtitle').textContent = `썸잇 스페셜 파티 ${txt} — 부산 부경대점`;
             fd.ticket = '1+2부(스페셜)';
           } else if (p === '2026-08-17') {
-            document.getElementById('formSubtitle').textContent = `썸잇 프라이빗 디너 미팅 ${txt}`;
+            document.getElementById('formSubtitle').textContent = `썸잇 선데이 솔로파티 ${txt}`;
             fd.ticket = '1+2부(프라이빗)';
           } else if (p === '2026-09-23' || p === '2026-09-24') {
             document.getElementById('formSubtitle').textContent = `썸잇 추석 스페셜 파티 ${txt} — 부산 부경대점`;
             fd.ticket = '1+2부(스페셜)';
           } else {
-            document.getElementById('formSubtitle').textContent = `썸잇 선데이 · 프라이빗 디너 미팅 ${txt}`;
+            document.getElementById('formSubtitle').textContent = `썸잇 선데이 솔로파티 ${txt}`;
             fd.ticket = '1+2부(선데이)';
           }
         } else {
