@@ -124,8 +124,15 @@ function doGet(e) {
 function getStaffRoster() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const data = {};
-  ss.getSheets().forEach(sheet => {
-    if (sheet.getName().indexOf('명단_') !== 0) return;
+  const now = new Date();
+  const kstDay = parseInt(Utilities.formatDate(now, 'Asia/Seoul', 'u'), 10) % 7;
+  const daysUntilFriday = kstDay >= 5 ? 5 - kstDay : 5 - kstDay;
+  const friday = new Date(now.getTime());
+  friday.setDate(friday.getDate() + daysUntilFriday);
+  const fridayName = '명단_' + Utilities.formatDate(friday, 'Asia/Seoul', 'M월d일') + '주';
+  const sheet = ss.getSheetByName(fridayName);
+  if (!sheet) return jsonResponse({ result: 'success', updatedAt: new Date().toISOString(), data: {} });
+  {
     const values = sheet.getDataRange().getValues();
     let dateStr = '';
     for (let i = 0; i < values.length; i++) {
@@ -145,7 +152,7 @@ function getStaffRoster() {
       if (maleName && maleName !== '성함' && maleName.indexOf('명 /') === -1) data[dateStr].male.push({ id: sheet.getName() + '_m_' + i, name: maleName, phone: malePhone });
       if (femaleName && femaleName !== '성함' && femaleName.indexOf('명 /') === -1) data[dateStr].female.push({ id: sheet.getName() + '_f_' + i, name: femaleName, phone: femalePhone });
     }
-  });
+  }
   Object.keys(data).forEach(date => {
     data[date].male.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
     data[date].female.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
