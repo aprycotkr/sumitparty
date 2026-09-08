@@ -109,6 +109,7 @@ function doPost(e) {
 function doGet(e) {
   const param = e && e.parameter;
   if (param && param.action === 'getDateStatus') return getDateStatus();
+  if (param && param.action === 'getStaffRoster') return getStaffRoster();
   if (param && param.action === 'updateDateStatus') {
     if (param.key !== ADMIN_KEY) return jsonResponse({ result: 'error', message: '인증실패' });
     return updateDateStatus(param.date, param.male, param.female, param.maleLeft, param.femaleLeft);
@@ -117,6 +118,35 @@ function doGet(e) {
   if (param && param.type === 'detail')  return handleBankdaDetail(e);
   if (param && param.type === 'confirm') return handleBankdaConfirm(e);
   return jsonResponse({ status: 'Sumit API is running' });
+}
+
+// 현장용 읽기 전용 명단 API. 출석 체크는 브라우저에서만 저장한다.
+function getStaffRoster() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheets()[0];
+  const values = sheet.getDataRange().getValues();
+  const included = ['합격✓발송', '입금완료', '입금확인', '참여완', '합격이용'];
+  const data = {};
+  for (let i = 1; i < values.length; i++) {
+    const row = values[i];
+    const date = row[1];
+    const status = String(row[10] || '').trim();
+    if (!(date instanceof Date) || included.indexOf(status) === -1) continue;
+    const dateStr = Utilities.formatDate(date, 'Asia/Seoul', 'yyyy-MM-dd');
+    const gender = String(row[3] || '').trim();
+    if (gender !== '남성' && gender !== '여성') continue;
+    if (!data[dateStr]) data[dateStr] = { male: [], female: [] };
+    data[dateStr][gender === '남성' ? 'male' : 'female'].push({
+      id: String(i + 1),
+      name: String(row[2] || ''),
+      phone: String(row[6] || '')
+    });
+  }
+  Object.keys(data).forEach(date => {
+    data[date].male.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+    data[date].female.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+  });
+  return jsonResponse({ result: 'success', updatedAt: new Date().toISOString(), data });
 }
 
 
@@ -224,6 +254,7 @@ function handleBankdaConfirm(e) {
     var rowData  = sheet.getRange(rowNum, 1, 1, 15).getValues()[0];
     var priceNum = parseInt(String(rowData[8] || '').replace(/[^0-9]/g, '')) || 0;
     sendMetaCAPIPurchase({
+      eventId:  'purchase_' + String(orderId).replace(/[^a-zA-Z0-9_-]/g, '_'),
       phone:    String(rowData[6] || ''),
       name:     String(rowData[2] || ''),
       gender:   String(rowData[3] || ''),
@@ -612,6 +643,8 @@ function sendMetaCAPI(data) {
 
     function normalizePhone(phone) {
       let p = phone.replace(/\D/g, '');
+      // Google Sheets may coerce 010-prefixed numbers to a 10-digit number.
+      if (p.length === 10 && p.startsWith('10')) p = '0' + p;
       if (p.startsWith('0')) p = '82' + p.slice(1);
       return p;
     }
@@ -658,14 +691,16 @@ function sendMetaCAPI(data) {
 
     const url = 'https://graph.facebook.com/v21.0/' + PIXEL_ID + '/events?access_token=' + CAPI_ACCESS_TOKEN;
 
-    UrlFetchApp.fetch(url, {
+    const response = UrlFetchApp.fetch(url, {
       method: 'POST',
       contentType: 'application/json',
       payload: JSON.stringify(payload),
       muteHttpExceptions: true
     });
+    Logger.log('[Meta CAPI Lead] HTTP %s | event_id=%s | body=%s',
+      response.getResponseCode(), payload.data[0].event_id, response.getContentText().slice(0, 500));
   } catch(err) {
-    // 조용히 실패 — 폼 제출은 막지 않음
+    Logger.log('[Meta CAPI Lead ERROR] %s', err.message);
   }
 }
 
@@ -682,6 +717,8 @@ function sendMetaCAPIPurchase(data) {
     }
     function normalizePhone(phone) {
       let p = phone.replace(/\D/g, '');
+      // Google Sheets may coerce 010-prefixed numbers to a 10-digit number.
+      if (p.length === 10 && p.startsWith('10')) p = '0' + p;
       if (p.startsWith('0')) p = '82' + p.slice(1);
       return p;
     }
@@ -704,7 +741,7 @@ function sendMetaCAPIPurchase(data) {
       data: [{
         event_name: 'Purchase',
         event_time: Math.floor(new Date().getTime() / 1000),
-        event_id: 'purchase_' + Date.now(),
+        event_id: data.eventId || ('purchase_' + Date.now()),
         action_source: 'website',
         event_source_url: 'https://sumitparty.com/apply.html',
         custom_data: {
@@ -715,11 +752,15 @@ function sendMetaCAPIPurchase(data) {
       }]
     };
 
-    UrlFetchApp.fetch(
+    const response = UrlFetchApp.fetch(
       'https://graph.facebook.com/v21.0/' + PIXEL_ID + '/events?access_token=' + CAPI_ACCESS_TOKEN,
       { method: 'POST', contentType: 'application/json', payload: JSON.stringify(payload), muteHttpExceptions: true }
     );
-  } catch(err) {}
+    Logger.log('[Meta CAPI Purchase] HTTP %s | event_id=%s | body=%s',
+      response.getResponseCode(), payload.data[0].event_id, response.getContentText().slice(0, 500));
+  } catch(err) {
+    Logger.log('[Meta CAPI Purchase ERROR] %s', err.message);
+  }
 }
 
 
