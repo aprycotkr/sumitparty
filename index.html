@@ -322,7 +322,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
       "addressCountry": "KR"
     },
     "openingHoursSpecification": [
-      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "20:00", "closes": "23:30"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "20:30", "closes": "00:00"},
       {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "19:00", "closes": "23:00"},
       {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "19:00", "closes": "22:00"}
     ],
@@ -557,7 +557,7 @@ fbq("track","PageView");
     <p class="section-label">Schedule</p>
     <h2 class="section-title">파티 일정</h2>
     <div class="sc-times">
-      <div class="sc-time-col"><div class="sc-day-name">Friday</div><div class="sc-time-range">20:00 – 23:30</div></div>
+      <div class="sc-time-col"><div class="sc-day-name">Friday</div><div class="sc-time-range">20:30 – 24:00</div></div>
       <div class="sc-time-col"><div class="sc-day-name">Saturday</div><div class="sc-time-range">19:00 – 23:00</div></div>
       <div class="sc-time-col"><div class="sc-day-name">Sunday</div><div class="sc-time-range">19:00 – 22:00</div></div>
     </div>
@@ -565,9 +565,9 @@ fbq("track","PageView");
     <div class="sc-tl-grid">
       <div class="sc-tl-col">
         <div class="sc-tl-day">Friday</div>
-        <div class="sc-tl-row"><span class="sc-tl-time">20:00</span><span class="sc-tl-desc">1부 로테이션 소개팅 시작</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">20:30</span><span class="sc-tl-desc">1부 로테이션 소개팅 시작</span></div>
         <div class="sc-tl-row"><span class="sc-tl-time">21:50</span><span class="sc-tl-desc">2부 파티 시작</span></div>
-        <div class="sc-tl-row"><span class="sc-tl-time">23:30</span><span class="sc-tl-desc">파티 종료</span></div>
+        <div class="sc-tl-row"><span class="sc-tl-time">24:00</span><span class="sc-tl-desc">파티 종료</span></div>
       </div>
       <div class="sc-tl-col">
         <div class="sc-tl-day">Saturday</div>
@@ -885,7 +885,7 @@ const _cacheReady = window._fbBusanRef.once('value').then(function(snap){
 // 히어로 다음 파티 배지
 (function(){
   const PDAYS=[0,5,6], SDATES=['2026-07-16'], XDATES=['2026-07-25','2026-07-31','2026-08-07'];
-  const CUTOFF={5:20,6:19,0:19}; // 금=20시, 토/일=19시 이후면 당일 스킵
+  const CUTOFF={5:20*60+30,6:19*60,0:19*60}; // 금=20:30, 토/일=19:00 이후면 당일 스킵
   const DN=['일','월','화','수','목','금','토'];
   const now=new Date(); let nxt=null;
   for(let i=0;i<=30;i++){
@@ -893,7 +893,7 @@ const _cacheReady = window._fbBusanRef.once('value').then(function(snap){
     const dow=d.getDay();
     const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     if((PDAYS.includes(dow)||SDATES.includes(ds))&&!XDATES.includes(ds)){
-      if(i===0&&CUTOFF[dow]!==undefined&&now.getHours()>=CUTOFF[dow]) continue;
+      if(i===0&&CUTOFF[dow]!==undefined&&now.getHours()*60+now.getMinutes()>=CUTOFF[dow]) continue;
       nxt={d,ds,dow};break;
     }
   }

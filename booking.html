@@ -236,7 +236,7 @@ function getPartyType(dow) {
 function getPartyTime(dow, ds) {
   if (ds === '2026-08-17') return '19:00~22:00';
   if (ds === '2026-09-23' || ds === '2026-09-24') return '20:30~23:30';
-  return {5:'20:30~23:30', 6:'19:00~23:00', 0:'19:00~22:00'}[dow] || '';
+  return {5:'20:30~24:00', 6:'19:00~23:00', 0:'19:00~22:00'}[dow] || '';
 }
 
 function renderSchedule() {
