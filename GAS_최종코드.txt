@@ -142,8 +142,8 @@ function getStaffRoster() {
       const malePhone = String(values[i][1] || '').trim();
       const femaleName = String(values[i][4] || '').trim();
       const femalePhone = String(values[i][5] || '').trim();
-      if (maleName && maleName !== '성함') data[dateStr].male.push({ id: sheet.getName() + '_m_' + i, name: maleName, phone: malePhone });
-      if (femaleName && femaleName !== '성함') data[dateStr].female.push({ id: sheet.getName() + '_f_' + i, name: femaleName, phone: femalePhone });
+      if (maleName && maleName !== '성함' && maleName.indexOf('명 /') === -1) data[dateStr].male.push({ id: sheet.getName() + '_m_' + i, name: maleName, phone: malePhone });
+      if (femaleName && femaleName !== '성함' && femaleName.indexOf('명 /') === -1) data[dateStr].female.push({ id: sheet.getName() + '_f_' + i, name: femaleName, phone: femalePhone });
     }
   });
   Object.keys(data).forEach(date => {
