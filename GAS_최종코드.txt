@@ -123,25 +123,29 @@ function doGet(e) {
 // 현장용 읽기 전용 명단 API. 출석 체크는 브라우저에서만 저장한다.
 function getStaffRoster() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheets()[0];
-  const values = sheet.getDataRange().getValues();
-  const included = ['합격✓발송', '입금완료', '입금확인', '참여완', '합격이용'];
   const data = {};
-  for (let i = 1; i < values.length; i++) {
-    const row = values[i];
-    const date = row[1];
-    const status = String(row[10] || '').trim();
-    if (!(date instanceof Date) || included.indexOf(status) === -1) continue;
-    const dateStr = Utilities.formatDate(date, 'Asia/Seoul', 'yyyy-MM-dd');
-    const gender = String(row[3] || '').trim();
-    if (gender !== '남성' && gender !== '여성') continue;
-    if (!data[dateStr]) data[dateStr] = { male: [], female: [] };
-    data[dateStr][gender === '남성' ? 'male' : 'female'].push({
-      id: String(i + 1),
-      name: String(row[2] || ''),
-      phone: String(row[6] || '')
-    });
-  }
+  ss.getSheets().forEach(sheet => {
+    if (sheet.getName().indexOf('명단_') !== 0) return;
+    const values = sheet.getDataRange().getValues();
+    let dateStr = '';
+    for (let i = 0; i < values.length; i++) {
+      const marker = String(values[i][0] || '').trim();
+      const m = marker.match(/(\d+)월\s*(\d+)일/);
+      if (marker.indexOf('📅') === 0 && m) {
+        const year = new Date().getFullYear();
+        dateStr = year + '-' + String(m[1]).padStart(2, '0') + '-' + String(m[2]).padStart(2, '0');
+        if (!data[dateStr]) data[dateStr] = { male: [], female: [] };
+        continue;
+      }
+      if (!dateStr || i < 3) continue;
+      const maleName = String(values[i][0] || '').trim();
+      const malePhone = String(values[i][1] || '').trim();
+      const femaleName = String(values[i][4] || '').trim();
+      const femalePhone = String(values[i][5] || '').trim();
+      if (maleName && maleName !== '성함') data[dateStr].male.push({ id: sheet.getName() + '_m_' + i, name: maleName, phone: malePhone });
+      if (femaleName && femaleName !== '성함') data[dateStr].female.push({ id: sheet.getName() + '_f_' + i, name: femaleName, phone: femalePhone });
+    }
+  });
   Object.keys(data).forEach(date => {
     data[date].male.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
     data[date].female.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
