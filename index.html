@@ -124,21 +124,10 @@ nav.scrolled{background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(201,169
 
 /* ── REAL REVIEWS ── */
 #pricing{background:var(--black)}
-.dm-grid{display:grid;grid-template-columns:1fr 1fr;padding:1rem 0.5rem;margin-top:2rem}
-.dm-card{position:relative;border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,0.1);box-shadow:0 8px 28px rgba(0,0,0,0.55);margin:0 6px -16px}
-.dm-card img{display:block;width:100%;height:auto}
-.dm-card:nth-child(1){transform:rotate(-2deg);z-index:3}
-.dm-card:nth-child(2){transform:rotate(1.5deg);z-index:2;margin-top:28px}
-.dm-card:nth-child(3){transform:rotate(1deg);z-index:5;margin-top:-10px}
-.dm-card:nth-child(4){transform:rotate(-1.5deg);z-index:4;margin-top:20px}
-.dm-card:nth-child(5){transform:rotate(2deg);z-index:7;margin-top:-8px}
-.dm-card:nth-child(6){transform:rotate(-1deg);z-index:6;margin-top:16px}
-.dm-card:nth-child(7){transform:rotate(-1.8deg);z-index:9;margin-top:-12px}
-.dm-card:nth-child(8){transform:rotate(1.2deg);z-index:8;margin-top:24px}
 .dm-cta-wrap{text-align:center;margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)}
 .dm-cta-btn{display:inline-block;background:var(--gold);color:var(--black);text-decoration:none;padding:1.15rem 4rem;border-radius:50px;font-family:var(--font-body);font-size:1rem;font-weight:700;letter-spacing:0.04em;transition:all 0.25s;box-shadow:0 6px 24px rgba(201,169,110,0.35)}
 .dm-cta-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,169,110,0.5)}
-@media(max-width:600px){.dm-grid{grid-template-columns:1fr 1fr}.dm-card{margin:0 3px -10px}.dm-cta-btn{padding:1rem 2.5rem;font-size:0.9rem}}
+@media(max-width:600px){.dm-cta-btn{padding:1rem 2.5rem;font-size:0.9rem}}
 .price-cta{display:block;text-align:center;margin-top:2rem;padding:0.75rem;border:1px solid rgba(201,169,110,0.3);color:var(--gold);text-decoration:none;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;transition:all 0.2s}
 .price-cta:hover{background:var(--gold);color:var(--black)}
 
@@ -335,11 +324,31 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .sc-day-name{font-family:var(--font-body);font-size:15px;letter-spacing:0;margin:0}
 .sc-time-range{font-family:var(--font-body);font-size:20px;font-weight:500}
 .schedule-link{display:inline-flex;align-items:center;gap:20px;color:var(--gold-light);font-size:16px;min-height:48px;margin-top:16px;text-underline-offset:6px}
-.dm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px;padding:0;align-items:start}
-.dm-card:nth-child(n){transform:none;margin:0;border-radius:8px;border:1px solid #393632;box-shadow:none;display:block}
-.dm-card img{width:100%;height:auto}
 .reviews-intro{margin-bottom:0}
 .review-more-btn{font-size:15px;letter-spacing:0;min-height:48px;padding:14px 20px;margin-top:28px}
+/* ── REVIEW SLIDER (스와이프) ── */
+.rv-slider{margin-top:28px}
+.rv-track{position:relative;display:flex;align-items:flex-start;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;padding:4px 0 8px;-webkit-overflow-scrolling:touch}
+.rv-track::-webkit-scrollbar{display:none}
+.rv-track:focus-visible{outline-offset:4px;border-radius:18px}
+.rv-card{flex:0 0 min(78vw,340px);scroll-snap-align:start;display:flex;flex-direction:column;gap:12px;background:var(--dark2);border:1px solid #393632;border-radius:18px;padding:14px;color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.rv-tag{align-self:flex-start;font-size:13px;font-weight:600;color:var(--gold-light);background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.28);border-radius:999px;padding:5px 12px}
+.rv-card img{display:block;width:100%;height:auto;border-radius:12px}
+.rv-controls{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.rv-dots{display:flex;gap:2px}
+.rv-dot{position:relative;width:24px;height:24px;background:none;border:0;padding:0;cursor:pointer}
+.rv-dot::before{content:'';position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:999px;background:#4a463f;transform:translate(-50%,-50%);transition:width .25s,background .25s}
+.rv-dot[aria-current="true"]::before{width:22px;background:var(--gold)}
+.rv-arrows{display:flex;gap:8px}
+.rv-arrow{width:44px;height:44px;border-radius:50%;border:1px solid #4a463f;background:transparent;color:var(--gold-light);font-size:18px;line-height:1;cursor:pointer;transition:border-color .2s,opacity .2s}
+.rv-arrow:hover:not(:disabled){border-color:var(--gold)}
+.rv-arrow:disabled{opacity:.3;cursor:default}
+.rv-slider.no-scroll .rv-controls{display:none}
+@media(max-width:768px){
+  .rv-track{margin:0 -24px;padding:4px 24px 8px;scroll-padding:0 24px}
+  .rv-controls{justify-content:center}
+  .rv-arrows{display:none}
+}
 .faq-list{margin-top:28px}
 .faq-q{width:100%;text-align:left;background:none;border:0;font-family:inherit;color:inherit;padding:22px 0}
 .faq-q-text{font-size:16px;color:#e7e4de}
@@ -367,7 +376,6 @@ body.menu-open .mobile-cta-bar{display:none}
   #gallery .section{padding-top:28px}
   .party-types{grid-template-columns:1fr;gap:28px}
   .party-type + .party-type{padding-top:28px;border-top:1px solid #383128}
-  .dm-grid{grid-template-columns:1fr;max-width:430px;margin-left:auto;margin-right:auto;gap:20px}
   .gallery-grid{grid-template-columns:1fr 1fr}
   .gallery-item:first-child{grid-column:1/-1;aspect-ratio:4/3}
   .about-stats{margin-top:24px}
@@ -639,10 +647,22 @@ fbq("track","PageView");
     <p class="section-label">참가자 후기</p>
     <h2 class="section-title">다녀간 분들이<br>보내온 이야기</h2>
     <p class="reviews-intro">참가자분들이 보내주신 메시지입니다.<br>사진을 누르면 원본 크기로 볼 수 있어요.</p>
-    <div class="dm-grid">
-      <a class="dm-card" href="reviews/dm1.png" target="_blank" rel="noopener" aria-label="첫 방문 후기 원본 보기"><img src="reviews/dm1.png" alt="처음 방문해 재미있었다는 참가자의 메시지" loading="lazy" width="474" height="426"></a>
-      <a class="dm-card" href="reviews/dm7.png" target="_blank" rel="noopener" aria-label="파티 이후 만남 후기 원본 보기"><img src="reviews/dm7.png" alt="썸잇에서 만난 남자친구와 잘 만나고 있다는 메시지" loading="lazy" width="500" height="367"></a>
-      <a class="dm-card" href="reviews/dm8.png" target="_blank" rel="noopener" aria-label="좋은 인연 후기 원본 보기"><img src="reviews/dm8.png" alt="썸잇에서 좋은 사람을 만났다는 참가자의 메시지" loading="lazy" width="486" height="549"></a>
+    <div class="rv-slider" role="region" aria-roledescription="carousel" aria-label="참가자 후기">
+      <div class="rv-track" tabindex="0">
+        <a class="rv-card" href="reviews/dm1.png" target="_blank" rel="noopener" aria-label="첫 방문 후기 원본 보기"><span class="rv-tag">첫 방문 후기</span><img src="reviews/dm1.png" alt="처음 방문해 재미있었다는 참가자의 메시지" loading="lazy" width="474" height="426"></a>
+        <a class="rv-card" href="reviews/dm2.png" target="_blank" rel="noopener" aria-label="혼자 참여 후기 원본 보기"><span class="rv-tag">혼자 참여 후기</span><img src="reviews/dm2.png" alt="혼자 참여했다가 좋은 사람을 만나 사귀게 됐다는 참가자의 메시지" loading="lazy" width="491" height="742"></a>
+        <a class="rv-card" href="reviews/dm7.png" target="_blank" rel="noopener" aria-label="파티 이후 만남 후기 원본 보기"><span class="rv-tag">파티 이후 만남</span><img src="reviews/dm7.png" alt="썸잇에서 만난 남자친구와 잘 만나고 있다는 메시지" loading="lazy" width="500" height="367"></a>
+        <a class="rv-card" href="reviews/dm6.png" target="_blank" rel="noopener" aria-label="내향인 참여 후기 원본 보기"><span class="rv-tag">내향인도 OK</span><img src="reviews/dm6.png" alt="내향적인 성격이었지만 서로 호감 표시가 맞아 좋은 인연을 만났다는 참가자의 메시지" loading="lazy" width="470" height="668"></a>
+        <a class="rv-card" href="reviews/dm8.png" target="_blank" rel="noopener" aria-label="좋은 인연 후기 원본 보기"><span class="rv-tag">좋은 인연 후기</span><img src="reviews/dm8.png" alt="썸잇에서 좋은 사람을 만났다는 참가자의 메시지" loading="lazy" width="486" height="517"></a>
+        <a class="rv-card" href="reviews/dm4.png" target="_blank" rel="noopener" aria-label="생일 참여 후기 원본 보기"><span class="rv-tag">생일 참여 후기</span><img src="reviews/dm4.png" alt="생일 전날 참여해 즐거웠고 다음에 또 가고 싶다는 참가자의 메시지" loading="lazy" width="441" height="802"></a>
+      </div>
+      <div class="rv-controls">
+        <div class="rv-dots"></div>
+        <div class="rv-arrows">
+          <button type="button" class="rv-arrow rv-prev" aria-label="이전 후기">←</button>
+          <button type="button" class="rv-arrow rv-next" aria-label="다음 후기">→</button>
+        </div>
+      </div>
     </div>
     <a href="reviews.html" class="review-more-btn">블로그 후기 더 보기 <span aria-hidden="true">→</span></a>
   </div>
@@ -832,6 +852,47 @@ observeCount(document.getElementById('stats'),()=>{
   animateCount(document.getElementById('num1'),68,1500,'%');
   animateCount(document.getElementById('num2'),92,1500,'%');
 });
+
+/* 후기 슬라이더 */
+(function(){
+  const slider=document.querySelector('.rv-slider'); if(!slider)return;
+  const track=slider.querySelector('.rv-track'), cards=[].slice.call(track.children);
+  const dotsEl=slider.querySelector('.rv-dots'), prev=slider.querySelector('.rv-prev'), next=slider.querySelector('.rv-next');
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const padL=()=>parseFloat(getComputedStyle(track).paddingLeft)||0;
+  const dots=cards.map(function(_,i){
+    const b=document.createElement('button');
+    b.type='button';b.className='rv-dot';b.setAttribute('aria-label','후기 '+(i+1)+'번 보기');
+    b.addEventListener('click',function(){go(i);});
+    dotsEl.appendChild(b);return b;
+  });
+  let cur=0;
+  function go(i){
+    i=Math.max(0,Math.min(cards.length-1,i));
+    track.scrollTo({left:cards[i].offsetLeft-padL(),behavior:reduce?'auto':'smooth'});
+  }
+  function update(){
+    const max=track.scrollWidth-track.clientWidth;
+    slider.classList.toggle('no-scroll',max<=1);
+    const atEnd=track.scrollLeft>=max-1;
+    let idx=0,best=Infinity;
+    cards.forEach(function(c,i){
+      const d=Math.abs(c.offsetLeft-padL()-track.scrollLeft);
+      if(d<best){best=d;idx=i;}
+    });
+    if(atEnd&&max>1)idx=cards.length-1;
+    cur=idx;
+    dots.forEach(function(d,i){d.setAttribute('aria-current',String(i===idx));});
+    prev.disabled=track.scrollLeft<=1;
+    next.disabled=atEnd;
+  }
+  prev.addEventListener('click',function(){go(cur-1);});
+  next.addEventListener('click',function(){go(cur+1);});
+  let raf=0;
+  track.addEventListener('scroll',function(){cancelAnimationFrame(raf);raf=requestAnimationFrame(update);},{passive:true});
+  window.addEventListener('resize',update);
+  update();
+})();
 
 /* FAQ 토글 */
 function toggleFaq(el) {
