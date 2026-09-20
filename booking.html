@@ -84,26 +84,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .date-card-status{font-size:0.56rem;font-weight:600;letter-spacing:0.04em}
 .date-card.selected .date-card-status{color:rgba(255,255,255,0.88)!important}
 /* 마감임박 날짜카드 뱃지 */
-.date-card-badge-soon{display:inline-flex;align-items:center;gap:3px;background:rgba(185,28,28,0.09);border:1px solid rgba(185,28,28,0.22);color:#B91C1C;font-size:0.52rem;font-weight:700;letter-spacing:0.06em;padding:2px 7px;border-radius:20px}
+.date-card-badge-soon{display:inline-flex;align-items:center;gap:3px;background:#DC2626;color:#fff;font-size:0.56rem;font-weight:700;letter-spacing:0.04em;padding:2px 8px;border-radius:20px}
 
 /* INFO PANEL */
 .info-panel{margin-top:0.85rem;background:var(--surface);border-radius:12px;padding:1.3rem 1.4rem 1.4rem;border:1px solid rgba(0,0,0,0.07);animation:fadeIn 0.18s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.info-meta{display:flex;align-items:center;gap:0.6rem;font-size:0.73rem;color:var(--text2);margin-bottom:1.1rem;flex-wrap:wrap;padding-bottom:1rem;border-bottom:1px solid rgba(0,0,0,0.06)}
-.info-meta-item{display:flex;align-items:center;gap:0.3rem}
-.info-meta-divider{color:rgba(0,0,0,0.15);font-size:0.65rem}
-.info-seats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.1rem}
-.info-seat-card{background:var(--surface2);border:1px solid rgba(0,0,0,0.07);border-radius:10px;padding:0.9rem 1rem;text-align:center}
-.info-seat-label{font-size:0.55rem;color:var(--text3);letter-spacing:0.12em;font-weight:600;text-transform:uppercase;margin-bottom:0.4rem}
-.info-seat-num{font-size:1.7rem;font-weight:700;color:var(--text);line-height:1;letter-spacing:-0.02em}
-.info-seat-num.urgent{color:#9B2C2C}
+.info-meta{display:flex;align-items:center;gap:0.5rem 1rem;font-size:0.86rem;font-weight:500;color:var(--text2);margin-bottom:1.1rem;flex-wrap:wrap;padding-bottom:1rem;border-bottom:1px solid rgba(0,0,0,0.06)}
+.info-meta-item{display:flex;align-items:center;gap:0.4rem}
+.info-meta-item svg{color:var(--text3);flex-shrink:0}
+.info-seats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.1rem}
+.info-seat-card{background:#ECEFF2;border-radius:14px;padding:1rem 1rem 1.1rem;text-align:center}
+.info-seat-card.urgent{background:#FBE1E1}
+.info-seat-label{font-size:0.78rem;color:var(--text3);font-weight:500;margin-bottom:0.45rem}
+.info-seat-num{font-size:2rem;font-weight:800;color:var(--text);line-height:1;letter-spacing:-0.02em}
+.info-seat-num.urgent{color:#DC2626}
 .cta-btn{width:100%;background:var(--gold);color:#fff;border:none;padding:1rem 1.2rem;border-radius:10px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;letter-spacing:0.04em;cursor:pointer;transition:background 0.2s}
 .cta-btn:hover{background:var(--gold-dark)}
 
 /* 마감임박 뱃지 (인포패널) */
-.soon-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(185,28,28,0.08);border:1px solid rgba(185,28,28,0.2);color:#B91C1C;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;padding:3px 10px;border-radius:20px}
-.soon-badge::before{content:'';width:5px;height:5px;background:#B91C1C;border-radius:50%;animation:soonDot 1.4s ease-in-out infinite}
-@keyframes soonDot{0%,100%{opacity:1}50%{opacity:0.25}}
+.soon-badge{margin-left:auto;display:inline-flex;align-items:center;gap:5px;background:#DC2626;color:#fff;font-size:0.78rem;font-weight:700;letter-spacing:0.02em;padding:6px 13px;border-radius:999px;animation:soonPulse 1.8s ease-in-out infinite}
+@keyframes soonPulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.35)}50%{box-shadow:0 0 0 6px rgba(220,38,38,0)}}
+@media(prefers-reduced-motion:reduce){.soon-badge{animation:none}}
 
 /* 얼리버드 */
 .date-card-badge-eb{display:inline-flex;align-items:center;background:rgba(234,88,12,0.09);border:1px solid rgba(234,88,12,0.2);color:#EA580C;font-size:0.52rem;font-weight:700;letter-spacing:0.06em;padding:2px 7px;border-radius:20px}
@@ -239,6 +240,11 @@ function getPartyTime(dow, ds) {
   return {5:'20:30~24:00', 6:'19:00~23:00', 0:'19:00~22:00'}[dow] || '';
 }
 
+const svgIcon = (inner, size) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+const ICON_CLOCK = svgIcon('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', 16);
+const ICON_PIN = svgIcon('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>', 16);
+const ICON_FLAME = svgIcon('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>', 14);
+
 function renderSchedule() {
   const wrap = document.getElementById('scheduleWrap');
   const now = new Date();
@@ -319,8 +325,8 @@ function renderSchedule() {
       const mUrgent = hasMale && Number(mL) <= 3;
       const fUrgent = hasFemale && Number(fL) <= 3;
       const seatsHtml = (hasMale || hasFemale) ? `<div class="info-seats">
-        ${hasMale ? `<div class="info-seat-card"><div class="info-seat-label">남성 잔여</div><div class="info-seat-num${mUrgent?' urgent':''}">${mL}석</div></div>` : ''}
-        ${hasFemale ? `<div class="info-seat-card"><div class="info-seat-label">여성 잔여</div><div class="info-seat-num${fUrgent?' urgent':''}">${fL}석</div></div>` : ''}
+        ${hasMale ? `<div class="info-seat-card${mUrgent?' urgent':''}"><div class="info-seat-label">남성 잔여</div><div class="info-seat-num${mUrgent?' urgent':''}">${mL}석</div></div>` : ''}
+        ${hasFemale ? `<div class="info-seat-card${fUrgent?' urgent':''}"><div class="info-seat-label">여성 잔여</div><div class="info-seat-num${fUrgent?' urgent':''}">${fL}석</div></div>` : ''}
       </div>` : '';
 
       const btnLabel = `${selectedDate.mo+1}월 ${selectedDate.d}일 신청하기 →`;
@@ -335,10 +341,9 @@ function renderSchedule() {
           : `<div class="info-price">남성 62,000원 &nbsp;·&nbsp; 여성 45,000원</div>`;
       infoHtml = `<div class="info-panel">
         <div class="info-meta">
-          <span class="info-meta-item">🕐 ${partyTime}</span>
-          <span class="info-meta-divider">·</span>
-          <span class="info-meta-item">📍 부산 남구</span>
-          ${isSoon ? '<span class="info-meta-divider">·</span><span class="soon-badge">마감임박</span>' : ''}
+          <span class="info-meta-item">${ICON_CLOCK}${partyTime}</span>
+          <span class="info-meta-item">${ICON_PIN}부산 남구</span>
+          ${isSoon ? `<span class="soon-badge">${ICON_FLAME}마감임박</span>` : ''}
         </div>
         ${priceHtml}
         ${seatsHtml}
