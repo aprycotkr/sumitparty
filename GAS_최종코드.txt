@@ -265,20 +265,23 @@ function handleBankdaConfirm(e) {
     sheet.getRange(rowNum, 1, 1, 14).setBackground('#e8f5e9');
 
     // 입금 확인 = 실제 결제 완료 → Purchase CAPI 전송
+    // 콜라보(인플루언서·제휴) 신청은 광고 최적화 Purchase에서 제외 (Lead 제외와 동일 기준: 권종에 '콜라보')
     var rowData  = sheet.getRange(rowNum, 1, 1, 15).getValues()[0];
     var priceNum = parseInt(String(rowData[8] || '').replace(/[^0-9]/g, '')) || 0;
-    sendMetaCAPIPurchase({
-      eventId:  'purchase_' + String(orderId).replace(/[^a-zA-Z0-9_-]/g, '_'),
-      phone:    String(rowData[6] || ''),
-      name:     String(rowData[2] || ''),
-      gender:   String(rowData[3] || ''),
-      price:    priceNum,
-      dob:      parseDobFromSheet(String(rowData[4] || '')),
-      fbp:      String(rowData[11] || ''),
-      fbc:      String(rowData[12] || ''),
-      ua:       String(rowData[13] || ''),
-      clientIp: String(rowData[14] || '')
-    });
+    if (String(rowData[7] || '').indexOf('콜라보') === -1) {
+      sendMetaCAPIPurchase({
+        eventId:  'purchase_' + String(orderId).replace(/[^a-zA-Z0-9_-]/g, '_'),
+        phone:    String(rowData[6] || ''),
+        name:     String(rowData[2] || ''),
+        gender:   String(rowData[3] || ''),
+        price:    priceNum,
+        dob:      parseDobFromSheet(String(rowData[4] || '')),
+        fbp:      String(rowData[11] || ''),
+        fbc:      String(rowData[12] || ''),
+        ua:       String(rowData[13] || ''),
+        clientIp: String(rowData[14] || '')
+      });
+    }
 
     results.push({ order_id: orderId, description: '성공' });
   }
