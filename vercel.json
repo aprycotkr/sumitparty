@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/withmate", "destination": "/withmate.html" },
+    { "source": "/withmate/", "destination": "/withmate.html" }
+  ]
+}
