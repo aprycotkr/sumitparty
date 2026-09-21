@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0">
-<title>위드메이트 콜라보 — 썸잇 솔로파티 신청</title>
+<title>썸잇 × 위드메이트 — 파티 신청</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
 <meta name="robots" content="noindex,nofollow">
-<meta name="description" content="썸잇 × 위드메이트 콜라보 · 부산 솔로파티 참가비 10,000원 할인">
-<meta property="og:title" content="위드메이트 콜라보 — 썸잇 솔로파티 신청">
-<meta property="og:description" content="썸잇 × 위드메이트 콜라보 · 부산 솔로파티 참가비 10,000원 할인">
+<meta name="description" content="썸잇 × 위드메이트 · 부산 솔로파티 신청">
+<meta property="og:title" content="썸잇 × 위드메이트 — 파티 신청">
+<meta property="og:description" content="썸잇 × 위드메이트 · 부산 솔로파티 신청">
 <meta property="og:image" content="https://sumitparty.com/og-image.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sumitparty.com/withmate">
@@ -51,7 +51,9 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .header-title{font-family:var(--font-display);font-size:1.6rem;font-weight:300;margin-bottom:0.3rem}
 .header-sub{font-size:0.68rem;color:rgba(255,255,255,0.35);letter-spacing:0.1em;font-weight:300}
 
-.collab-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.3);border-radius:20px;padding:5px 14px;font-size:0.65rem;font-weight:600;color:var(--gold);letter-spacing:0.08em;margin-bottom:1rem}
+.collab-logos{display:flex;align-items:center;justify-content:center;gap:1.1rem;margin:0.2rem 0 1rem}
+.collab-logo{height:88px;width:auto;max-width:42vw;object-fit:contain;display:block}
+.collab-x{font-family:var(--font-display);font-size:1.5rem;font-weight:300;color:var(--gold);line-height:1}
 
 .progress-wrap{max-width:480px;margin:1.5rem auto 2rem;padding:0 1.5rem}
 .progress-steps{display:flex;align-items:flex-start;justify-content:space-between;position:relative}
@@ -156,9 +158,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .info-meta-main{display:flex;flex-wrap:wrap;gap:0.3rem 0.9rem}
 .soon-badge{flex-shrink:0;white-space:nowrap;background:#DC2626;color:#fff;font-size:0.66rem;font-weight:700;padding:4px 10px;border-radius:999px}
 .info-price{font-size:0.75rem;color:rgba(255,255,255,0.6);line-height:1.9}
-.info-price s{color:rgba(255,255,255,0.28);font-size:0.68rem}
 .info-price strong{color:var(--gold);font-weight:700}
-.info-price-tag{display:inline-block;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);color:var(--gold);font-size:0.58rem;font-weight:700;letter-spacing:0.06em;padding:1px 8px;border-radius:20px;margin-bottom:2px}
 .info-seats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0.9rem}
 .info-seat-card{background:var(--dark3);border-radius:10px;padding:0.75rem;text-align:center}
 .info-seat-card.urgent{background:rgba(220,38,38,0.16)}
@@ -202,12 +202,12 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 </div>
 
 <div class="page-header">
-  <a href="/index.html" class="header-logo">Sumit</a>
-  <div class="header-title" style="font-size:2rem;letter-spacing:0.04em;margin-bottom:0.6rem">위드메이트 콜라보</div>
-  <div style="margin-bottom:0.5rem">
-    <span class="collab-badge">✦ 썸잇 × 위드메이트</span>
+  <div class="collab-logos">
+    <a href="/index.html"><img class="collab-logo" src="/sumit-logo-white.png" alt="썸잇"></a>
+    <span class="collab-x">×</span>
+    <img class="collab-logo" src="/withmate-logo.png" alt="위드메이트" onerror="this.style.display='none';this.previousElementSibling.style.display='none'">
   </div>
-  <div class="header-sub" style="margin-top:0.5rem;font-size:0.68rem;color:rgba(201,169,110,0.75);font-weight:500;letter-spacing:0.06em">정가에서 10,000원 할인 · 원하는 날짜 선택</div>
+  <div class="header-sub" style="font-size:0.72rem;color:rgba(201,169,110,0.8);font-weight:500;letter-spacing:0.08em">원하는 날짜 선택</div>
 </div>
 
 <div class="progress-wrap" id="progressWrap">
@@ -283,7 +283,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
       <span class="ticket-sum-icon">🎟</span>
       <div>
         <div class="ticket-sum-meta">권종</div>
-        <div class="ticket-sum-name">1+2부 (위드메이트 콜라보)</div>
+        <div class="ticket-sum-name">1+2부</div>
         <div class="ticket-sum-desc" id="ticketOptDesc">성별 선택 후 참가비가 표시됩니다</div>
       </div>
     </div>
@@ -509,8 +509,10 @@ const CONFIG = {
   CLOUDINARY_UPLOAD_PRESET: 'sumit_apply',
   GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzsAYlOdww4z4MBjiEtZvPgrn6_-wUvyy98niITt8y6INKgwOJBieRNhKidLVt_GFZHQg/exec',
 
-  // 권종에 '콜라보'가 들어가야 GAS가 Meta CAPI Lead 전송을 건너뜀
+  // 시트에 기록되는 권종 — '콜라보'가 들어가야 GAS가 Meta CAPI Lead 전송을 건너뜀
   TICKET: '1+2부(위드메이트 콜라보)',
+  // 화면에 보이는 권종명
+  TICKET_LABEL: '1+2부',
 
   // 정가(apply.html 기준) — 위드메이트는 성별 무관 10,000원 할인, 얼리버드 없음
   DISCOUNT: 10000,
@@ -651,7 +653,7 @@ function renderDateInfo() {
   const seats = (has(mL) || has(fL))
     ? `<div class="info-seats">${has(mL) ? seat('남성', mL) : ''}${has(fL) ? seat('여성', fL) : ''}</div>` : '';
 
-  const priceLine = g => `${g} <s>${regularPrice(fd.date, g).toLocaleString()}</s> <strong>${won(discountedPrice(fd.date, g))}</strong>`;
+  const priceLine = g => `${g} <strong>${won(discountedPrice(fd.date, g))}</strong>`;
 
   box.innerHTML = `<div class="info-panel">
     <div class="info-meta">
@@ -661,7 +663,7 @@ function renderDateInfo() {
       </div>
       ${soon ? '<span class="soon-badge">🔥 마감임박</span>' : ''}
     </div>
-    <div class="info-price"><span class="info-price-tag">위드메이트 할인</span><br>${priceLine('남성')} &nbsp;·&nbsp; ${priceLine('여성')}</div>
+    <div class="info-price">${priceLine('남성')} &nbsp;·&nbsp; ${priceLine('여성')}</div>
     ${seats}
   </div>`;
 }
@@ -756,7 +758,7 @@ function step4Next() {
 }
 
 function goToStep5() {
-  document.getElementById('previewTicket').textContent = fd.ticket;
+  document.getElementById('previewTicket').textContent = CONFIG.TICKET_LABEL;
   document.getElementById('previewPrice').textContent = won(discountedPrice(fd.date, fd.gender));
   goStep(5);
 }
@@ -775,8 +777,8 @@ function updateTicketPrice() {
     dEl.textContent = '성별 선택 후 참가비가 표시됩니다';
     return;
   }
-  pEl.innerHTML = `<s style="display:block;color:rgba(255,255,255,0.25);font-size:0.72rem;font-weight:400">${regularPrice(fd.date, fd.gender).toLocaleString()}원</s>${won(discountedPrice(fd.date, fd.gender))}`;
-  dEl.textContent = fd.gender + ' 참가비 · 위드메이트 할인';
+  pEl.textContent = won(discountedPrice(fd.date, fd.gender));
+  dEl.textContent = fd.gender + ' 참가비';
 }
 
 function selGender(g) {
@@ -959,7 +961,7 @@ async function submitForm() {
   document.getElementById('loadingOverlay').classList.remove('show');
   document.getElementById('cName').textContent = fd.name;
   document.getElementById('cParty').textContent = dateLabel(fd.date);
-  document.getElementById('cTicket').textContent = fd.ticket;
+  document.getElementById('cTicket').textContent = CONFIG.TICKET_LABEL;
   document.getElementById('cGender').textContent = fd.gender;
   document.getElementById('cPrice').textContent = won(price);
   document.getElementById('cPrice2').textContent = won(price);
