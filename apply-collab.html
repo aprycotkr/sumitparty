@@ -637,7 +637,7 @@ async function submitForm() {
   await new Promise(r => setTimeout(r, 500));
   document.getElementById('loadingOverlay').classList.remove('show');
   document.getElementById('cName').textContent = fd.name;
-  fbq("track","Lead", { currency:"KRW", value:CONFIG.PRICE, content_name:fd.ticket }, {eventID: fd.eventId});
+  fbq("trackCustom","CollabApply", { currency:"KRW", value:CONFIG.PRICE, content_name:fd.ticket }, {eventID: fd.eventId});
   goStep(5);
 }
 
