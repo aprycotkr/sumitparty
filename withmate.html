@@ -158,6 +158,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .info-meta-main{display:flex;flex-wrap:wrap;gap:0.3rem 0.9rem}
 .soon-badge{flex-shrink:0;white-space:nowrap;background:#DC2626;color:#fff;font-size:0.66rem;font-weight:700;padding:4px 10px;border-radius:999px}
 .info-price{font-size:0.75rem;color:rgba(255,255,255,0.6);line-height:1.9}
+.info-price s{color:rgba(255,255,255,0.28);font-size:0.68rem}
 .info-price strong{color:var(--gold);font-weight:700}
 .info-seats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0.9rem}
 .info-seat-card{background:var(--dark3);border-radius:10px;padding:0.75rem;text-align:center}
@@ -243,7 +244,6 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   <h2 class="step-title">날짜 선택</h2>
   <p class="step-desc">참석할 파티 날짜를 선택해주세요. 매주 금·토·일 진행됩니다.</p>
   <div id="scheduleWrap"><div class="loading-msg">일정을 불러오는 중...</div></div>
-  <div id="dateInfo"></div>
   <div class="err" id="dateErr"></div>
   <button class="btn-primary" onclick="step1Next()">다음으로</button>
 </div>
@@ -629,16 +629,14 @@ function renderSchedule() {
       </div>`;
     }).join('');
 
-    html += `<div class="month-label">${y}년 ${mo + 1}월</div><div class="date-grid">${cards}</div>`;
+    const inThisMonth = fd.date.startsWith(`${y}-${pad(mo + 1)}-`);
+    html += `<div class="month-label">${y}년 ${mo + 1}월</div><div class="date-grid">${cards}</div>${inThisMonth ? dateInfoHtml() : ''}`;
   }
   wrap.innerHTML = html || '<div class="loading-msg">신청 가능한 일정이 없습니다.</div>';
-  renderDateInfo();
 }
 
-function renderDateInfo() {
-  const box = document.getElementById('dateInfo');
-  if (!fd.date) { box.innerHTML = ''; return; }
-
+// 선택한 날짜의 시간·가격·잔여석 패널 (해당 날짜가 속한 달 아래에 표시)
+function dateInfoHtml() {
   const dow = dowOf(fd.date);
   const st = dateStatusMap[fd.date] || {};
   const mL = st.maleRemaining ?? st.maleLeft, fL = st.femaleRemaining ?? st.femaleLeft;
@@ -652,9 +650,9 @@ function renderDateInfo() {
   const seats = (has(mL) || has(fL))
     ? `<div class="info-seats">${has(mL) ? seat('남성', mL) : ''}${has(fL) ? seat('여성', fL) : ''}</div>` : '';
 
-  const priceLine = g => `${g} <strong>${won(discountedPrice(fd.date, g))}</strong>`;
+  const priceLine = g => `${g} <s>${regularPrice(fd.date, g).toLocaleString()}</s> <strong>${won(discountedPrice(fd.date, g))}</strong>`;
 
-  box.innerHTML = `<div class="info-panel">
+  return `<div class="info-panel">
     <div class="info-meta">
       <div class="info-meta-main">
         <span>🕒 ${PARTY_TIMES[dow]}</span>
@@ -776,7 +774,7 @@ function updateTicketPrice() {
     dEl.textContent = '성별 선택 후 참가비가 표시됩니다';
     return;
   }
-  pEl.textContent = won(discountedPrice(fd.date, fd.gender));
+  pEl.innerHTML = `<s style="display:block;color:rgba(255,255,255,0.25);font-size:0.72rem;font-weight:400">${regularPrice(fd.date, fd.gender).toLocaleString()}원</s>${won(discountedPrice(fd.date, fd.gender))}`;
   dEl.textContent = fd.gender + ' 참가비';
 }
 
