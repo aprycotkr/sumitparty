@@ -255,13 +255,9 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   </div>
 
   <div class="field">
-    <label>재학 중인 학교 <span class="req">*</span></label>
-    <div class="choice-grid three" id="schoolGrid">
-      <div class="choice" data-v="부경대" onclick="pickSchool('부경대')">부경대</div>
-      <div class="choice" data-v="경성대" onclick="pickSchool('경성대')">경성대</div>
-      <div class="choice" data-v="동명대" onclick="pickSchool('동명대')">동명대</div>
-    </div>
-    <div class="field-hint">당일 입장 시 학생증을 확인합니다.</div>
+    <label for="school">재학 중인 학교 <span class="req">*</span></label>
+    <input type="text" id="school" placeholder="예) 부경대학교" maxlength="30">
+    <div class="field-hint">휴학생도 신청 가능합니다 · 당일 입장 시 학생증을 확인합니다.</div>
     <div class="err" id="schoolErr"></div>
   </div>
 
@@ -539,15 +535,12 @@ function pickGender(g) {
   document.getElementById('tPrice').textContent = won(CONFIG.PRICES[g]);
   document.querySelectorAll('.jsPrice').forEach(el => el.textContent = won(CONFIG.PRICES[g]));
 }
-function pickSchool(s) {
-  fd.school = s;
-  document.querySelectorAll('#schoolGrid .choice').forEach(el => el.classList.toggle('on', el.dataset.v === s));
-  document.getElementById('schoolErr').textContent = '';
-}
 
 function step2Next() {
   if (!fd.gender) { document.getElementById('genderErr').textContent = '성별을 선택해주세요.'; return; }
-  if (!fd.school) { document.getElementById('schoolErr').textContent = '재학 중인 학교를 선택해주세요.'; return; }
+  fd.school = document.getElementById('school').value.trim();
+  if (!fd.school) { document.getElementById('schoolErr').textContent = '재학 중인 학교를 입력해주세요.'; return; }
+  document.getElementById('schoolErr').textContent = '';
   const nm = document.getElementById('name').value.trim();
   if (!nm) { document.getElementById('nameErr').textContent = '이름을 입력해주세요.'; return; }
   document.getElementById('nameErr').textContent = '';
