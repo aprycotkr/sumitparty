@@ -195,8 +195,9 @@ fbq("track","PageView");
 <script src="common.js"></script>
 <script>
 const PARTY_DAYS = [0,5,6];
-const SPECIAL_DATES = ['2026-07-16','2026-08-17','2026-09-24'];
+const SPECIAL_DATES = ['2026-07-16','2026-08-17','2026-09-24','2026-10-08'];
 const XDATES = ['2026-07-25','2026-07-31'];
+const GOODDAY_DATE = '2026-10-08'; // 대학생 전용 (굿데이 친구만들기) → /goodday 로 이동
 const DAY_NAMES = ['일','월','화','수','목','금','토'];
 const MONTH_NAMES = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
@@ -236,6 +237,7 @@ function getPartyType(dow) {
 }
 
 function getPartyTime(dow, ds) {
+  if (ds === GOODDAY_DATE) return '20:00~24:00';
   if (ds === '2026-08-17') return '19:00~22:00';
   if (ds === '2026-09-23' || ds === '2026-09-24') return '20:30~23:30';
   return {5:'20:30~24:00', 6:'19:00~23:00', 0:'19:00~22:00'}[dow] || '';
@@ -299,11 +301,13 @@ function renderSchedule() {
         ? `<div class="date-card-status" style="color:rgba(255,255,255,0.88)">✓ 선택</div>`
         : isSoonCard
           ? `<div class="date-card-status"><span class="date-card-badge-soon">마감임박</span></div>`
+          : ds === GOODDAY_DATE
+            ? `<div class="date-card-status"><span class="date-card-badge-eb" style="background:#EAF2FF;color:#1D4ED8;border-color:#BFD5FF">대학생 전용</span></div>`
           : eb && st.label === '예약가능'
             ? `<div class="date-card-status"><span class="date-card-badge-eb">얼리버드</span></div>`
             : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
       return `<div class="date-card${st.disabled ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
-          onclick="${st.disabled ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow})`}">
+          onclick="${st.disabled ? '' : ds === GOODDAY_DATE ? `location.href='/goodday'` : `selectDateCard('${ds}',${y},${mo},${d},${dow})`}">
         <span class="date-dot" style="background:${st.dot}"></span>
         <div class="date-card-dow">${DAY_NAMES[dow]}</div>
         <div class="date-card-num">${mo+1}/${d}</div>
