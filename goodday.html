@@ -168,7 +168,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   </div>
 </div>
 
-<div class="page-header">
+<div class="page-header" id="fullHeader">
   <a href="index.html" class="header-logo">Sumit</a>
   <div style="font-size:0.68rem;color:rgba(255,255,255,0.45);letter-spacing:0.2em;margin-bottom:0.5rem">대학생 소셜 이벤트</div>
   <div class="header-title" style="font-size:2rem;letter-spacing:0.04em;margin-bottom:0.4rem;font-weight:500">굿데이 친구만들기</div>
@@ -179,7 +179,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   <div class="header-sub" style="margin-top:0.3rem;font-size:0.72rem;color:rgba(201,169,110,0.8);font-weight:500;letter-spacing:0.06em">10월 8일 (목) 오후 8시 · 대학생 한정 특가</div>
 </div>
 
-<div class="event-info">
+<div class="event-info" id="eventInfo">
   <div class="info-box">
     <div class="info-title">Event Info</div>
     <div class="info-row"><span class="k">내용</span><span class="v">좋은데이, 썸잇, 톡소다와 함께하는<br>친구만들기(연합과팅) 파티</span></div>
@@ -192,6 +192,11 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
       <div class="price-card"><div class="g">여성</div><div class="o">45,000원</div><div class="p">20,000원</div><span class="d">56% OFF</span></div>
     </div>
   </div>
+</div>
+
+<div class="page-header" id="miniHeader" style="display:none;padding:1.2rem 1.5rem">
+  <a href="index.html" class="header-logo" style="font-size:1.2rem;margin-bottom:0.2rem">Sumit</a>
+  <div style="font-size:0.85rem;color:rgba(255,255,255,0.75)">굿데이 친구만들기 · 10/8 (목)</div>
 </div>
 
 <div class="progress-wrap" id="progressWrap">
@@ -501,6 +506,10 @@ const terms = [false, false, false];
 function goStep(n) {
   ['s1','s2','s3','s4','sc'].forEach(s => document.getElementById(s).style.display = 'none');
   document.getElementById(n === 5 ? 'sc' : 's' + n).style.display = 'block';
+  const first = n === 1;
+  document.getElementById('fullHeader').style.display = first ? '' : 'none';
+  document.getElementById('eventInfo').style.display = first ? '' : 'none';
+  document.getElementById('miniHeader').style.display = first ? 'none' : '';
   const lineWidths = ['0%','33%','66%','calc(100% - 26px)'];
   for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('ps' + i);
