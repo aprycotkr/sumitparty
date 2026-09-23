@@ -792,7 +792,7 @@ function generateWeeklyRoster() {
 
 function generateWeeklyRosterForDate(partyDate) {
   if (!partyDate || isNaN(new Date(partyDate))) return;
-  generateWeeklyRosterForDates(getPartyDatesFromBase(new Date(partyDate)));
+  generateWeeklyRosterForDates(getRosterDates(partyDate));
 }
 
 function generateWeeklyRosterForDates(dates) {
@@ -923,7 +923,7 @@ function addToCurrentRoster(mainSheet, rowNum) {
     if (isNaN(partyDate.getTime())) return;
 
     // 이번 주 금요일 기준으로 명단 시트명 계산
-    var dates = getPartyDatesFromBase(partyDate);
+    var dates = getRosterDates(partyDate);
     var friday = dates[0];
     var rosterName = '명단_' + (friday.getMonth()+1) + '월' + friday.getDate() + '일주';
     var rosterSheet = ss.getSheetByName(rosterName);
@@ -1015,7 +1015,7 @@ function removeFromCurrentRoster(mainSheet, rowNum) {
     var partyDate = partyDateVal instanceof Date ? partyDateVal : new Date(partyDateVal);
     if (isNaN(partyDate.getTime())) return;
 
-    var dates = getPartyDatesFromBase(partyDate);
+    var dates = getRosterDates(partyDate);
     var friday = dates[0];
     var rosterName = '명단_' + (friday.getMonth()+1) + '월' + friday.getDate() + '일주';
     var rosterSheet = ss.getSheetByName(rosterName);
@@ -1064,7 +1064,7 @@ function addGuestToRoster(guestSheet, rowNum) {
     var partyDate = partyDateVal instanceof Date ? partyDateVal : new Date(partyDateVal);
     if (isNaN(partyDate.getTime())) return;
 
-    var dates = getPartyDatesFromBase(partyDate);
+    var dates = getRosterDates(partyDate);
     var friday = dates[0];
     var rosterName = '명단_' + (friday.getMonth()+1) + '월' + friday.getDate() + '일주';
     var rosterSheet = ss.getSheetByName(rosterName);
@@ -1154,7 +1154,7 @@ function refreshCurrentRoster() {
     return;
   }
   var baseDate = new Date(new Date().getFullYear(), parseInt(nm[1]) - 1, parseInt(nm[2]));
-  var dates    = getPartyDatesFromBase(baseDate); // [금, 토, 일]
+  var dates    = getRosterDates(baseDate); // [금, 토, 일]
 
   // 소스 데이터 읽기
   var mainSheet  = ss.getSheets()[0];
@@ -1315,6 +1315,24 @@ function refreshCurrentRoster() {
 var SPECIAL_PARTY_GROUPS = [
   ['2026-09-23', '2026-09-24']
 ];
+
+// 파티 날짜 기준 명단 날짜 묶음
+// - SPECIAL_PARTY_GROUPS에 있으면 그 묶음
+// - 월~목이면 그 날 하나만 (단독 명단 시트 자동 생성)
+// - 금~일이면 기존처럼 금·토·일
+function getRosterDates(partyDate) {
+  var d = new Date(partyDate);
+  var ds = Utilities.formatDate(d, 'Asia/Seoul', 'yyyy-MM-dd');
+  for (var g = 0; g < SPECIAL_PARTY_GROUPS.length; g++) {
+    if (SPECIAL_PARTY_GROUPS[g].indexOf(ds) !== -1) return getPartyDatesFromBase(d);
+  }
+  var dow = Number(Utilities.formatDate(d, 'Asia/Seoul', 'u')); // 1=월 ... 7=일
+  if (dow >= 1 && dow <= 4) {
+    var p = ds.split('-');
+    return [new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]))];
+  }
+  return getPartyDatesFromBase(d);
+}
 
 function getPartyDatesFromBase(base) {
   var today = new Date(base);

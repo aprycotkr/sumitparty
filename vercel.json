@@ -1,6 +1,20 @@
 {
   "rewrites": [
-    { "source": "/withmate", "destination": "/withmate.html" },
-    { "source": "/withmate/", "destination": "/withmate.html" }
+    {
+      "source": "/withmate",
+      "destination": "/withmate.html"
+    },
+    {
+      "source": "/withmate/",
+      "destination": "/withmate.html"
+    },
+    {
+      "source": "/goodday",
+      "destination": "/goodday.html"
+    },
+    {
+      "source": "/goodday/",
+      "destination": "/goodday.html"
+    }
   ]
 }
