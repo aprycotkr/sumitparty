@@ -155,7 +155,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .choice.on small{color:var(--gold)}
 @media(max-width:520px){.card{border-radius:0;border-left:none;border-right:none;margin:0}}
 </style>
-<!-- Meta Pixel (굿데이: PageView + GooddayLead 커스텀 이벤트만 — 표준 Lead 미사용, 부산 전환 캠페인과 분리) -->
+<!-- Meta Pixel (굿데이: PageView + CompleteRegistration만 — 표준 Lead 미사용, 부산 전환 캠페인과 분리) -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -722,7 +722,7 @@ async function submitForm() {
   await new Promise(r => setTimeout(r, 500));
   document.getElementById('loadingOverlay').classList.remove('show');
   document.getElementById('cName').textContent = fd.name;
-  if (typeof fbq !== 'undefined') fbq('trackCustom', 'GooddayLead', {content_name: '굿데이 10/8', gender: fd.gender, value: CONFIG.PRICES[fd.gender], currency: 'KRW'}, {eventID: fd.eventId});
+  if (typeof fbq !== 'undefined') fbq('track', 'CompleteRegistration', {content_name: '굿데이 10/8', gender: fd.gender, value: CONFIG.PRICES[fd.gender], currency: 'KRW'}, {eventID: fd.eventId});
   goStep(5);
 }
 
