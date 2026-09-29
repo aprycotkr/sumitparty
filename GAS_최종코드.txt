@@ -496,8 +496,9 @@ function sendApprovalSMS(sheet, row) {
   const isFridayOrSpecial = (dow === 5 || ['2026-07-16','2026-09-23','2026-09-24'].includes(dateStr));
 
   let startTime, enterTime;
-  if (isFridayOrSpecial) { startTime = '오후 8시 30분'; enterTime = '20:00'; }
-  else                   { startTime = '오후 7시'; enterTime = '18:30'; }
+  if (dateStr === '2026-10-08') { startTime = '오후 8시'; enterTime = '19:30'; } // 굿데이 (대학생 전용)
+  else if (isFridayOrSpecial)   { startTime = '오후 8시 30분'; enterTime = '20:00'; }
+  else                          { startTime = '오후 7시'; enterTime = '18:30'; }
 
   const msg =
     `[썸잇 파티 참가 확정 안내]\n\n` +
@@ -579,7 +580,8 @@ function sendGuestConfirmSMS(sheet, row) {
   const dateStr = Utilities.formatDate(d, 'Asia/Seoul', 'yyyy-MM-dd');
 
   let startTime, enterTime;
-  if (dow === 5 || ['2026-07-16','2026-09-23','2026-09-24'].includes(dateStr)) { startTime = '오후 8시 30분'; enterTime = '20:00'; }
+  if (dateStr === '2026-10-08') { startTime = '오후 8시'; enterTime = '19:30'; } // 굿데이 (대학생 전용)
+  else if (dow === 5 || ['2026-07-16','2026-09-23','2026-09-24'].includes(dateStr)) { startTime = '오후 8시 30분'; enterTime = '20:00'; }
   else                                        { startTime = '오후 7시'; enterTime = '18:30'; }
 
   const msg =
