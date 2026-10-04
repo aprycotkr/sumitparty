@@ -153,6 +153,8 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
 .choice small{display:block;font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:2px}
 .choice.on{border-color:var(--gold);background:rgba(201,169,110,0.08);color:var(--white);font-weight:600}
 .choice.on small{color:var(--gold)}
+.choice.closed{opacity:0.35;cursor:not-allowed;text-decoration:line-through}
+.choice.closed small{text-decoration:none;color:#f87171}
 @media(max-width:520px){.card{border-radius:0;border-left:none;border-right:none;margin:0}}
 </style>
 <!-- Meta Pixel (굿데이: PageView + CompleteRegistration만 — 표준 Lead 미사용, 부산 전환 캠페인과 분리) -->
@@ -198,10 +200,10 @@ fbq("track","PageView");
     <div class="info-row"><span class="k">혜택</span><span class="v">🍶 술 · 안주 무제한</span></div>
     <div class="info-row"><span class="k">일시</span><span class="v">10월 8일 (목) 20:00 ~ 24:00<small>시간은 변동될 수 있습니다</small></span></div>
     <div class="info-row"><span class="k">장소</span><span class="v">썸잇 부경대점<small>상세 주소는 확정 후 개별 안내</small></span></div>
-    <div class="info-row"><span class="k">모집</span><span class="v">80 ~ 100명 · 선착순 마감</span></div>
+    <div class="info-row"><span class="k">모집</span><span class="v">80 ~ 100명 · 선착순 마감<small style="color:#f87171">남성 마감 · 여성 잔여 5자리</small></span></div>
     <div class="price-grid">
-      <div class="price-card"><div class="g">남성</div><div class="o">62,000원</div><div class="p">35,000원</div><span class="d">44% OFF</span></div>
-      <div class="price-card"><div class="g">여성</div><div class="o">45,000원</div><div class="p">20,000원</div><span class="d">56% OFF</span></div>
+      <div class="price-card" style="opacity:0.4"><div class="g">남성</div><div class="o">62,000원</div><div class="p">35,000원</div><span class="d" style="background:#f87171;color:#fff">마감</span></div>
+      <div class="price-card"><div class="g">여성</div><div class="o">45,000원</div><div class="p">20,000원</div><span class="d">56% OFF · 잔여 5자리</span></div>
     </div>
   </div>
 </div>
@@ -265,8 +267,8 @@ fbq("track","PageView");
   <div class="field">
     <label>성별 <span class="req">*</span></label>
     <div class="choice-grid" id="genderGrid">
-      <div class="choice" data-v="남성" onclick="pickGender('남성')">남성<small>35,000원</small></div>
-      <div class="choice" data-v="여성" onclick="pickGender('여성')">여성<small>20,000원</small></div>
+      <div class="choice closed" data-v="남성">남성<small>마감</small></div>
+      <div class="choice" data-v="여성" onclick="pickGender('여성')">여성<small>20,000원 · 잔여 5자리</small></div>
     </div>
     <div class="err" id="genderErr"></div>
   </div>
@@ -547,6 +549,7 @@ function step1Next() {
 
 const won = n => n.toLocaleString() + '원';
 function pickGender(g) {
+  if (g === '남성') return; // 남성 마감
   fd.gender = g;
   document.querySelectorAll('#genderGrid .choice').forEach(el => el.classList.toggle('on', el.dataset.v === g));
   document.getElementById('genderErr').textContent = '';
