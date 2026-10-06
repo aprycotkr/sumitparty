@@ -302,7 +302,7 @@ function renderSchedule() {
         : isSoonCard
           ? `<div class="date-card-status"><span class="date-card-badge-soon">마감임박</span></div>`
           : ds === GOODDAY_DATE
-            ? `<div class="date-card-status"><span class="date-card-badge-eb" style="background:#EAF2FF;color:#1D4ED8;border-color:#BFD5FF">대학생 · 남자마감</span></div>`
+            ? `<div class="date-card-status"><span class="date-card-badge-eb" style="background:#EAF2FF;color:#1D4ED8;border-color:#BFD5FF">대학생 · 여자마감</span></div>`
           : eb && st.label === '예약가능'
             ? `<div class="date-card-status"><span class="date-card-badge-eb">얼리버드</span></div>`
             : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
