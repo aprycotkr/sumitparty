@@ -302,12 +302,12 @@ function renderSchedule() {
         : isSoonCard
           ? `<div class="date-card-status"><span class="date-card-badge-soon">마감임박</span></div>`
           : ds === GOODDAY_DATE
-            ? `<div class="date-card-status"><span class="date-card-badge-eb" style="background:#EAF2FF;color:#1D4ED8;border-color:#BFD5FF">대학생 · 여자마감</span></div>`
+            ? `<div class="date-card-status"><span class="date-card-badge-eb" style="background:#EAF2FF;color:#1D4ED8;border-color:#BFD5FF">대학생 · 마감</span></div>`
           : eb && st.label === '예약가능'
             ? `<div class="date-card-status"><span class="date-card-badge-eb">얼리버드</span></div>`
             : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
-      return `<div class="date-card${st.disabled ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
-          onclick="${st.disabled ? '' : ds === GOODDAY_DATE ? `location.href='/goodday'` : `selectDateCard('${ds}',${y},${mo},${d},${dow})`}">
+      return `<div class="date-card${st.disabled || ds === GOODDAY_DATE ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
+          onclick="${st.disabled || ds === GOODDAY_DATE ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow})`}">
         <span class="date-dot" style="background:${st.dot}"></span>
         <div class="date-card-dow">${DAY_NAMES[dow]}</div>
         <div class="date-card-num">${mo+1}/${d}</div>
