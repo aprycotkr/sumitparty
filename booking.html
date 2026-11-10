@@ -76,6 +76,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .date-card:not(.disabled):hover{border-color:rgba(201,169,110,0.5);box-shadow:0 3px 12px rgba(0,0,0,0.08)}
 .date-card.selected{background:var(--gold);border-color:var(--gold);box-shadow:0 4px 16px rgba(201,169,110,0.35)}
 .date-card.disabled{opacity:0.35;cursor:not-allowed;pointer-events:none}
+.date-card.extra{border:2px solid #C9A96E;background:linear-gradient(180deg,rgba(201,169,110,0.14),var(--surface) 70%);padding-top:1.35rem}
+.date-card-ribbon{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#E8C98A;font-size:0.68rem;font-weight:800;letter-spacing:0.02em;white-space:nowrap;padding:3px 10px;border-radius:0 0 8px 8px;box-shadow:0 2px 6px rgba(0,0,0,0.18)}
+.date-card.selected .date-card-ribbon{background:#fff;color:#8A6B3A}
+.info-extra-title{display:inline-block;background:#1a1a1a;color:#E8C98A;font-size:0.95rem;font-weight:800;padding:5px 12px;border-radius:8px;margin-bottom:0.8rem}
 .date-dot{position:absolute;top:9px;right:10px;width:6px;height:6px;border-radius:50%;display:block}
 .date-card-dow{font-size:0.58rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:0.3rem;font-weight:500;text-transform:uppercase}
 .date-card.selected .date-card-dow{color:rgba(255,255,255,0.72)}
@@ -305,18 +309,17 @@ function renderSchedule() {
         ? `<div class="date-card-status" style="color:rgba(255,255,255,0.88)">✓ 선택</div>`
         : isSoonCard
           ? `<div class="date-card-status"><span class="date-card-badge-soon">마감임박</span></div>`
-          : extra && !st.disabled && st.label === '예약가능'
-            ? `<div class="date-card-status"><span class="date-card-badge-eb">${extra.badge}</span></div>`
           : extra
-            ? `<div class="date-card-status" style="color:${st.textColor}">${extra.badge} · ${st.label}</div>`
+            ? `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`
           : ds === GOODDAY_DATE
             ? `<div class="date-card-status"><span class="date-card-badge-eb" style="background:#EAF2FF;color:#1D4ED8;border-color:#BFD5FF">대학생 · 마감</span></div>`
           : eb && st.label === '예약가능'
             ? `<div class="date-card-status"><span class="date-card-badge-eb">얼리버드</span></div>`
             : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
-      return `<div class="date-card${st.disabled || ds === GOODDAY_DATE ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
+      return `<div class="date-card${extra ? ' extra' : ''}${st.disabled || ds === GOODDAY_DATE ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
           onclick="${st.disabled || ds === GOODDAY_DATE ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow},'${key}')`}">
         <span class="date-dot" style="background:${st.dot}"></span>
+        ${extra ? `<span class="date-card-ribbon">${extra.badge}</span>` : ''}
         <div class="date-card-dow">${DAY_NAMES[dow]}</div>
         <div class="date-card-num">${mo+1}/${d}</div>
         ${statusEl}
@@ -347,7 +350,8 @@ function renderSchedule() {
       const isSundayDate = selectedDate.dow === 0 || selectedDate.ds === '2026-07-16' || selectedDate.ds === '2026-08-17' || selectedDate.ds === '2026-09-23' || selectedDate.ds === '2026-09-24';
       const ebDate = isEarlyBird(selectedDate.ds);
       const priceHtml = ex
-        ? `<div class="info-price">${ex.name} &nbsp;·&nbsp; 남성 ${ex.priceM.toLocaleString()}원 &nbsp;·&nbsp; 여성 ${ex.priceF.toLocaleString()}원</div>
+        ? `<div class="info-extra-title">${ex.badge}</div>
+           <div class="info-price">${ex.name} &nbsp;·&nbsp; 남성 ${ex.priceM.toLocaleString()}원 &nbsp;·&nbsp; 여성 ${ex.priceF.toLocaleString()}원</div>
            <div class="info-price">참가 연령: 남 ${ex.ageM} &nbsp;·&nbsp; 여 ${ex.ageF}</div>`
         : isSundayDate
         ? ebDate
