@@ -99,6 +99,8 @@ html,body{min-height:100vh;background:var(--black);color:var(--white);font-famil
 const ADMIN_KEY = 'sumit0313';
 const PARTY_DAYS = [0, 5, 6]; // 일, 금, 토
 const SPECIAL_DATES = ['2026-07-16', '2026-08-17', '2026-09-23', '2026-09-24']; // 특별 파티 날짜
+// 같은 날 정규파티와 별도로 운영하는 추가 파티 (Firebase 키: 날짜 + 접미사)
+const EXTRA_PARTIES = [{ date: '2026-11-28', key: '2026-11-28-30s', label: '30대파티' }];
 let statusMap = {};
 
 // ── 대시보드 로드
@@ -120,7 +122,7 @@ function renderList() {
   let html = '';
   let lastMonth = -1;
 
-  for (const { dateStr, d, dow } of dates) {
+  for (const { dateStr, d, dow, label } of dates) {
     const m = d.getMonth() + 1;
     if (m !== lastMonth) {
       html += `<div class="month-divider">${d.getFullYear()}년 ${m}월</div>`;
@@ -138,7 +140,8 @@ function renderList() {
   <div class="dc-top">
     <div>
       <span class="dc-date-text">${m}월 ${d.getDate()}일</span>
-      <span class="dc-dow ${dowCls}">${DOW[dow]}</span>
+      <span class="dc-dow ${dowCls}">${DOW[dow]}</span>${label ? `
+      <span class="dc-dow ${dowCls}">${label}</span>` : ''}
     </div>
     <span class="dc-indicator" id="ind-${dateStr}"></span>
   </div>
@@ -255,6 +258,7 @@ function getPartyDates(weeks) {
     if (PARTY_DAYS.includes(dow) || SPECIAL_DATES.includes(dateStr)) {
       result.push({ dateStr, d: new Date(cur), dow });
     }
+    EXTRA_PARTIES.filter(x => x.date === dateStr).forEach(x => result.push({ dateStr: x.key, d: new Date(cur), dow, label: x.label }));
     cur.setDate(cur.getDate() + 1);
   }
   return result;

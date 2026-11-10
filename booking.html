@@ -197,6 +197,9 @@ fbq("track","PageView");
 const PARTY_DAYS = [0,5,6];
 const SPECIAL_DATES = ['2026-07-16','2026-08-17','2026-09-24','2026-10-08'];
 const XDATES = ['2026-07-25','2026-07-31','2026-09-26','2026-11-01'];
+// 같은 날 정규파티와 별도로 운영하는 추가 파티 (상태 키 = 날짜 + 접미사)
+const EXTRA_PARTIES = [{ date: '2026-11-28', key: '2026-11-28-30s', party: '30s', badge: '30대파티', name: '30대 솔로파티',
+  priceM: 63000, priceF: 45000, ageM: '87~98년생', ageF: '88~00년생', time: '19:00~23:00' }];
 const GOODDAY_DATE = '2026-10-08'; // 대학생 전용 (굿데이 친구만들기) → /goodday 로 이동
 const DAY_NAMES = ['일','월','화','수','목','금','토'];
 const MONTH_NAMES = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
@@ -281,8 +284,9 @@ function renderSchedule() {
       const dow = date.getDay();
       const ds = `${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       if ((PARTY_DAYS.includes(dow) || SPECIAL_DATES.includes(ds)) && !XDATES.includes(ds) && date >= today) {
-        partyDates.push({ y, mo, d, dow, ds });
+        partyDates.push({ y, mo, d, dow, ds, key: ds });
       }
+      EXTRA_PARTIES.filter(x => x.date === ds && date >= today).forEach(x => partyDates.push({ y, mo, d, dow, ds, key: x.key, extra: x }));
     }
 
     if (partyDates.length === 0) continue;
@@ -292,22 +296,26 @@ function renderSchedule() {
     group.id = `group-${y}-${mo}`;
 
     // 날짜 카드 생성
-    const cards = partyDates.map(({ y, mo, d, dow, ds }) => {
-      const st = getStatusInfo(ds, dow);
-      const isSelected = selectedDate && selectedDate.ds === ds;
+    const cards = partyDates.map(({ y, mo, d, dow, ds, key, extra }) => {
+      const st = getStatusInfo(key, dow);
+      const isSelected = selectedDate && selectedDate.key === key;
       const isSoonCard = st.label === '마감임박';
       const eb = isEarlyBird(ds);
       const statusEl = isSelected
         ? `<div class="date-card-status" style="color:rgba(255,255,255,0.88)">✓ 선택</div>`
         : isSoonCard
           ? `<div class="date-card-status"><span class="date-card-badge-soon">마감임박</span></div>`
+          : extra && !st.disabled && st.label === '예약가능'
+            ? `<div class="date-card-status"><span class="date-card-badge-eb">${extra.badge}</span></div>`
+          : extra
+            ? `<div class="date-card-status" style="color:${st.textColor}">${extra.badge} · ${st.label}</div>`
           : ds === GOODDAY_DATE
             ? `<div class="date-card-status"><span class="date-card-badge-eb" style="background:#EAF2FF;color:#1D4ED8;border-color:#BFD5FF">대학생 · 마감</span></div>`
           : eb && st.label === '예약가능'
             ? `<div class="date-card-status"><span class="date-card-badge-eb">얼리버드</span></div>`
             : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
       return `<div class="date-card${st.disabled || ds === GOODDAY_DATE ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
-          onclick="${st.disabled || ds === GOODDAY_DATE ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow})`}">
+          onclick="${st.disabled || ds === GOODDAY_DATE ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow},'${key}')`}">
         <span class="date-dot" style="background:${st.dot}"></span>
         <div class="date-card-dow">${DAY_NAMES[dow]}</div>
         <div class="date-card-num">${mo+1}/${d}</div>
@@ -318,13 +326,14 @@ function renderSchedule() {
     // 인포 패널 (이 월에서 날짜 선택됐을 때)
     let infoHtml = '';
     if (selectedDate && selectedDate.y === y && selectedDate.mo === mo) {
-      const st = dateStatusMap[selectedDate.ds] || {};
+      const ex = EXTRA_PARTIES.find(x => x.key === selectedDate.key);
+      const st = dateStatusMap[selectedDate.key] || {};
       const mL = st.maleRemaining ?? st.maleLeft;
       const fL = st.femaleRemaining ?? st.femaleLeft;
       const hasMale = mL !== '' && mL !== null && mL !== undefined;
       const hasFemale = fL !== '' && fL !== null && fL !== undefined;
       const isSoon = st.male === '마감임박' || st.female === '마감임박';
-      const partyTime = getPartyTime(selectedDate.dow, selectedDate.ds);
+      const partyTime = ex ? ex.time : getPartyTime(selectedDate.dow, selectedDate.ds);
       const partyType = getPartyType(selectedDate.dow);
 
       const mUrgent = hasMale && Number(mL) <= 3;
@@ -334,10 +343,13 @@ function renderSchedule() {
         ${hasFemale ? `<div class="info-seat-card${fUrgent?' urgent':''}"><div class="info-seat-label">여성 잔여</div><div class="info-seat-num${fUrgent?' urgent':''}">${fL}석</div></div>` : ''}
       </div>` : '';
 
-      const btnLabel = `${selectedDate.mo+1}월 ${selectedDate.d}일 신청하기 →`;
+      const btnLabel = `${selectedDate.mo+1}월 ${selectedDate.d}일 ${ex ? ex.badge + ' ' : ''}신청하기 →`;
       const isSundayDate = selectedDate.dow === 0 || selectedDate.ds === '2026-07-16' || selectedDate.ds === '2026-08-17' || selectedDate.ds === '2026-09-23' || selectedDate.ds === '2026-09-24';
       const ebDate = isEarlyBird(selectedDate.ds);
-      const priceHtml = isSundayDate
+      const priceHtml = ex
+        ? `<div class="info-price">${ex.name} &nbsp;·&nbsp; 남성 ${ex.priceM.toLocaleString()}원 &nbsp;·&nbsp; 여성 ${ex.priceF.toLocaleString()}원</div>
+           <div class="info-price">참가 연령: 남 ${ex.ageM} &nbsp;·&nbsp; 여 ${ex.ageF}</div>`
+        : isSundayDate
         ? ebDate
           ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>55,000</s> <strong>50,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
           : `<div class="info-price">남성 55,000원 &nbsp;·&nbsp; 여성 45,000원</div>`
@@ -354,7 +366,7 @@ function renderSchedule() {
         </div>
         ${priceHtml}
         ${seatsHtml}
-        <button class="cta-btn" onclick="goToParty('${selectedDate.ds}')">${btnLabel}</button>
+        <button class="cta-btn" onclick="goToParty('${selectedDate.ds}'${ex ? `,'${ex.party}'` : ''})">${btnLabel}</button>
       </div>`;
     }
 
@@ -366,8 +378,8 @@ function renderSchedule() {
   }
 }
 
-function selectDateCard(ds, y, mo, d, dow) {
-  selectedDate = { ds, y, mo, d, dow };
+function selectDateCard(ds, y, mo, d, dow, key) {
+  selectedDate = { ds, y, mo, d, dow, key: key || ds };
   renderSchedule();
   if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:(dow===0||ds==='2026-09-23'||ds==='2026-09-24')?55000:62000});
   setTimeout(() => {
@@ -376,8 +388,8 @@ function selectDateCard(ds, y, mo, d, dow) {
   }, 50);
 }
 
-function goToParty(ds) {
-  window.location.href = `apply.html?date=${ds}`;
+function goToParty(ds, party) {
+  window.location.href = `apply.html?date=${ds}` + (party ? `&party=${party}` : '');
 }
 
 function toggleMenu() { document.getElementById('mobileNav').classList.toggle('open'); }

@@ -584,6 +584,7 @@ const CONFIG = {
     '1+2부(선데이)': { '남성': 55000, '여성': 45000 },
     '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
     '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
+    '1+2부(30대)': { '남성': 63000, '여성': 45000 },
   }
 };
 /* ══════════════════════════════ */
@@ -595,13 +596,20 @@ const _statusReady = window._fbBusanRef.once('value').then(function(snap) {
   localStorage.setItem('sumit_dateStatus', JSON.stringify(dateStatusMap));
 }).catch(function(){});
 
+// 같은 날 정규파티와 별도로 운영하는 추가 파티 (?party=30s)
+const EXTRA_PARTIES = {
+  '30s': { date: '2026-11-28', key: '2026-11-28-30s', ticket: '1+2부(30대)', name: '썸잇 30대 솔로파티',
+           time: '19:00~23:00', years: { '남성': [1987, 1998], '여성': [1988, 2000] } }
+};
+let extraParty = null;
+
 // 폼 데이터
 let isSundayForm = false;
 let isEarlyBirdApplied = false;
 const fd = {
   phone: '', ticket: '1+2부', name: '', gender: '',
   byear: '', bmonth: '', bday: '',
-  insta: '', photoUrl: '', date: '',
+  insta: '', photoUrl: '', date: '', statusKey: '',
   photoSelected: false, uploading: false, pendingNext: false,
   eventId: 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2)
 };
@@ -613,15 +621,21 @@ const terms = [false, false, false];
   const p = params.get('date');
   if (!p) { window.location.href = 'booking.html'; return; }
   const t = params.get('ticket');
+  const ep = EXTRA_PARTIES[params.get('party')];
+  if (ep && ep.date === p) extraParty = ep;
   if (p) {
     fd.date = p;
+    fd.statusKey = extraParty ? extraParty.key : p;
     const parts = p.split('-');
     if (parts.length === 3) {
       const d = new Date(parts[0], parts[1] - 1, parts[2]);
       if (!isNaN(d)) {
         const wd = ["일","월","화","수","목","금","토"];
         const txt = `${d.getMonth()+1}월 ${d.getDate()}일 (${wd[d.getDay()]})`;
-        if (d.getDay() === 0 || p === '2026-07-16' || p === '2026-08-17' || p === '2026-09-23' || p === '2026-09-24') {
+        if (extraParty) {
+          document.getElementById('formSubtitle').textContent = `${extraParty.name} ${txt} — 부산 부경대점`;
+          fd.ticket = extraParty.ticket;
+        } else if (d.getDay() === 0 || p === '2026-07-16' || p === '2026-08-17' || p === '2026-09-23' || p === '2026-09-24') {
           isSundayForm = true;
           if (p === '2026-07-16') {
             document.getElementById('formSubtitle').textContent = `썸잇 스페셜 파티 ${txt} — 부산 부경대점`;
@@ -645,7 +659,7 @@ const terms = [false, false, false];
           6: {'12':'19:00~23:00','1':'19:00~21:00','2':'21:00~23:00'},
           0: {'12':'19:00~22:00'}
         };
-        const times = (p === '2026-07-16') ? {'12':'20:00~23:00'} : (p === '2026-08-17') ? {'12':'19:00~22:00'} : (p === '2026-09-23' || p === '2026-09-24') ? {'12':'20:30~23:30','1':'20:30~22:00','2':'22:00~23:30'} : (TIMES[d.getDay()] || {});
+        const times = extraParty ? {'12': extraParty.time} : (p === '2026-07-16') ? {'12':'20:00~23:00'} : (p === '2026-08-17') ? {'12':'19:00~22:00'} : (p === '2026-09-23' || p === '2026-09-24') ? {'12':'20:30~23:30','1':'20:30~22:00','2':'22:00~23:30'} : (TIMES[d.getDay()] || {});
         [['ticketTime-12','12']].forEach(function([id,key]){
           const el = document.getElementById(id);
           if (el) el.textContent = times[key] ? '⏰ ' + times[key] : '';
@@ -656,7 +670,7 @@ const terms = [false, false, false];
         {
           const todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
           const partyDate = new Date(p + 'T00:00:00');
-          if (Math.floor((partyDate - todayMidnight) / 86400000) > 3) {
+          if (!extraParty && Math.floor((partyDate - todayMidnight) / 86400000) > 3) {
             isEarlyBirdApplied = true;
             if (isSundayForm) {
               CONFIG.PRICES[fd.ticket] = { '남성': 50000, '여성': 40000 };
@@ -669,7 +683,7 @@ const terms = [false, false, false];
     }
   }
   // 티켓 미리 선택 (일요일은 1+2부(선데이) 고정)
-  if (!isSundayForm && t && t === '1+2부') {
+  if (!isSundayForm && !extraParty && t && t === '1+2부') {
     fd.ticket = t;
     document.querySelectorAll('.ticket-opt').forEach(el => {
       const isMatch = el.getAttribute('onclick')?.includes(`'${t}'`);
@@ -725,8 +739,8 @@ async function step2Next() {
   btn.disabled = false;
 
   // 해당 날짜 성별 마감 체크
-  if (fd.date && dateStatusMap[fd.date]) {
-    const st = dateStatusMap[fd.date];
+  if (fd.statusKey && dateStatusMap[fd.statusKey]) {
+    const st = dateStatusMap[fd.statusKey];
     const genderKey = fd.gender === '남성' ? 'male' : 'female';
     if (st[genderKey] === '마감') {
       document.getElementById('genderErr').textContent = '죄송합니다. 해당 날짜는 ' + fd.gender + ' 마감되었습니다.';
@@ -738,8 +752,14 @@ async function step2Next() {
   if (bdateRaw.length !== 8) { document.getElementById('bdayErr').textContent = '생년월일 8자리를 입력해주세요. (예: 19980523)'; return; }
   const by = bdateRaw.slice(0,4), bm = bdateRaw.slice(4,6), bd = bdateRaw.slice(6,8);
   const yr = parseInt(by), mo = parseInt(bm), dy = parseInt(bd);
-  if (yr < 1990 || yr > 2007 || mo < 1 || mo > 12 || dy < 1 || dy > 31) {
+  if (yr < (extraParty ? 1987 : 1990) || yr > 2007 || mo < 1 || mo > 12 || dy < 1 || dy > 31) {
     document.getElementById('bdayErr').textContent = '올바른 생년월일을 입력해주세요.'; return;
+  }
+  if (extraParty) {
+    const [minY, maxY] = extraParty.years[fd.gender];
+    if (yr < minY || yr > maxY) {
+      document.getElementById('bdayErr').textContent = `${fd.gender}은 ${String(minY).slice(2)}~${String(maxY).slice(2)}년생만 신청 가능합니다.`; return;
+    }
   }
   document.getElementById('bdayErr').textContent = '';
   const iv = document.getElementById('insta').value.trim();
@@ -785,8 +805,8 @@ function goToStep4() {
 
 function updateSeatBadge() {
   const badge = document.getElementById('seatBadge');
-  if (!badge || !fd.date) return;
-  const st = dateStatusMap[fd.date] || {};
+  if (!badge || !fd.statusKey) return;
+  const st = dateStatusMap[fd.statusKey] || {};
   const ms = st.male || '정상', fs = st.female || '정상';
   const mL = st.maleRemaining ?? st.maleLeft, fL = st.femaleRemaining ?? st.femaleLeft;
   const hasML = mL !== null && mL !== undefined && mL !== '';
@@ -834,7 +854,7 @@ function resetPhotoNextBtn() {
 function selTicket(el, t) {
   document.querySelectorAll('.ticket-opt').forEach(x => x.classList.remove('sel'));
   el.classList.add('sel');
-  fd.ticket = isSundayForm ? (fd.date === '2026-08-17' ? '1+2부(프라이빗)' : (fd.date === '2026-09-23' || fd.date === '2026-09-24') ? '1+2부(스페셜)' : '1+2부(선데이)') : t;
+  fd.ticket = extraParty ? extraParty.ticket : isSundayForm ? (fd.date === '2026-08-17' ? '1+2부(프라이빗)' : (fd.date === '2026-09-23' || fd.date === '2026-09-24') ? '1+2부(스페셜)' : '1+2부(선데이)') : t;
 }
 
 // 성별 선택
