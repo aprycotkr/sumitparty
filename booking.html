@@ -356,11 +356,11 @@ function renderSchedule() {
            <div class="info-price">참가 연령: 남 ${ex.ageM} &nbsp;·&nbsp; 여 ${ex.ageF}</div>`
         : isSundayDate
         ? ebDate
-          ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>55,000</s> <strong>50,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
+          ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>55,000</s> <strong>53,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
           : `<div class="info-price">남성 55,000원 &nbsp;·&nbsp; 여성 45,000원</div>`
         : ebDate
-          ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>62,000</s> <strong>57,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
-          : `<div class="info-price">남성 62,000원 &nbsp;·&nbsp; 여성 45,000원</div>`;
+          ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>63,000</s> <strong>61,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
+          : `<div class="info-price">남성 63,000원 &nbsp;·&nbsp; 여성 45,000원</div>`;
       infoHtml = `<div class="info-panel">
         <div class="info-meta">
           <div class="info-meta-main">
@@ -386,7 +386,7 @@ function renderSchedule() {
 function selectDateCard(ds, y, mo, d, dow, key) {
   selectedDate = { ds, y, mo, d, dow, key: key || ds };
   renderSchedule();
-  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:(dow===0||ds==='2026-09-23'||ds==='2026-09-24')?55000:62000});
+  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:(dow===0||ds==='2026-09-23'||ds==='2026-09-24')?55000:63000});
   setTimeout(() => {
     const panel = document.querySelector('.info-panel');
     if (panel) panel.scrollIntoView({ behavior:'smooth', block:'nearest' });

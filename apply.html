@@ -580,7 +580,7 @@ const CONFIG = {
 
   // 권종별 가격
   PRICES: {
-    '1+2부': { '남성': 62000, '여성': 45000 },
+    '1+2부': { '남성': 63000, '여성': 45000 },
     '1+2부(선데이)': { '남성': 55000, '여성': 45000 },
     '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
     '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
@@ -666,16 +666,16 @@ const terms = [false, false, false];
         });
         const selEl = document.getElementById('selPartyInfo');
         if (selEl) selEl.textContent = txt + (times['12'] ? ' · ' + times['12'] : '');
-        // 얼리버드: 파티 3일 초과 남은 경우 5천원 할인
+        // 얼리버드: 파티 3일 초과 남은 경우 남 2천원 · 여 5천원 할인
         {
           const todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
           const partyDate = new Date(p + 'T00:00:00');
           if (!extraParty && Math.floor((partyDate - todayMidnight) / 86400000) > 3) {
             isEarlyBirdApplied = true;
             if (isSundayForm) {
-              CONFIG.PRICES[fd.ticket] = { '남성': 50000, '여성': 40000 };
+              CONFIG.PRICES[fd.ticket] = { '남성': 53000, '여성': 40000 };
             } else {
-              CONFIG.PRICES['1+2부'] = { '남성': 57000, '여성': 40000 };
+              CONFIG.PRICES['1+2부'] = { '남성': 61000, '여성': 40000 };
             }
           }
         }
