@@ -61,6 +61,33 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hero-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:rgba(255,255,255,0.88);font-size:0.62rem;font-weight:500;letter-spacing:0.04em;padding:5px 12px;border-radius:20px;backdrop-filter:blur(6px)}
 .hero-badge-gold{background:rgba(201,169,110,0.22);border-color:rgba(201,169,110,0.5);color:#E8D4A8}
 
+/* SIGNATURE (상단 시그니처 모임) — 모잇 브랜드: 흰 바탕 + 검은 손그림 선 */
+.signature-wrap{max-width:640px;margin:0 auto;padding:1.6rem 2rem 0}
+.sig-card{background:#fff;color:#111;border:2px solid #111;border-radius:18px;overflow:hidden;box-shadow:4px 4px 0 #111;margin-bottom:0.8rem}
+.sig-photo{aspect-ratio:3/1;background:#fff;border-bottom:2px solid #111}
+.sig-photo img{width:100%;height:100%;object-fit:contain;display:block}
+.sig-body{padding:1.3rem 1.4rem 1.5rem}
+.sig-eyebrow{display:inline-block;font-size:0.58rem;letter-spacing:0.2em;font-weight:800;background:#111;color:#fff;padding:3px 9px;border-radius:999px;margin-bottom:0.6rem}
+.sig-title{font-size:1.3rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.2rem}
+.sig-sub{font-size:0.78rem;color:#555;margin-bottom:1rem}
+.sig-meta{display:flex;flex-direction:column;gap:0.4rem;font-size:0.8rem;margin-bottom:0.9rem}
+.sig-meta span{display:flex;align-items:center;gap:0.45rem}
+.sig-meta svg{color:#111;flex-shrink:0}
+.sig-meta em{font-style:normal;color:#DC2626;font-size:0.72rem;font-weight:600}
+.sig-price{font-size:0.82rem;margin-bottom:0.7rem}
+.sig-price strong{font-size:1.1rem}
+.sig-price small{display:block;font-size:0.68rem;color:#666;margin-top:2px}
+.sig-status{display:flex;align-items:center;gap:0.45rem;font-size:0.74rem;font-weight:700;margin-bottom:0.9rem}
+.sig-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.sig-seats{color:#DC2626;font-weight:700}
+.sig-notes{background:#F6F5F1;border:1.5px dashed #111;border-radius:10px;padding:0.7rem 0.9rem;margin-bottom:1rem;font-size:0.74rem}
+.sig-notes summary{cursor:pointer;font-weight:700}
+.sig-notes ul{margin:0.6rem 0 0.1rem;padding-left:1.1rem;line-height:1.85;color:#333}
+.sig-cta{width:100%;background:#111;color:#fff;border:2px solid #111;padding:1rem 1.2rem;border-radius:12px;font-family:var(--font-body);font-size:0.86rem;font-weight:700;letter-spacing:0.02em;cursor:pointer;transition:transform 0.1s,background 0.2s}
+.sig-cta:hover{background:#333}
+.sig-cta:active{transform:translate(1px,1px)}
+.sig-cta:disabled{background:#9CA3AF;border-color:#9CA3AF;cursor:not-allowed}
+
 /* SCHEDULE INTRO */
 .schedule-intro{max-width:640px;margin:0 auto;padding:1.6rem 2rem 0.4rem}
 .schedule-intro p{font-size:0.75rem;color:var(--text3);font-weight:300}
@@ -84,6 +111,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .date-card.xmas.selected{background:var(--gold);border-color:#B91C1C}
 .date-card-ribbon.xmas{background:#B91C1C;color:#fff;font-size:0.6rem;padding:3px 6px}
 .date-card.selected .date-card-ribbon.xmas{background:#fff;color:#B91C1C}
+.date-card.extra.moit{border-color:#0F766E;background:linear-gradient(180deg,rgba(15,118,110,0.12),var(--surface) 70%)}
+.date-card.extra.moit.selected{background:var(--gold);border-color:#0F766E}
+.date-card-ribbon.moit{background:#0F766E;color:#fff;font-size:0.6rem;padding:3px 6px}
+.date-card.selected .date-card-ribbon.moit{background:#fff;color:#0F766E}
+.info-extra-title.moit{background:#0F766E;color:#fff}
+.info-venue{display:flex;gap:6px;align-items:flex-start;background:rgba(15,118,110,0.08);border:1px solid rgba(15,118,110,0.3);border-radius:8px;padding:0.6rem 0.75rem;margin-bottom:0.7rem;font-size:0.8rem;color:var(--text);line-height:1.5}
+.info-venue svg{flex-shrink:0;margin-top:2px;color:#0F766E}
+.info-venue small{color:var(--text3);font-size:0.7rem}
+.info-notes{margin:0.6rem 0 1rem;padding-left:1.1rem;font-size:0.72rem;color:var(--text2, var(--text3));line-height:1.8}
 .info-extra-title{display:inline-block;background:#1a1a1a;color:#E8C98A;font-size:0.95rem;font-weight:800;padding:5px 12px;border-radius:8px;margin-bottom:0.8rem}
 .date-dot{position:absolute;top:9px;right:10px;width:6px;height:6px;border-radius:50%;display:block}
 .date-card-dow{font-size:0.58rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:0.3rem;font-weight:500;text-transform:uppercase}
@@ -134,6 +170,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   .hero-inner{padding:0 1.2rem 2rem}
   .hero-title{font-size:1.75rem}
   .schedule-intro{padding:1.2rem 1rem 0.3rem}
+  .signature-wrap{padding:1.2rem 1rem 0}
   .schedule-wrap{padding:0 1rem 4rem}
   .month-group{padding:1.2rem 1rem}
   .date-grid{grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px}
@@ -191,6 +228,8 @@ fbq("track","PageView");
     </div>
   </div>
 </div>
+<div class="signature-wrap" id="signatureWrap" style="display:none"></div>
+
 <div class="schedule-intro">
   <p>원하는 날짜를 선택하고 신청을 진행해주세요.</p>
 </div>
@@ -207,8 +246,27 @@ const PARTY_DAYS = [0,5,6];
 const SPECIAL_DATES = ['2026-07-16','2026-08-17','2026-09-24','2026-10-08','2026-12-24'];
 const XDATES = ['2026-07-25','2026-07-31','2026-09-26','2026-11-01'];
 // 같은 날 정규파티와 별도로 운영하는 추가 파티 (상태 키 = 날짜 + 접미사)
-const EXTRA_PARTIES = [{ date: '2026-11-28', key: '2026-11-28-30s', party: '30s', badge: '30대파티', name: '30대 솔로파티',
-  priceM: 63000, priceF: 45000, ageM: '87~97년생', ageF: '88~00년생', time: '19:00~23:00' }];
+const EXTRA_PARTIES = [
+  { date: '2026-11-28', key: '2026-11-28-30s', party: '30s', badge: '30대파티', name: '30대 솔로파티',
+    priceM: 63000, priceF: 45000, ageM: '87~97년생', ageF: '88~00년생', time: '19:00~23:00' },
+  // 썸잇 시그니처 6:6 @모잇 — 장소가 부경대점이 아님 (venue/notes 표시)
+  { date: '2026-12-05', key: '2026-12-05-moit', party: 'moit', badge: '6:6 시그니처', name: '썸잇 시그니처 6:6 @모잇',
+    priceM: 30000, priceF: 30000, ageM: '88년생부터', ageF: '88년생부터', time: '19:00~21:00', theme: 'moit',
+    standalone: true, // 달력 카드 대신 페이지 상단 '썸잇 시그니처 모임' 섹션에 노출
+    photo: 'signature/moit-banner.png',
+    venue: '부산 전포동 혼술바 모잇', sizeLabel: '남녀 각 6명 · 소규모',
+    notes: [
+      '예약금 3만원은 전부 주류값으로 사용돼요 (입장료 X)',
+      '극단적인 성비를 막기 위해 남녀를 나눠 받아요',
+      '혼자 와도, 친구랑 와도 OK! 단, 예약은 각자 해주세요',
+      '1988년생부터 참여 가능 · 신분증 꼭 지참해주세요',
+      '최소 인원 미달 시 100% 환불 후 워크인으로 전환돼요',
+      '방문 1일 전부터는 예약금 환불이 어려워요',
+      '3만원 미만 주문 시 잔액은 소멸돼요',
+      '연락 없이 시작 30분이 지나면 노쇼 처리돼요',
+      '주차는 불가해요 · 문의는 인스타그램 DM @moit_jeonpo'
+    ] }
+];
 // 날짜 카드 리본 (정규파티 날짜에 표시)
 const RIBBON_DATES = { '2026-12-24': '🎄 이브', '2026-12-25': '🎄 크리스마스' };
 const GOODDAY_DATE = '2026-10-08'; // 대학생 전용 (굿데이 친구만들기) → /goodday 로 이동
@@ -263,7 +321,49 @@ const ICON_CLOCK = svgIcon('<circle cx="12" cy="12" r="10"/><polyline points="12
 const ICON_PIN = svgIcon('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>', 16);
 const ICON_FLAME = svgIcon('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>', 12);
 
+// 상단 '썸잇 시그니처 모임' 섹션 (standalone 추가파티)
+function renderSignature() {
+  const wrap = document.getElementById('signatureWrap');
+  if (!wrap) return;
+  const t0 = new Date(); t0.setHours(0,0,0,0);
+  const list = EXTRA_PARTIES.filter(x => x.standalone && new Date(x.date + 'T00:00:00') >= t0);
+  if (!list.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+  wrap.innerHTML = list.map(ex => {
+    const dt = new Date(ex.date + 'T00:00:00');
+    const st = getStatusInfo(ex.key, dt.getDay());
+    const raw = dateStatusMap[ex.key] || {};
+    const mL = raw.maleRemaining ?? raw.maleLeft, fL = raw.femaleRemaining ?? raw.femaleLeft;
+    const has = v => v !== '' && v !== null && v !== undefined;
+    const seats = (has(mL) || has(fL)) ? `<span class="sig-seats">${has(mL) ? `남 ${mL}석` : ''}${has(mL) && has(fL) ? ' · ' : ''}${has(fL) ? `여 ${fL}석` : ''} 남음</span>` : '';
+    const dateLabel = `${dt.getMonth()+1}월 ${dt.getDate()}일 (${DAY_NAMES[dt.getDay()]})`;
+    const closed = st.disabled;
+    return `<section class="sig-card">
+      ${ex.photo ? `<div class="sig-photo"><img src="${ex.photo}" alt="${ex.name}" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
+      <div class="sig-body">
+        <div class="sig-eyebrow">SUMIT SIGNATURE</div>
+        <h2 class="sig-title">썸잇 시그니처 모임</h2>
+        <p class="sig-sub">6:6 소규모 · Better evening, better friends</p>
+        <div class="sig-meta">
+          <span>${ICON_CLOCK}${dateLabel} ${ex.time}</span>
+          <span>${ICON_PIN}${ex.venue} <em>(부경대점 아님)</em></span>
+        </div>
+        <div class="sig-price">1인 <strong>${ex.priceM.toLocaleString()}원</strong> <small>전액 주류값으로 사용 · 입장료 X</small></div>
+        <div class="sig-status"><span class="sig-dot" style="background:${st.dot}"></span><span style="color:${st.label === '예약가능' ? '#111' : '#DC2626'}">${st.label}</span>${seats}</div>
+        <details class="sig-notes"><summary>꼭 확인해주세요</summary><ul>${(ex.notes || []).map(n => `<li>${n}</li>`).join('')}</ul></details>
+        <button class="sig-cta" ${closed ? 'disabled' : ''} onclick="goSignature('${ex.date}','${ex.party}',${ex.priceM})">${closed ? '마감되었습니다' : `${dateLabel} 신청하기 →`}</button>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function goSignature(ds, party, price) {
+  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'시그니처 모임 선택',content_category:'시그니처',currency:'KRW',value:price});
+  goToParty(ds, party);
+}
+
 function renderSchedule() {
+  renderSignature();
   const wrap = document.getElementById('scheduleWrap');
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -298,7 +398,7 @@ function renderSchedule() {
       if ((PARTY_DAYS.includes(dow) || SPECIAL_DATES.includes(ds)) && !XDATES.includes(ds) && date >= today) {
         partyDates.push({ y, mo, d, dow, ds, key: ds });
       }
-      EXTRA_PARTIES.filter(x => x.date === ds && date >= today).forEach(x => partyDates.push({ y, mo, d, dow, ds, key: x.key, extra: x }));
+      EXTRA_PARTIES.filter(x => !x.standalone && x.date === ds && date >= today).forEach(x => partyDates.push({ y, mo, d, dow, ds, key: x.key, extra: x }));
     }
 
     if (partyDates.length === 0) continue;
@@ -325,10 +425,10 @@ function renderSchedule() {
             ? `<div class="date-card-status"><span class="date-card-badge-eb">얼리버드</span></div>`
             : `<div class="date-card-status" style="color:${st.textColor}">${st.label}</div>`;
       const xmasRibbon = !extra && RIBBON_DATES[ds];
-      return `<div class="date-card${extra ? ' extra' : ''}${xmasRibbon ? ' xmas' : ''}${st.disabled || ds === GOODDAY_DATE ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
+      return `<div class="date-card${extra ? ' extra' : ''}${extra && extra.theme ? ' ' + extra.theme : ''}${xmasRibbon ? ' xmas' : ''}${st.disabled || ds === GOODDAY_DATE ? ' disabled' : ''}${isSelected ? ' selected' : ''}"
           onclick="${st.disabled || ds === GOODDAY_DATE ? '' : `selectDateCard('${ds}',${y},${mo},${d},${dow},'${key}')`}">
         <span class="date-dot" style="background:${st.dot}"></span>
-        ${extra ? `<span class="date-card-ribbon">${extra.badge}</span>` : xmasRibbon ? `<span class="date-card-ribbon xmas">${xmasRibbon}</span>` : ''}
+        ${extra ? `<span class="date-card-ribbon${extra.theme ? ' ' + extra.theme : ''}">${extra.badge}</span>` : xmasRibbon ? `<span class="date-card-ribbon xmas">${xmasRibbon}</span>` : ''}
         <div class="date-card-dow">${DAY_NAMES[dow]}</div>
         <div class="date-card-num">${mo+1}/${d}</div>
         ${statusEl}
@@ -359,9 +459,11 @@ function renderSchedule() {
       const isSundayDate = selectedDate.dow === 0 || selectedDate.ds === '2026-07-16' || selectedDate.ds === '2026-08-17' || selectedDate.ds === '2026-09-23' || selectedDate.ds === '2026-09-24';
       const ebDate = isEarlyBird(selectedDate.ds);
       const priceHtml = ex
-        ? `<div class="info-extra-title">${ex.badge}</div>
+        ? `<div class="info-extra-title${ex.theme ? ' ' + ex.theme : ''}">${ex.badge}</div>
+           ${ex.venue ? `<div class="info-venue">${ICON_PIN}<span>장소: <strong>${ex.venue}</strong><br><small>썸잇 부경대점이 아니에요! ${ex.sizeLabel || ''}</small></span></div>` : ''}
            <div class="info-price">${ex.name} &nbsp;·&nbsp; 남성 ${ex.priceM.toLocaleString()}원 &nbsp;·&nbsp; 여성 ${ex.priceF.toLocaleString()}원</div>
-           <div class="info-price">참가 연령: 남 ${ex.ageM} &nbsp;·&nbsp; 여 ${ex.ageF}</div>`
+           <div class="info-price">참가 연령: 남 ${ex.ageM} &nbsp;·&nbsp; 여 ${ex.ageF}</div>
+           ${ex.notes ? `<ul class="info-notes">${ex.notes.map(n => `<li>${n}</li>`).join('')}</ul>` : ''}`
         : isSundayDate
         ? ebDate
           ? `<div class="info-price"><span class="info-price-eb">얼리버드</span>남 <s>55,000</s> <strong>53,000원</strong> &nbsp;·&nbsp; 여 <s>45,000</s> <strong>40,000원</strong></div>`
@@ -373,7 +475,7 @@ function renderSchedule() {
         <div class="info-meta">
           <div class="info-meta-main">
             <span class="info-meta-item">${ICON_CLOCK}${partyTime}</span>
-            <span class="info-meta-item">${ICON_PIN}부산 남구</span>
+            <span class="info-meta-item">${ICON_PIN}${ex && ex.venue ? '부산 전포동' : '부산 남구'}</span>
           </div>
           ${isSoon ? `<span class="soon-badge">${ICON_FLAME}마감임박</span>` : ''}
         </div>
@@ -394,7 +496,7 @@ function renderSchedule() {
 function selectDateCard(ds, y, mo, d, dow, key) {
   selectedDate = { ds, y, mo, d, dow, key: key || ds };
   renderSchedule();
-  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:(dow===0||ds==='2026-09-23'||ds==='2026-09-24')?55000:63000});
+  if (typeof fbq !== 'undefined') fbq('track','AddToCart',{content_name:'파티 날짜 선택',content_category:'파티',currency:'KRW',value:(EXTRA_PARTIES.find(x=>x.key===key)||{}).priceM||((dow===0||ds==='2026-09-23'||ds==='2026-09-24')?55000:63000)});
   setTimeout(() => {
     const panel = document.querySelector('.info-panel');
     if (panel) panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
@@ -410,6 +512,16 @@ function toggleMenu() { document.getElementById('mobileNav').classList.toggle('o
 async function init() {
   const cached = localStorage.getItem('sumit_dateStatus');
   if (cached) { try { dateStatusMap = JSON.parse(cached); } catch(e) {} }
+  // ?party=moit 처럼 들어오면 해당 추가파티 카드를 미리 선택 (광고 링크용)
+  const deep = EXTRA_PARTIES.find(x => x.party === new URLSearchParams(location.search).get('party'));
+  if (deep && deep.standalone) {
+    setTimeout(() => { const el = document.getElementById('signatureWrap'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+  } else if (deep) {
+    const [yy, mm, dd] = deep.date.split('-').map(Number);
+    const dt = new Date(yy, mm - 1, dd);
+    const t0 = new Date(); t0.setHours(0,0,0,0);
+    if (dt >= t0) selectedDate = { ds: deep.date, y: yy, mo: mm - 1, d: dd, dow: dt.getDay(), key: deep.key };
+  }
   renderSchedule();
 
   window._fbBusanRef.on('value', function(snap) {

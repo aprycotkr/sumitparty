@@ -31,8 +31,13 @@ const PRICES = {
   '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
   '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
   '1부만':       { '남성': 43000, '여성': 39000 },
-  '2부만':       { '남성': 40000, '여성': 37000 }
+  '2부만':       { '남성': 40000, '여성': 37000 },
+  '시그니처6:6':  { '남성': 30000, '여성': 30000 }
 };
+
+// ─── 썸잇 시그니처 6:6 @모잇 (장소 다름 · 심사 없음 · 썸잇 명단 제외) ───
+const MOIT_TICKET = '시그니처6:6';
+function isMoitTicket(ticket) { return String(ticket || '').indexOf(MOIT_TICKET) !== -1; }
 
 // ─── 입금 계좌 정보 ─────────────────────────────
 const OUR_BANK_ACCOUNT = '11110204277139';
@@ -343,7 +348,17 @@ function handleApply(data) {
 
   if (data.phone && data.name) {
     const ticketType = data.ticket || '';
-    const msg =
+    const msg = isMoitTicket(ticketType) ?
+      `[썸잇 시그니처 6:6 @모잇 신청 접수]\n\n` +
+      `${data.name}님, ${data.date || '신청하신 날짜'} 시그니처 6:6 신청이 접수되었습니다.\n\n` +
+      `입금 순으로 예약이 확정되며, 확정 시 문자로 안내드립니다.\n` +
+      `장소: 부산 전포동 혼술바 모잇 (썸잇 부경대점 아님)\n\n` +
+      `[입금 계좌 안내]\n` +
+      `국민은행 ${OUR_BANK_ACCOUNT} 김경민\n` +
+      (priceText ? `입금 금액 : ${priceText}\n` : '') +
+      `\n입금자명은 신청하신 이름으로 해주세요.\n` +
+      `문의 : 인스타그램 DM @moit_jeonpo`
+      :
       `[썸잇 솔로파티 신청 접수]\n\n` +
       `${data.name}님, ${data.date || '신청하신 날짜'} 파티 신청이 접수되었습니다.\n\n` +
       `입금 완료 후 심사가 시작됩니다.\n` +
@@ -489,6 +504,8 @@ function sendApprovalSMS(sheet, row) {
   const ticket    = sheet.getRange(row, 8).getValue();
   if (!phone || !name) return;
 
+  if (isMoitTicket(ticket)) { sendMoitConfirmSMS(sheet, row); return; }
+
   const d   = new Date(partyDate);
   const dow = d.getDay();
   const md  = (d.getMonth() + 1) + '/' + d.getDate();
@@ -521,6 +538,35 @@ function sendApprovalSMS(sheet, row) {
 
   sendSMS(phone.toString(), msg);
 
+  sheet.getRange(row, 11).setValue('합격✓발송');
+}
+
+function sendMoitConfirmSMS(sheet, row) {
+  const partyDate = sheet.getRange(row, 2).getValue();
+  const phone     = sheet.getRange(row, 7).getValue();
+  if (!phone) return;
+  const d  = new Date(partyDate);
+  const md = (d.getMonth() + 1) + '/' + d.getDate();
+
+  const msg =
+    `[썸잇 시그니처 6:6 @모잇 예약 확정]\n\n` +
+    `${md} 시그니처 6:6 예약이 확정되었습니다 🍸\n\n` +
+    `[장소]\n` +
+    `부산 전포동 혼술바 모잇\n` +
+    `* 썸잇 부경대점이 아닙니다! 꼭 확인해주세요.\n` +
+    `* 위치 문의: 인스타그램 DM @moit_jeonpo\n` +
+    `* 주차가 불가합니다.\n\n` +
+    `[시간]\n` +
+    `오후 7시 ~ 9시\n` +
+    `* 늦으실 경우 인스타그램 DM 주세요!\n` +
+    `* 연락 없이 시작 30분이 지나면 노쇼 처리됩니다.\n\n` +
+    `[꼭 확인해주세요]\n` +
+    `* 예약금 3만원은 전부 주류값으로 사용됩니다 (3만원 미만 주문 시 잔액 소멸)\n` +
+    `* 방문 1일 전부터는 예약금 환불이 어렵습니다.\n` +
+    `* 입장 시 신분증을 반드시 지참해주세요.\n\n` +
+    `문의 : 인스타그램 DM @moit_jeonpo`;
+
+  sendSMS(phone.toString(), msg);
   sheet.getRange(row, 11).setValue('합격✓발송');
 }
 
@@ -562,7 +608,7 @@ function sendReminderSMS(sheet, row) {
     (ticket ? `권종 : ${ticket}\n` : '') +
     (price  ? `입금 금액 : ${price}\n` : '') +
     `\n입금자명은 신청하신 이름으로 부탁드립니다.\n\n` +
-    `문의 : 인스타 DM @sum_it.official`;
+    `문의 : 인스타 DM ${isMoitTicket(ticket) ? '@moit_jeonpo' : '@sum_it.official'}`;
 
   sendSMS(phone.toString(), msg);
   sheet.getRange(row, 11).setValue('리마인드✓발송');
@@ -920,6 +966,7 @@ function addToCurrentRoster(mainSheet, rowNum) {
     var phone  = String(mainSheet.getRange(rowNum, 7).getValue() || '').trim();
     var ticket = String(mainSheet.getRange(rowNum, 8).getValue() || '').trim();
     if (!name || !phone) return;
+    if (isMoitTicket(ticket)) return; // 모잇 6:6은 썸잇 명단에 넣지 않음
 
     var partyDate = partyDateVal instanceof Date ? partyDateVal : new Date(partyDateVal);
     if (isNaN(partyDate.getTime())) return;
@@ -1219,6 +1266,7 @@ function refreshCurrentRoster() {
         : String(row[1]).substring(0, 10);
       var status   = String(row[10] || '').trim();
       if (rDateStr !== dateStr || status.indexOf('합격') === -1) continue;
+      if (isMoitTicket(row[7])) continue; // 모잇 6:6은 썸잇 명단 제외
 
       var name  = String(row[2] || '').trim();
       var phone = String(row[6] || '').trim();
