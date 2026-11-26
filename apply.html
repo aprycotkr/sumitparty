@@ -243,7 +243,99 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,0.05);paddin
   .card{border-radius:0;border-left:none;border-right:none;margin:0}
 }
 
+/* ══════════════════════════════
+   모잇 테마 (?party=moit 일 때만) — 흰 바탕 + 검은 손그림 선
+══════════════════════════════ */
+html.theme-moit{--gold:#111;--gold-light:#333;--gold-dark:#111;--black:#FFFDF8;--dark:#fff;--dark2:#fff;--white:#111}
+html.theme-moit body{background:#FFFDF8;color:#111;font-weight:400}
+html.theme-moit ::-webkit-scrollbar-thumb{background:#111}
+html.theme-moit .page-header{border-bottom:2px solid #111;padding:1.6rem 1rem 1.3rem;background:#fff}
+html.theme-moit .moit-header-img{display:block;width:100%;max-width:420px;height:auto;margin:0 auto 0.4rem}
+html.theme-moit .header-logo,html.theme-moit .header-title{display:none}
+html.theme-moit #formSubtitle{color:#111!important;font-weight:700!important;font-size:0.8rem!important}
+html.theme-moit .progress-steps::before{background:#111;height:2px}
+html.theme-moit .progress-line{background:#111;height:2px}
+html.theme-moit .progress-step-circle{border:2px solid #111;background:#fff;color:#111}
+html.theme-moit .progress-step.done .progress-step-circle{background:#fff;border-color:#111;color:#111}
+html.theme-moit .progress-step.active .progress-step-circle{background:#111;border-color:#111;color:#fff;box-shadow:2px 2px 0 #111}
+html.theme-moit .progress-step-name,html.theme-moit .progress-step.done .progress-step-name{color:#888}
+html.theme-moit .progress-step.active .progress-step-name{color:#111;font-weight:700}
+html.theme-moit .card{background:#fff;border:2px solid #111;border-radius:20px;box-shadow:5px 5px 0 #111}
+html.theme-moit .step-label{color:#111;letter-spacing:0.25em}
+html.theme-moit .step-title{font-family:var(--font-body);font-weight:800;font-size:1.4rem;color:#111;letter-spacing:-0.02em}
+html.theme-moit .step-desc{color:#666}
+html.theme-moit .field label{color:#111}
+html.theme-moit .field label .req{color:#DC2626}
+html.theme-moit .field input[type=text],html.theme-moit .field input[type=tel]{background:#fff;border:2px solid #111;border-radius:12px;color:#111;font-weight:500}
+html.theme-moit .field input::placeholder,html.theme-moit .insta-wrap input::placeholder{color:#B5B2AA}
+html.theme-moit .field-hint{color:#888}
+html.theme-moit .gender-btn{background:#fff;border:2px solid #111;border-radius:12px;color:#111}
+html.theme-moit .gender-btn.sel{background:#111;border-color:#111;color:#fff;box-shadow:2px 2px 0 #111}
+html.theme-moit .sel-party-card{background:#F6F5F1;border:2px dashed #111;border-radius:14px}
+html.theme-moit .sel-party-label,html.theme-moit .ticket-sum-meta{color:#888}
+html.theme-moit .sel-party-info,html.theme-moit .ticket-sum-name{color:#111}
+html.theme-moit .sel-party-btn{background:#fff;border:1.5px solid #111;color:#111;border-radius:999px}
+html.theme-moit .ticket-sum-card{background:#fff;border:2px solid #111;border-radius:14px}
+html.theme-moit .ticket-sum-card::before,html.theme-moit .ticket-sum-card::after{background:#fff;border:2px solid #111}
+html.theme-moit .ticket-sum-desc{color:#666}
+html.theme-moit .ticket-sum-price{color:#111;border-left:2px dashed #111}
+html.theme-moit .insta-wrap{background:#fff;border:2px solid #111;border-radius:12px}
+html.theme-moit .insta-at{background:#F6F5F1;color:#111;border-right:2px solid #111}
+html.theme-moit .insta-wrap input{color:#111;font-weight:500}
+html.theme-moit #seatBadge{border:2px solid #111!important;color:#111!important;border-radius:999px!important;font-weight:600!important}
+html.theme-moit .term-item{background:#fff;border:2px solid #111;border-radius:14px}
+html.theme-moit .term-item.chk{background:#F6F5F1;border-color:#111}
+html.theme-moit .term-check{border:2px solid #111;border-radius:6px;color:#fff}
+html.theme-moit .term-item.chk .term-check{background:#111;border-color:#111}
+html.theme-moit .term-name{color:#111;font-weight:700}
+html.theme-moit .term-desc{color:#555}
+html.theme-moit .term-desc a{color:#111!important}
+html.theme-moit .btn-primary{background:#111;color:#fff;border:2px solid #111;border-radius:14px;box-shadow:3px 3px 0 #C9C5BA;letter-spacing:0.05em}
+html.theme-moit .btn-primary:hover{background:#333;transform:translate(-1px,-1px)}
+html.theme-moit .btn-primary:disabled{background:#9CA3AF;border-color:#9CA3AF;box-shadow:none}
+html.theme-moit .btn-back{color:#666}
+html.theme-moit .btn-back:hover{color:#111}
+html.theme-moit .btn-secondary{color:#111;border:2px solid #111;border-radius:14px}
+html.theme-moit .err{color:#DC2626;font-weight:500}
+/* 입금 안내 박스 · 완료 화면 (인라인 스타일 덮어쓰기) */
+html.theme-moit #s4 > div[style*="background"]{background:#F6F5F1!important;border:2px solid #111!important;border-radius:14px!important;color:#111!important}
+html.theme-moit #s4 > div[style*="background"] div{color:#111!important;border-color:#E2DFD6!important}
+html.theme-moit #s4 > div[style*="background"] span{color:#111!important}
+html.theme-moit #s4 > div[style*="font-size:0.65rem"]{color:#666!important}
+html.theme-moit .complete-icon{background:#fff;border:2px solid #111}
+html.theme-moit .complete-title{font-family:var(--font-body);font-weight:800;color:#111}
+html.theme-moit .complete-desc{color:#111!important;font-weight:700!important}
+html.theme-moit .complete-info{background:#F6F5F1;border:2px solid #111;border-radius:14px}
+html.theme-moit .complete-info-title{color:#111}
+html.theme-moit .complete-info-row{border-bottom:1px solid #E2DFD6}
+html.theme-moit .complete-info-row span:first-child{color:#666}
+html.theme-moit .complete-info-row span:last-child,html.theme-moit .complete-info-row span[id]{color:#111!important}
+html.theme-moit #copyAccountBtn{background:#111!important;color:#fff!important;border-radius:14px!important}
+html.theme-moit .complete-wrap > div[style*="background"]{background:#fff!important;border:2px dashed #111!important;color:#333!important}
+html.theme-moit .complete-wrap > div[style*="background"] *{color:#333!important}
+html.theme-moit .complete-wrap > div[style*="background"] strong{color:#111!important}
+html.theme-moit .complete-wrap > div[style*="border-top"]{border-color:#E2DFD6!important}
+html.theme-moit .complete-wrap > div[style*="border-top"] p{color:#888!important}
+html.theme-moit #contactInsta{color:#111!important;font-weight:600!important}
+html.theme-moit .loading-overlay{background:rgba(255,253,248,0.9)}
+html.theme-moit .loading-box{background:#fff;border:2px solid #111;box-shadow:5px 5px 0 #111}
+html.theme-moit .loading-spinner{border-color:#E2DFD6;border-top-color:#111}
+html.theme-moit .loading-title,html.theme-moit .loading-pct{color:#111}
+html.theme-moit .loading-prog-wrap{background:#E2DFD6}
+html.theme-moit .loading-prog-bar{background:#111}
+html.theme-moit .loading-desc{color:#666}
+html.theme-moit footer{background:#fff;border-top:2px solid #111}
+html.theme-moit .footer-brand,html.theme-moit .footer-heading{color:#111}
+html.theme-moit .footer-tagline,html.theme-moit .footer-links a,html.theme-moit .footer-info,html.theme-moit .footer-copy,html.theme-moit .footer-legal a{color:#777}
+html.theme-moit .footer-info a{color:#111}
+html.theme-moit .footer-bottom{border-top-color:#E2DFD6}
+@media(max-width:520px){
+  html.theme-moit .card{border-radius:20px;border-left:2px solid #111;border-right:2px solid #111;margin:0 0.75rem;box-shadow:4px 4px 0 #111}
+}
 </style>
+<script>/* 모잇 테마는 첫 화면부터 적용 (깜빡임 방지) */
+try{if(new URLSearchParams(location.search).get('party')==='moit')document.documentElement.classList.add('theme-moit')}catch(e){}
+</script>
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -585,7 +677,7 @@ const CONFIG = {
     '1+2부(스페셜)': { '남성': 55000, '여성': 45000 },
     '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
     '1+2부(30대)': { '남성': 63000, '여성': 45000 },
-    '시그니처6:6': { '남성': 30000, '여성': 30000 },
+    '모잇시그니처': { '남성': 30000, '여성': 30000 },
   }
 };
 /* ══════════════════════════════ */
@@ -601,10 +693,10 @@ const _statusReady = window._fbBusanRef.once('value').then(function(snap) {
 const EXTRA_PARTIES = {
   '30s': { date: '2026-11-28', key: '2026-11-28-30s', ticket: '1+2부(30대)', name: '썸잇 30대 솔로파티',
            time: '19:00~23:00', years: { '남성': [1987, 1997], '여성': [1988, 2000] } },
-  // 썸잇 시그니처 6:6 @모잇 — 사진/심사 없음, 장소 전포동 모잇
-  'moit': { date: '2026-12-05', key: '2026-12-05-moit', ticket: '시그니처6:6', name: '썸잇 시그니처 6:6',
+  // 모잇 시그니처 모임 — 사진/심사 없음, 장소 전포동 모잇
+  'moit': { date: '2026-12-05', key: '2026-12-05-moit', ticket: '모잇시그니처', name: '모잇 시그니처 모임',
             time: '19:00~21:00', years: { '남성': [1988, 2007], '여성': [1988, 2007] },
-            venue: '부산 전포동 혼술바 모잇', noPhoto: true, insta: 'moit_jeonpo',
+            venue: '부산 전포동 혼술바 모잇', noPhoto: true, insta: 'moit_jeonpo', headerImg: 'signature/moit-banner.png', mapUrl: 'https://naver.me/x5my9Htt',
             refundNote: '예약금 3만원은 전부 주류값으로 사용되며(3만원 미만 주문 시 잔액 소멸), 방문 1일 전부터는 환불이 어렵습니다. 연락 없이 시작 30분이 지나면 노쇼 처리됩니다.' }
 };
 let extraParty = null;
@@ -700,17 +792,28 @@ const terms = [false, false, false];
 })();
 
 
-// 추가파티(예: 모잇 6:6) 화면 문구 교체
+// 추가파티(예: 모잇 시그니처) 화면 문구 교체
 function applyExtraPartyUI(ep) {
   const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
   set('ticketSumName', ep.ticket);
+  if (ep.headerImg) {
+    const hdr = document.querySelector('.page-header');
+    if (hdr && !hdr.querySelector('.moit-header-img')) {
+      const img = document.createElement('img');
+      img.className = 'moit-header-img'; img.src = ep.headerImg; img.alt = ep.venue || '';
+      hdr.insertBefore(img, hdr.firstChild);
+    }
+    document.title = ep.name + ' 신청';
+  }
   if (ep.refundNote) set('refundTermText', ep.refundNote);
   if (ep.noPhoto) {
     const ps3 = document.getElementById('ps3'); if (ps3) ps3.style.display = 'none';
+    const ps4c = document.querySelector('#ps4 .progress-step-circle'); if (ps4c) ps4c.textContent = '3';
+    const chg = document.querySelector('.sel-party-btn'); if (chg) chg.setAttribute('onclick', "window.location.href='booking.html?party=moit'");
     set('completeDesc', '입금 확인 후 예약 확정 문자를 보내드려요');
     set('completeNotice', '심사 없이 <strong style="color:rgba(255,255,255,0.7)">입금 순으로 확정</strong>되며,<br>확정 안내는 <strong style="color:rgba(255,255,255,0.7)">문자</strong>로 보내드립니다.');
     set('nextStep2', '2. 입금 확인 후 <span style="color:rgba(255,255,255,0.6)">예약 확정 문자</span> 발송');
-    set('nextStep3', '3. 당일 <span style="color:rgba(255,255,255,0.6)">' + (ep.venue || '') + '</span>으로 방문 (신분증 지참)');
+    set('nextStep3', '3. 당일 <span style="color:rgba(255,255,255,0.6)">' + (ep.venue || '') + '</span>으로 방문 (신분증 지참)' + (ep.mapUrl ? ' · <a href="' + ep.mapUrl + '" target="_blank" rel="noopener" style="text-decoration:underline">지도 보기</a>' : ''));
     document.querySelectorAll('#s2 .step-label').forEach(el => el.textContent = 'Step 2 / 3');
     document.querySelectorAll('#s4 .step-label').forEach(el => el.textContent = 'Step 3 / 3');
     document.querySelectorAll('#s1 .step-label').forEach(el => el.textContent = 'Step 1 / 3');

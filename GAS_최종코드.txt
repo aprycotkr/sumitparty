@@ -32,12 +32,12 @@ const PRICES = {
   '1+2부(프라이빗)': { '남성': 55000, '여성': 45000 },
   '1부만':       { '남성': 43000, '여성': 39000 },
   '2부만':       { '남성': 40000, '여성': 37000 },
-  '시그니처6:6':  { '남성': 30000, '여성': 30000 }
+  '모잇시그니처': { '남성': 30000, '여성': 30000 }
 };
 
-// ─── 썸잇 시그니처 6:6 @모잇 (장소 다름 · 심사 없음 · 썸잇 명단 제외) ───
-const MOIT_TICKET = '시그니처6:6';
-function isMoitTicket(ticket) { return String(ticket || '').indexOf(MOIT_TICKET) !== -1; }
+// ─── 모잇 시그니처 모임 (장소 다름 · 심사 없음 · 썸잇 명단 제외) ───
+const MOIT_TICKETS = ['모잇시그니처', '시그니처6:6'];
+function isMoitTicket(ticket) { const t = String(ticket || ''); return MOIT_TICKETS.some(function(k) { return t.indexOf(k) !== -1; }); }
 
 // ─── 입금 계좌 정보 ─────────────────────────────
 const OUR_BANK_ACCOUNT = '11110204277139';
@@ -349,10 +349,11 @@ function handleApply(data) {
   if (data.phone && data.name) {
     const ticketType = data.ticket || '';
     const msg = isMoitTicket(ticketType) ?
-      `[썸잇 시그니처 6:6 @모잇 신청 접수]\n\n` +
-      `${data.name}님, ${data.date || '신청하신 날짜'} 시그니처 6:6 신청이 접수되었습니다.\n\n` +
+      `[모잇 시그니처 모임 신청 접수]\n\n` +
+      `${data.name}님, ${data.date || '신청하신 날짜'} 모잇 시그니처 모임 신청이 접수되었습니다.\n\n` +
       `입금 순으로 예약이 확정되며, 확정 시 문자로 안내드립니다.\n` +
-      `장소: 부산 전포동 혼술바 모잇 (썸잇 부경대점 아님)\n\n` +
+      `장소: 부산 전포동 혼술바 모잇\n` +
+      `지도: https://naver.me/x5my9Htt\n\n` +
       `[입금 계좌 안내]\n` +
       `국민은행 ${OUR_BANK_ACCOUNT} 김경민\n` +
       (priceText ? `입금 금액 : ${priceText}\n` : '') +
@@ -549,11 +550,11 @@ function sendMoitConfirmSMS(sheet, row) {
   const md = (d.getMonth() + 1) + '/' + d.getDate();
 
   const msg =
-    `[썸잇 시그니처 6:6 @모잇 예약 확정]\n\n` +
-    `${md} 시그니처 6:6 예약이 확정되었습니다 🍸\n\n` +
+    `[모잇 시그니처 모임 예약 확정]\n\n` +
+    `${md} 모잇 시그니처 모임 예약이 확정되었습니다 🍸\n\n` +
     `[장소]\n` +
     `부산 전포동 혼술바 모잇\n` +
-    `* 썸잇 부경대점이 아닙니다! 꼭 확인해주세요.\n` +
+    `지도: https://naver.me/x5my9Htt\n` +
     `* 위치 문의: 인스타그램 DM @moit_jeonpo\n` +
     `* 주차가 불가합니다.\n\n` +
     `[시간]\n` +
@@ -966,7 +967,7 @@ function addToCurrentRoster(mainSheet, rowNum) {
     var phone  = String(mainSheet.getRange(rowNum, 7).getValue() || '').trim();
     var ticket = String(mainSheet.getRange(rowNum, 8).getValue() || '').trim();
     if (!name || !phone) return;
-    if (isMoitTicket(ticket)) return; // 모잇 6:6은 썸잇 명단에 넣지 않음
+    if (isMoitTicket(ticket)) return; // 모잇 시그니처는 썸잇 명단에 넣지 않음
 
     var partyDate = partyDateVal instanceof Date ? partyDateVal : new Date(partyDateVal);
     if (isNaN(partyDate.getTime())) return;
@@ -1266,7 +1267,7 @@ function refreshCurrentRoster() {
         : String(row[1]).substring(0, 10);
       var status   = String(row[10] || '').trim();
       if (rDateStr !== dateStr || status.indexOf('합격') === -1) continue;
-      if (isMoitTicket(row[7])) continue; // 모잇 6:6은 썸잇 명단 제외
+      if (isMoitTicket(row[7])) continue; // 모잇 시그니처는 썸잇 명단 제외
 
       var name  = String(row[2] || '').trim();
       var phone = String(row[6] || '').trim();

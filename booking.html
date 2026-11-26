@@ -61,8 +61,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hero-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:rgba(255,255,255,0.88);font-size:0.62rem;font-weight:500;letter-spacing:0.04em;padding:5px 12px;border-radius:20px;backdrop-filter:blur(6px)}
 .hero-badge-gold{background:rgba(201,169,110,0.22);border-color:rgba(201,169,110,0.5);color:#E8D4A8}
 
+/* PARTY TABS (썸잇 / 모잇) */
+.party-tabs{max-width:640px;margin:0 auto;padding:1.4rem 2rem 0;display:grid;grid-template-columns:1fr 1fr;gap:8px;scroll-margin-top:72px}
+.party-tab{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;background:var(--surface);border:1.5px solid rgba(0,0,0,0.1);border-radius:12px;padding:0.8rem 0.95rem;cursor:pointer;font-family:var(--font-body);transition:border-color 0.15s,background 0.15s}
+.party-tab-name{font-size:0.86rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.party-tab-loc{font-size:0.66rem;color:var(--text3);font-weight:500}
+.party-tab-new{font-size:0.52rem;font-weight:800;letter-spacing:0.06em;background:#111;color:#fff;padding:2px 6px;border-radius:999px}
+.party-tab.active[data-tab="sumit"]{background:var(--gold);border-color:var(--gold)}
+.party-tab.active[data-tab="sumit"] .party-tab-name{color:#fff}
+.party-tab.active[data-tab="sumit"] .party-tab-loc{color:rgba(255,255,255,0.8)}
+.party-tab.active[data-tab="moit"]{background:#111;border-color:#111}
+.party-tab.active[data-tab="moit"] .party-tab-name{color:#fff}
+.party-tab.active[data-tab="moit"] .party-tab-loc{color:rgba(255,255,255,0.7)}
+.party-tab.active[data-tab="moit"] .party-tab-new{background:#fff;color:#111}
+#panel-moit .signature-wrap{padding-top:1rem}
+
 /* SIGNATURE (상단 시그니처 모임) — 모잇 브랜드: 흰 바탕 + 검은 손그림 선 */
-.signature-wrap{max-width:640px;margin:0 auto;padding:1.6rem 2rem 0}
+.signature-wrap{max-width:640px;margin:0 auto;padding:1.6rem 2rem 0;scroll-margin-top:72px}
 .sig-card{background:#fff;color:#111;border:2px solid #111;border-radius:18px;overflow:hidden;box-shadow:4px 4px 0 #111;margin-bottom:0.8rem}
 .sig-photo{aspect-ratio:3/1;background:#fff;border-bottom:2px solid #111}
 .sig-photo img{width:100%;height:100%;object-fit:contain;display:block}
@@ -73,6 +88,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .sig-meta{display:flex;flex-direction:column;gap:0.4rem;font-size:0.8rem;margin-bottom:0.9rem}
 .sig-meta span{display:flex;align-items:center;gap:0.45rem}
 .sig-meta svg{color:#111;flex-shrink:0}
+.sig-map{align-self:flex-start;margin-left:1.55rem;font-size:0.74rem;font-weight:700;color:#111;text-decoration:underline;text-underline-offset:3px}
 .sig-meta em{font-style:normal;color:#DC2626;font-size:0.72rem;font-weight:600}
 .sig-price{font-size:0.82rem;margin-bottom:0.7rem}
 .sig-price strong{font-size:1.1rem}
@@ -171,6 +187,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   .hero-title{font-size:1.75rem}
   .schedule-intro{padding:1.2rem 1rem 0.3rem}
   .signature-wrap{padding:1.2rem 1rem 0}
+  .party-tabs{padding:1.1rem 1rem 0;gap:6px}
+  .party-tab{padding:0.7rem 0.75rem}
+  .party-tab-name{font-size:0.8rem}
   .schedule-wrap{padding:0 1rem 4rem}
   .month-group{padding:1.2rem 1rem}
   .date-grid{grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px}
@@ -228,14 +247,26 @@ fbq("track","PageView");
     </div>
   </div>
 </div>
-<div class="signature-wrap" id="signatureWrap" style="display:none"></div>
-
-<div class="schedule-intro">
-  <p>원하는 날짜를 선택하고 신청을 진행해주세요.</p>
+<div class="party-tabs" id="partyTabs" role="tablist">
+  <button class="party-tab active" data-tab="sumit" role="tab" aria-selected="true" onclick="switchTab('sumit')">
+    <span class="party-tab-name">썸잇 솔로파티</span><span class="party-tab-loc">부경대점 · 금·토·일</span>
+  </button>
+  <button class="party-tab" data-tab="moit" role="tab" aria-selected="false" onclick="switchTab('moit')" style="display:none">
+    <span class="party-tab-name">모잇 시그니처 모임 <span class="party-tab-new">NEW</span></span><span class="party-tab-loc">전포동 혼술바 모잇</span>
+  </button>
 </div>
 
-<div class="schedule-wrap" id="scheduleWrap">
-  <div class="loading-msg">일정을 불러오는 중...</div>
+<div id="panel-sumit">
+  <div class="schedule-intro">
+    <p>원하는 날짜를 선택하고 신청을 진행해주세요.</p>
+  </div>
+  <div class="schedule-wrap" id="scheduleWrap">
+    <div class="loading-msg">일정을 불러오는 중...</div>
+  </div>
+</div>
+
+<div id="panel-moit" hidden>
+  <div class="signature-wrap" id="signatureWrap"></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -249,12 +280,12 @@ const XDATES = ['2026-07-25','2026-07-31','2026-09-26','2026-11-01'];
 const EXTRA_PARTIES = [
   { date: '2026-11-28', key: '2026-11-28-30s', party: '30s', badge: '30대파티', name: '30대 솔로파티',
     priceM: 63000, priceF: 45000, ageM: '87~97년생', ageF: '88~00년생', time: '19:00~23:00' },
-  // 썸잇 시그니처 6:6 @모잇 — 장소가 부경대점이 아님 (venue/notes 표시)
-  { date: '2026-12-05', key: '2026-12-05-moit', party: 'moit', badge: '6:6 시그니처', name: '썸잇 시그니처 6:6 @모잇',
+  // 모잇 시그니처 모임 — 전포동 혼술바 모잇 (상단 탭 '모잇 시그니처 모임'에 노출)
+  { date: '2026-12-05', key: '2026-12-05-moit', party: 'moit', badge: '모잇 시그니처', name: '모잇 시그니처 모임',
     priceM: 30000, priceF: 30000, ageM: '88년생부터', ageF: '88년생부터', time: '19:00~21:00', theme: 'moit',
-    standalone: true, // 달력 카드 대신 페이지 상단 '썸잇 시그니처 모임' 섹션에 노출
+    standalone: true, // 달력 카드 대신 '모잇 시그니처 모임' 탭에 노출
     photo: 'signature/moit-banner.png',
-    venue: '부산 전포동 혼술바 모잇', sizeLabel: '남녀 각 6명 · 소규모',
+    venue: '부산 전포동 혼술바 모잇', sizeLabel: '소규모 모임', mapUrl: 'https://naver.me/x5my9Htt',
     notes: [
       '예약금 3만원은 전부 주류값으로 사용돼요 (입장료 X)',
       '극단적인 성비를 막기 위해 남녀를 나눠 받아요',
@@ -321,14 +352,28 @@ const ICON_CLOCK = svgIcon('<circle cx="12" cy="12" r="10"/><polyline points="12
 const ICON_PIN = svgIcon('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>', 16);
 const ICON_FLAME = svgIcon('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>', 12);
 
-// 상단 '썸잇 시그니처 모임' 섹션 (standalone 추가파티)
+// ── 상단 탭: 썸잇 솔로파티 / 모잇 시그니처 모임 ──
+let currentTab = 'sumit';
+function switchTab(tab, scroll) {
+  currentTab = tab;
+  document.querySelectorAll('.party-tab').forEach(b => {
+    const on = b.dataset.tab === tab;
+    b.classList.toggle('active', on); b.setAttribute('aria-selected', on);
+  });
+  document.getElementById('panel-sumit').hidden = tab !== 'sumit';
+  document.getElementById('panel-moit').hidden = tab !== 'moit';
+  if (scroll) { const t = document.getElementById('partyTabs'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+// '모잇 시그니처 모임' 탭 내용 (standalone 추가파티)
 function renderSignature() {
   const wrap = document.getElementById('signatureWrap');
   if (!wrap) return;
   const t0 = new Date(); t0.setHours(0,0,0,0);
   const list = EXTRA_PARTIES.filter(x => x.standalone && new Date(x.date + 'T00:00:00') >= t0);
-  if (!list.length) { wrap.style.display = 'none'; return; }
-  wrap.style.display = '';
+  const moitTab = document.querySelector('.party-tab[data-tab="moit"]');
+  if (!list.length) { if (moitTab) moitTab.style.display = 'none'; if (currentTab === 'moit') switchTab('sumit'); return; }
+  if (moitTab) moitTab.style.display = '';
   wrap.innerHTML = list.map(ex => {
     const dt = new Date(ex.date + 'T00:00:00');
     const st = getStatusInfo(ex.key, dt.getDay());
@@ -341,12 +386,13 @@ function renderSignature() {
     return `<section class="sig-card">
       ${ex.photo ? `<div class="sig-photo"><img src="${ex.photo}" alt="${ex.name}" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
       <div class="sig-body">
-        <div class="sig-eyebrow">SUMIT SIGNATURE</div>
-        <h2 class="sig-title">썸잇 시그니처 모임</h2>
-        <p class="sig-sub">6:6 소규모 · Better evening, better friends</p>
+        <div class="sig-eyebrow">MO-IT SIGNATURE</div>
+        <h2 class="sig-title">${ex.name}</h2>
+        <p class="sig-sub">소규모 소셜 모임 · Better evening, better friends</p>
         <div class="sig-meta">
           <span>${ICON_CLOCK}${dateLabel} ${ex.time}</span>
-          <span>${ICON_PIN}${ex.venue} <em>(부경대점 아님)</em></span>
+          <span>${ICON_PIN}${ex.venue}</span>
+          ${ex.mapUrl ? `<a class="sig-map" href="${ex.mapUrl}" target="_blank" rel="noopener">네이버 지도에서 위치 보기 →</a>` : ''}
         </div>
         <div class="sig-price">1인 <strong>${ex.priceM.toLocaleString()}원</strong> <small>전액 주류값으로 사용 · 입장료 X</small></div>
         <div class="sig-status"><span class="sig-dot" style="background:${st.dot}"></span><span style="color:${st.label === '예약가능' ? '#111' : '#DC2626'}">${st.label}</span>${seats}</div>
@@ -460,7 +506,7 @@ function renderSchedule() {
       const ebDate = isEarlyBird(selectedDate.ds);
       const priceHtml = ex
         ? `<div class="info-extra-title${ex.theme ? ' ' + ex.theme : ''}">${ex.badge}</div>
-           ${ex.venue ? `<div class="info-venue">${ICON_PIN}<span>장소: <strong>${ex.venue}</strong><br><small>썸잇 부경대점이 아니에요! ${ex.sizeLabel || ''}</small></span></div>` : ''}
+           ${ex.venue ? `<div class="info-venue">${ICON_PIN}<span>장소: <strong>${ex.venue}</strong>${ex.sizeLabel ? `<br><small>${ex.sizeLabel}</small>` : ''}</span></div>` : ''}
            <div class="info-price">${ex.name} &nbsp;·&nbsp; 남성 ${ex.priceM.toLocaleString()}원 &nbsp;·&nbsp; 여성 ${ex.priceF.toLocaleString()}원</div>
            <div class="info-price">참가 연령: 남 ${ex.ageM} &nbsp;·&nbsp; 여 ${ex.ageF}</div>
            ${ex.notes ? `<ul class="info-notes">${ex.notes.map(n => `<li>${n}</li>`).join('')}</ul>` : ''}`
@@ -515,7 +561,8 @@ async function init() {
   // ?party=moit 처럼 들어오면 해당 추가파티 카드를 미리 선택 (광고 링크용)
   const deep = EXTRA_PARTIES.find(x => x.party === new URLSearchParams(location.search).get('party'));
   if (deep && deep.standalone) {
-    setTimeout(() => { const el = document.getElementById('signatureWrap'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+    switchTab('moit');
+    setTimeout(() => { const el = document.getElementById('partyTabs'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
   } else if (deep) {
     const [yy, mm, dd] = deep.date.split('-').map(Number);
     const dt = new Date(yy, mm - 1, dd);
