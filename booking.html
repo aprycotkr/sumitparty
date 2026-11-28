@@ -275,7 +275,7 @@ fbq("track","PageView");
 <script>
 const PARTY_DAYS = [0,5,6];
 const SPECIAL_DATES = ['2026-07-16','2026-08-17','2026-09-24','2026-10-08','2026-12-24'];
-const XDATES = ['2026-07-25','2026-07-31','2026-09-26','2026-11-01'];
+const XDATES = ['2026-07-25','2026-07-31','2026-09-26','2026-11-01','2026-11-28'];
 // 같은 날 정규파티와 별도로 운영하는 추가 파티 (상태 키 = 날짜 + 접미사)
 const EXTRA_PARTIES = [
   { date: '2026-11-28', key: '2026-11-28-30s', party: '30s', badge: '30대파티', name: '30대 솔로파티',
@@ -444,7 +444,7 @@ function renderSchedule() {
       if ((PARTY_DAYS.includes(dow) || SPECIAL_DATES.includes(ds)) && !XDATES.includes(ds) && date >= today) {
         partyDates.push({ y, mo, d, dow, ds, key: ds });
       }
-      EXTRA_PARTIES.filter(x => !x.standalone && x.date === ds && date >= today).forEach(x => partyDates.push({ y, mo, d, dow, ds, key: x.key, extra: x }));
+      EXTRA_PARTIES.filter(x => !x.standalone && !XDATES.includes(x.date) && x.date === ds && date >= today).forEach(x => partyDates.push({ y, mo, d, dow, ds, key: x.key, extra: x }));
     }
 
     if (partyDates.length === 0) continue;
